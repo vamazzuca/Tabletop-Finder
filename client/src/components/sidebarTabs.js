@@ -1,4 +1,4 @@
-import {IconType} from 'react-icons'
+
 
 function SidebarTabs({label, href, icon: Icon}) {
     return (

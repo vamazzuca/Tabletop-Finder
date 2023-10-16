@@ -2,6 +2,8 @@ import { BsHouseFill, BsBellFill } from "react-icons/bs"
 import { FaUser } from "react-icons/fa"
 import SidebarTitle from "./sidebarTitle";
 import SidebarTabs from "./sidebarTabs";
+import PostButton from "./postButton";
+import {BiLogIn} from 'react-icons/bi'
 
 function Sidebar() {
     const tabs = [{
@@ -33,6 +35,8 @@ function Sidebar() {
                             label={tab.label}
                             icon={ tab.icon} />
                     ))}
+                    <SidebarTabs onClick={() => { }} icon={BiLogIn} label={"Login"} />
+                    <PostButton/>
                 </div>
             </div>
         </div>
