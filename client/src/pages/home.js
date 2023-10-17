@@ -1,4 +1,5 @@
-import Sidebar from "../components/sidebar";
+import Header from "../components/header";
+import Sidebar from "../components/sidebar/sidebar";
 
 
 function Home() {
@@ -9,10 +10,9 @@ function Home() {
             <div className="h-full xl:px-30 w-full"> 
                 <div className="grid grid-cols-4 h-full">
                     <Sidebar/> 
-                    <div className="col-span-3 lg:col-span-2 border-x-[1px] border-neutral-800">
-                        <h1 className="text-3xl text-[#66FCF1] font-bold">
-                            Hello world!
-                        </h1>
+                    <div className="col-span-3 lg:col-span-2 flex flex-col items-center">
+                        <Header label="Home"/>
+                        <hr className="h-px w-11/12 border-0 dark:bg-neutral-800"></hr>
                     </div>
                 </div>
             </div>
