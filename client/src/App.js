@@ -1,5 +1,6 @@
 import Home from './pages/home';
-import LoginModal from './modals/loginmodal';
+import Modal from './components/modal';
+import LoginModal from './components/modals/loginModal';
 
 function App() {
 
@@ -7,7 +8,7 @@ function App() {
   return (
 
     <>
-     
+      <LoginModal/>
       <Home/>
     </>
   );

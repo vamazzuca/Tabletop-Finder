@@ -39,7 +39,7 @@ function PostButton() {
                 font-bold
                 text-black
                 text-[20px]">
-                    Post Event
+                    Create Party
                 </p>
 
             </div>

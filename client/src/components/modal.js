@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import {AiOutlineClose} from 'react-icons/ai'
 
-function LoginModal({ isOpen, onClose, onSubmit, disabled, title, body, actionLabel }) {
+function Modal({ isOpen, onClose, onSubmit, disabled, title, body, actionLabel }) {
     
     const handleClose = useCallback(() => {
         if (disabled) {
@@ -116,4 +116,4 @@ function LoginModal({ isOpen, onClose, onSubmit, disabled, title, body, actionLa
     )
 }
 
-export default LoginModal;
+export default Modal;
