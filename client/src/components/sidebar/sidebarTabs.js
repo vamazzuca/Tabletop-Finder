@@ -1,8 +1,8 @@
 
 
-function SidebarTabs({label, href, icon: Icon}) {
+function SidebarTabs({label, onClick, href, icon: Icon}) {
     return (
-        <div className="flex flex-row items-center">
+        <div onClick={onClick} className="flex flex-row items-center">
             <div className="
                 relative
                 rounded-full

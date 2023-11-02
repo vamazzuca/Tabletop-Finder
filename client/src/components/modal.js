@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import {AiOutlineClose} from 'react-icons/ai'
 
-function Modal({ isOpen, onClose, onSubmit, disabled, title, body, actionLabel }) {
+function Modal({ isOpen, onClose, onSubmit, disabled, title, body, actionLabel, footer }) {
     
     const handleClose = useCallback(() => {
         if (disabled) {
@@ -97,13 +97,15 @@ function Modal({ isOpen, onClose, onSubmit, disabled, title, body, actionLabel }
                             px-4
                             py-2
                             transition
-                            border-2
                             hover:opacity-80
-                            bg-white'>
+                            bg-[#66FCF1]'>
                                 {actionLabel}
                             </button>
+                            
+                            {footer}
+                            
+                            
                         </div>
-
 
                 </div>
 

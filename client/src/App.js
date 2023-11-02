@@ -1,6 +1,6 @@
 import Home from './pages/home';
-import Modal from './components/modal';
 import LoginModal from './components/modals/loginModal';
+import RegisterModal from './components/modals/registerModal';
 
 function App() {
 
@@ -8,6 +8,7 @@ function App() {
   return (
 
     <>
+      <RegisterModal/>
       <LoginModal/>
       <Home/>
     </>

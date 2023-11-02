@@ -3,7 +3,9 @@ import { FaUser } from "react-icons/fa"
 import SidebarTitle from "./sidebarTitle";
 import SidebarTabs from "./sidebarTabs";
 import PostButton from "./postButton";
-import {BiLogIn} from 'react-icons/bi'
+import { BiLogIn } from 'react-icons/bi'
+import useLoginModal from "../../hooks/useLoginModel";
+import { useCallback } from "react";
 
 function Sidebar() {
     const tabs = [{
@@ -23,6 +25,12 @@ function Sidebar() {
     }
     ];
 
+    const loginModal = useLoginModal();
+
+    const onClickLogin = useCallback(() => {
+        loginModal.onOpen();
+    }, [loginModal])
+
     return (
         <div className="col-span-1 h-full pr-4 md:pr-6 py-2">
             <div className="flex flex-col items-end">
@@ -35,7 +43,7 @@ function Sidebar() {
                             label={tab.label}
                             icon={ tab.icon} />
                     ))}
-                    <SidebarTabs onClick={() => { }} icon={BiLogIn} label={"Login"} />
+                    <SidebarTabs onClick={onClickLogin} icon={BiLogIn} label={"Login"} />
                     <PostButton/>
                 </div>
             </div>
