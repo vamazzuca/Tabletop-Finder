@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import {AiOutlineClose} from 'react-icons/ai'
 
-function Modal({ isOpen, onClose, onSubmit, disabled, title, body, actionLabel, footer }) {
+function Modal({ isOpen, onClose, disabled, title, body, footer }) {
     
     const handleClose = useCallback(() => {
         if (disabled) {
@@ -11,14 +11,7 @@ function Modal({ isOpen, onClose, onSubmit, disabled, title, body, actionLabel, 
         onClose();
       }, [disabled, onClose]);
     
-      const handleSubmit = useCallback(() => {
-        if (disabled) {
-          return;
-        }
-    
-        onSubmit();
-      }, [disabled, onSubmit])
-    
+      
       if (!isOpen) {
         return null;
       }
@@ -86,27 +79,10 @@ function Modal({ isOpen, onClose, onSubmit, disabled, title, body, actionLabel, 
                         
                         <div className='realtive p-10 flex-auto'>
                             {body}
-                        </div>
-
-                        <div className='flex flex-col gap-2 p-10'>
-                            <button onClick={handleSubmit} className='
-                            w-full
-                            font-semibold
-                            rounded-full
-                            text-xl
-                            px-4
-                            py-2
-                            transition
-                            hover:opacity-80
-                            bg-[#66FCF1]'>
-                                {actionLabel}
-                            </button>
-                            
                             {footer}
-                            
-                            
                         </div>
 
+                        
                 </div>
 
             </div>

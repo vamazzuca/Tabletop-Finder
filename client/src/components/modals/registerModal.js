@@ -3,16 +3,20 @@ import { useCallback, useState } from "react";
 import Input from "../input"
 import Modal from "../modal";
 import useRegisterModal from "../../hooks/useRegisterModel";
+import { useDispatch } from "react-redux";
+import { signup } from '../actions/auth';
+
 
 function RegisterModal() {
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
+    const dispatch = useDispatch();
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [username, setUserName] = useState('');
     const [name, setName] = useState('');
-    const [location, setLocation] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const onToggle = useCallback(() => {
@@ -24,26 +28,38 @@ function RegisterModal() {
         loginModal.onOpen();
     }, [isLoading, registerModal, loginModal])
 
-    const onSubmit = useCallback(async () => {
+    const onSubmit = useCallback(async (e) => {
         try {
             setIsLoading(true);
-
-            //ADD Log IN and Register
-
-            registerModal.onClose()
+            e.preventDefault();
+            const formData = { email: email, password: password, confirmPassword: confirmPassword, name: name };
+            dispatch(signup(formData));
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+            setName('');
+            setUserName('');
+            registerModal.onClose();
         } catch (error){
             console.log(error);
         } finally {
             setIsLoading(false);
         }
-    }, [registerModal]);
+    }, [registerModal, email, password, confirmPassword, name, dispatch]);
 
     const bodyContent = (
-        <div className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={onSubmit}>
             <Input
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
+                type='email'
                 value={email}
+                disabled={isLoading}
+            />
+             <Input
+                placeholder="Name"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
                 disabled={isLoading}
             />
             <Input
@@ -56,21 +72,31 @@ function RegisterModal() {
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
+                type='password'
                 disabled={isLoading}
             />
             <Input
-                placeholder="Name"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
+                placeholder="Confirm Password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={confirmPassword}
+                type='password'
                 disabled={isLoading}
             />
-            <Input
-                placeholder="Location"
-                onChange={(e) => setLocation(e.target.value)}
-                value={location}
-                disabled={isLoading}
-            />
-        </div>
+            <div className='flex flex-col gap-2 pt-10'>
+                            <button type="sumbit" className='
+                            w-full
+                            font-semibold
+                            rounded-full
+                            text-xl
+                            px-4
+                            py-2
+                            transition
+                            hover:opacity-80
+                            bg-[#66FCF1]'>
+                                Register
+                </button>
+            </div>
+        </form>
     )
 
     const footerContent = (
@@ -92,7 +118,6 @@ function RegisterModal() {
                 disabled={isLoading}
                 isOpen={registerModal.isOpen}
                 title="Create An Account"
-                actionLabel="Register"
                 onClose={registerModal.onClose}
                 onSubmit={onSubmit}
                 body={bodyContent}

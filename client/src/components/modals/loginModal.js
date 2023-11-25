@@ -3,10 +3,12 @@ import { useCallback, useState } from "react";
 import Input from "../input"
 import Modal from "../modal";
 import useRegisterModal from "../../hooks/useRegisterModel";
+import { useDispatch } from "react-redux";
 
 function LoginModal() {
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -37,20 +39,36 @@ function LoginModal() {
     }, [loginModal]);
 
     const bodyContent = (
-        <div className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4">
             <Input
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
+                type='email'
                 value={email}
                 disabled={isLoading}
             />
             <Input
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
+                type='password'
                 value={password}
                 disabled={isLoading}
             />
-        </div>
+            <div className='flex flex-col gap-2 pt-10'>
+                            <button type="sumbit" className='
+                                w-full
+                                font-semibold
+                                rounded-full
+                                text-xl
+                                px-4
+                                py-2
+                                transition
+                                hover:opacity-80
+                                bg-[#66FCF1]'>
+                                    Sign In
+                </button>
+            </div>
+        </form>
     )
 
     const footerContent = (
@@ -72,7 +90,6 @@ function LoginModal() {
                 disabled={isLoading}
                 isOpen={loginModal.isOpen}
                 title="Login"
-                actionLabel="Sign In"
                 onClose={loginModal.onClose}
                 onSubmit={onSubmit}
                 body={bodyContent}

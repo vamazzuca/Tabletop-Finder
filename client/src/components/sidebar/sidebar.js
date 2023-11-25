@@ -3,9 +3,11 @@ import { FaUser } from "react-icons/fa"
 import SidebarTitle from "./sidebarTitle";
 import SidebarTabs from "./sidebarTabs";
 import PostButton from "./postButton";
-import { BiLogIn } from 'react-icons/bi'
+import { BiLogIn, BiLogOut } from 'react-icons/bi'
+import {useDispatch} from 'react-redux'
 import useLoginModal from "../../hooks/useLoginModel";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import {useNavigate, useLocation} from 'react-router-dom'
 
 function Sidebar() {
     const tabs = [{
@@ -26,10 +28,27 @@ function Sidebar() {
     ];
 
     const loginModal = useLoginModal();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
     const onClickLogin = useCallback(() => {
         loginModal.onOpen();
     }, [loginModal])
+
+    const onClickLogout = () => {
+        dispatch({ type: 'LOGOUT' });
+        setUser(null)
+        navigate('/')
+    }
+
+    useEffect(() => {
+
+        // JWT
+        setUser(JSON.parse(localStorage.getItem('profile')))
+    }, [location]);
 
     return (
         <div className="col-span-1 h-full pr-4 md:pr-6 py-2">

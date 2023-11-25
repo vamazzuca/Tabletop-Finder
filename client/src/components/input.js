@@ -7,6 +7,7 @@ function Input({placeholder, value, type, disabled, onChange}) {
                 onChange={onChange}
                 value={value}
                 placeholder={placeholder}
+                required
                 type={type}
                 className="
                     w-full

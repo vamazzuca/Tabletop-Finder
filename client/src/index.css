@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  @apply h-full bg-[#0B0C10]
+#root {
+  @apply h-full bg-[#0B0C10] grid grid-cols-4
 }
 
 body {
