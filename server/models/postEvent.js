@@ -1,4 +1,3 @@
-import { Int32 } from 'mongodb';
 import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
