@@ -2,10 +2,11 @@ import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
     title: String,
-    descrption: String,
+    description: String,
     creator: String,
     photo: String,
     location: String,
+    date: Date,
     applications: [String],
     size: Number,
     members: [String],

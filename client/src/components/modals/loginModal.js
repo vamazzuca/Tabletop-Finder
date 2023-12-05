@@ -4,11 +4,14 @@ import Input from "../input"
 import Modal from "../modal";
 import useRegisterModal from "../../hooks/useRegisterModel";
 import { useDispatch } from "react-redux";
+import { signIn } from '../../actions/auth';
+import { useNavigate } from "react-router-dom"
 
 function LoginModal() {
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,22 +27,25 @@ function LoginModal() {
         registerModal.onOpen();
     }, [isLoading, registerModal, loginModal])
 
-    const onSubmit = useCallback(async () => {
+    const onSubmit = useCallback(async (e) => {
         try {
             setIsLoading(true);
+            e.preventDefault();
+            const formData = { email: email, password: password};
+            dispatch(signIn(formData, navigate, loginModal));
+            setEmail('');
+            setPassword('');
 
             //ADD Log IN
-
-            loginModal.onClose()
         } catch (error){
             console.log(error);
         } finally {
             setIsLoading(false);
         }
-    }, [loginModal]);
+    }, [loginModal, email, password, navigate, dispatch]);
 
     const bodyContent = (
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={onSubmit}>
             <Input
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -55,7 +61,7 @@ function LoginModal() {
                 disabled={isLoading}
             />
             <div className='flex flex-col gap-2 pt-10'>
-                            <button type="sumbit" className='
+                            <button type="submit" className='
                                 w-full
                                 font-semibold
                                 rounded-full

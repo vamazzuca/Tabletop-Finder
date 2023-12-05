@@ -4,18 +4,19 @@ import Input from "../input"
 import Modal from "../modal";
 import useRegisterModal from "../../hooks/useRegisterModel";
 import { useDispatch } from "react-redux";
-import { signup } from '../actions/auth';
-
+import { signUp } from '../../actions/auth';
+import { useNavigate } from "react-router-dom"
 
 function RegisterModal() {
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [username, setUserName] = useState('');
+    const [username, setUsername] = useState('');
     const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -32,20 +33,19 @@ function RegisterModal() {
         try {
             setIsLoading(true);
             e.preventDefault();
-            const formData = { email: email, password: password, confirmPassword: confirmPassword, name: name };
-            dispatch(signup(formData));
+            const formData = { email: email, username: username, password: password, confirmPassword: confirmPassword, name: name };
+            dispatch(signUp(formData, navigate, registerModal));
             setEmail('');
             setPassword('');
             setConfirmPassword('');
             setName('');
-            setUserName('');
-            registerModal.onClose();
+            setUsername('');
         } catch (error){
             console.log(error);
         } finally {
             setIsLoading(false);
         }
-    }, [registerModal, email, password, confirmPassword, name, dispatch]);
+    }, [registerModal, email, username, password, confirmPassword, name, dispatch, navigate]);
 
     const bodyContent = (
         <form className="flex flex-col gap-4" onSubmit={onSubmit}>
@@ -64,7 +64,7 @@ function RegisterModal() {
             />
             <Input
                 placeholder="Username"
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
                 value={username}
                 disabled={isLoading}
             />
@@ -83,7 +83,7 @@ function RegisterModal() {
                 disabled={isLoading}
             />
             <div className='flex flex-col gap-2 pt-10'>
-                            <button type="sumbit" className='
+                            <button type="submit" className='
                             w-full
                             font-semibold
                             rounded-full

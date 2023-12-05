@@ -7,7 +7,8 @@ import { BiLogIn, BiLogOut } from 'react-icons/bi'
 import {useDispatch} from 'react-redux'
 import useLoginModal from "../../hooks/useLoginModel";
 import { useCallback, useEffect, useState } from "react";
-import {useNavigate, useLocation} from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
 
 function Sidebar() {
     const tabs = [{
@@ -38,17 +39,23 @@ function Sidebar() {
         loginModal.onOpen();
     }, [loginModal])
 
-    const onClickLogout = () => {
+    const Logout = useCallback(() => {
         dispatch({ type: 'LOGOUT' });
         setUser(null)
-        navigate('/')
-    }
+        navigate("/")
+    }, [dispatch, navigate])
 
     useEffect(() => {
+        const token = user?.token;
 
-        // JWT
+        if (token) {
+            const decodedToken = jwtDecode(token)
+
+            if (decodedToken.exp * 1000 < new Date().getTime()) Logout();
+        }
+       
         setUser(JSON.parse(localStorage.getItem('profile')))
-    }, [location]);
+    }, [location, Logout, user?.token]);
 
     return (
         <div className="col-span-1 h-full pr-4 md:pr-6 py-2">
@@ -62,7 +69,7 @@ function Sidebar() {
                             label={tab.label}
                             icon={ tab.icon} />
                     ))}
-                    <SidebarTabs onClick={onClickLogin} icon={BiLogIn} label={"Login"} />
+                    {user ? <SidebarTabs onClick={Logout} icon={BiLogOut} label={"Logout"} /> : <SidebarTabs onClick={onClickLogin} icon={BiLogIn} label={"Login"} />}
                     <PostButton/>
                 </div>
             </div>
