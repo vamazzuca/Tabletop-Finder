@@ -7,12 +7,13 @@ function Modal({ isOpen, onClose, disabled, title, body, footer }) {
         if (disabled) {
           return
         }
-    
+        
         onClose();
       }, [disabled, onClose]);
     
       
-      if (!isOpen) {
+    if (!isOpen) {
+
         return null;
       }
 

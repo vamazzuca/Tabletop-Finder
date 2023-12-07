@@ -8,7 +8,8 @@ import {useDispatch} from 'react-redux'
 import useLoginModal from "../../hooks/useLoginModel";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
+import usePostModal from "../../hooks/usePostModel";
 
 function Sidebar() {
     const tabs = [{
@@ -32,12 +33,17 @@ function Sidebar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
+    const postModal = usePostModal();
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
     const onClickLogin = useCallback(() => {
         loginModal.onOpen();
     }, [loginModal])
+
+    const onClickPost = useCallback(() => {
+        postModal.onOpen();
+    }, [postModal])
 
     const Logout = useCallback(() => {
         dispatch({ type: 'LOGOUT' });
@@ -70,7 +76,7 @@ function Sidebar() {
                             icon={ tab.icon} />
                     ))}
                     {user ? <SidebarTabs onClick={Logout} icon={BiLogOut} label={"Logout"} /> : <SidebarTabs onClick={onClickLogin} icon={BiLogIn} label={"Login"} />}
-                    <PostButton/>
+                    <PostButton onClick={onClickPost} />
                 </div>
             </div>
         </div>

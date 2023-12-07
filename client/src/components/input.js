@@ -1,4 +1,4 @@
-function Input({placeholder, value, type, disabled, onChange}) {
+function Input({placeholder, value, type, disabled, onChange, onFocus}) {
 
     return (
         <div>
@@ -7,6 +7,7 @@ function Input({placeholder, value, type, disabled, onChange}) {
                 onChange={onChange}
                 value={value}
                 placeholder={placeholder}
+                onFocus={onFocus}
                 required
                 type={type}
                 className="

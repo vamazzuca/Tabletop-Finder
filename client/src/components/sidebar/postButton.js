@@ -1,8 +1,8 @@
 import {PiPencilLineBold} from "react-icons/pi"
 
-function PostButton() {
+function PostButton({onClick}) {
     return (
-        <div>
+        <div onClick={onClick}>
             <div className="
             mt-6
             lg:hidden

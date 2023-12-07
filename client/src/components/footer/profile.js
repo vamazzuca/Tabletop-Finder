@@ -2,7 +2,10 @@ import { IoLocationSharp } from "react-icons/io5";
 
 
 
-function Profile() {
+
+function Profile({user}) {
+
+    
     return (
         <div className="
             bg-[#1f2833]
@@ -26,13 +29,13 @@ function Profile() {
                 text-center
                 overflow-hidden">
                 
-                <h1 className="text-lg font-semibold text-white truncate">{"Alex Mazzuca"}</h1>
-                <h2 className="text-gray-400 truncate">{"Alvrrick"}</h2>
+                <h1 className="text-lg font-semibold text-white truncate">{user.result.name}</h1>
+                <h2 className="text-gray-400 truncate">{user.result.username}</h2>
                 <div className="flex items-center justify-center gap-2">
                     <IoLocationSharp size={20} color="gray" />
                     <p className="text-gray-400">{"Location"}</p>
                 </div>
-                <p className="text-gray-400 line-clamp-3">{" when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."}</p>
+                <p className="text-gray-400 line-clamp-3">{"Description"}</p>
         
             </div>
             
