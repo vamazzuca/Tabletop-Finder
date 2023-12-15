@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 
 import postRoutes from "./routes/posts.js"
 import userRoutes from "./routes/users.js"
+import boardGamesRoutes from "./routes/boardGames.js"
 
 const app = express();
 dotenv.config()
@@ -18,6 +19,7 @@ app.use(cors());
 
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
+app.use('/boardgames', boardGamesRoutes);
 
 
 const PORT = process.env.PORT || 5000;

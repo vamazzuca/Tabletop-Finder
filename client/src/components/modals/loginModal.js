@@ -1,5 +1,5 @@
 import useLoginModal from "../../hooks/useLoginModel";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Input from "../input"
 import Modal from "../modal";
 import useRegisterModal from "../../hooks/useRegisterModel";
@@ -18,6 +18,13 @@ function LoginModal() {
     const [isLoading, setIsLoading] = useState(false);
 
 
+    useEffect(() => {
+        if (!loginModal.isOpen) {
+            setPassword("")
+            setEmail("")
+        }
+    }, [loginModal])
+    
     const onToggle = useCallback(() => {
         if (isLoading) {
             return;

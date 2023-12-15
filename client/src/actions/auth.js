@@ -5,7 +5,6 @@ import { AUTH } from '../constants/actionTypes'
 export const signIn = (formData, navigate, loginModal) => async (dispatch) =>{
     try {
         const { data } = await api.signIn(formData);
-        console.log(data)
         dispatch({type: AUTH, data})
         loginModal.onClose()
         navigate("/")

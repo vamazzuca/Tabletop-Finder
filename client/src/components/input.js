@@ -14,6 +14,7 @@ function Input({placeholder, value, type, disabled, onChange, onFocus}) {
                     w-full
                     p-4
                     text-lg
+                    placeholder-white
                     bg-black
                     border-2
                     border-neutral-800
