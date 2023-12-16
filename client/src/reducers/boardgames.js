@@ -1,10 +1,11 @@
-import { SEARCH } from '../constants/actionTypes';
+import { GETDATA, SEARCH } from '../constants/actionTypes';
 
-const boardgameReducer = (state = {boardgameData: null}, action) => {
+const boardgameReducer = (state = {boardgameSearchResults: null, boardgameData: null}, action) => {
     switch (action.type) {
         case SEARCH:
-            console.log(state)
-            return { ...state, boardgameData: action?.data };
+            return { ...state, boardgameSearchResults: action?.data };
+        case GETDATA:
+            return { ...state, boardgameData: action?.data }
         default:
             return state;
     }

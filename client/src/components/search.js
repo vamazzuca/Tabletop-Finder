@@ -37,11 +37,15 @@ function Search({ placeholder, value, disabled, onChange, loadOptions}) {
     return (
         <div>
             <AsyncPaginate
+                isClearable
+                cacheOptions
                 placeholder={placeholder}
                 onChange={onChange}
                 disabled={disabled}
                 required
+                debounceTimeout={500}
                 value={value}
+                cacheUniqs={[value]}
                 styles={customStyles}
                 loadOptions={loadOptions}
                 theme={(theme) => ({
