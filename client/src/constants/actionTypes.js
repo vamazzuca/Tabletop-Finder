@@ -8,3 +8,5 @@ export const LOGOUT = 'LOGOUT';
 
 export const SEARCH = 'SEARCH';
 export const GETDATA = 'GETDATA';
+
+export const SEARCHLOCATION = 'SEARCHLOCATION';

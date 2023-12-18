@@ -6,8 +6,12 @@ import { useCallback, useEffect, useState } from "react";
 import Input from "../input";
 import { useSelector, useDispatch } from "react-redux";
 import { boardGameData, boardGameSearch } from "../../actions/boardgames";
-import {Markup} from 'interweave'
-
+import { locationSearch } from "../../actions/location";
+import { Markup } from 'interweave'
+import MoonLoader from "react-spinners/MoonLoader";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import debounce from 'lodash.debounce';
 
 function PostModal() {
     const postModal = usePostModal();
@@ -16,19 +20,23 @@ function PostModal() {
 
     const [search, setSearch] = useState("")
     const [boardgameID, setboardgameId] = useState("")
-    const [date, setDate] = useState("")
+    const [date, setDate] = useState(new Date())
     const [location, setLocation] = useState("")
     const [partySize, setPartySize] = useState("")
     const [isLoading, setIsLoading] = useState(false);
+    const [boardLoading, setBoardLoading] = useState(false)
 
     const boardgames = useSelector((state) => state.boardgames)
-    const regex = /(<([^>]+)>)/gi;
+    const locationData = useSelector((state) => state.location)
     
     useEffect(() => {
         if (!postModal.isOpen) {
             setSearch("")
             setboardgameId("")
+            setDate(new Date())
+            setPartySize("")
         }
+        setDate(new Date())
     }, [postModal])
 
     useEffect(() => {
@@ -36,10 +44,18 @@ function PostModal() {
         dispatch(boardGameData(formData));
     
     }, [boardgameID, dispatch])
+
+    useEffect(() => {
+        setBoardLoading(false)
+        if (boardgameID && !boardgames.boardgameData?.result?.item?.description) {
+            setBoardLoading(true)
+        }
+    },[boardgameID, boardgames.boardgameData?.result?.item?.description])
     
-    const loadOptions = (inputValue) => {
+    const loadOptionsBoardGames = (inputValue) => {
         const formData = { query: inputValue }
         dispatch(boardGameSearch(formData));
+        console.log(boardgames)
         return {
             options: boardgames.boardgameSearchResults.result.item.map((game) => {
                 return {
@@ -49,6 +65,27 @@ function PostModal() {
             })
         }
     }
+
+    const loadOptionsLocation = (inputValue) => {
+        const formData = { query: inputValue }
+        setTimeout(() => {
+            if (formData.query !== "") {
+                dispatch(locationSearch(formData));
+                
+            } 
+            console.log(locationData)
+            
+        }, 2000)
+        return {
+            options: locationData?.locationResults?.map((game) => {
+                return {
+                    value: game.name
+                }
+            })
+        }
+    }
+
+
         
     
 
@@ -76,7 +113,7 @@ function PostModal() {
     const defaultDisplay = (
         <div className="flex pt-4">
             <div className="">
-                <img className="w-[11rem] h-[11rem] object-none" src={boardgames.boardgameData?.result?.item?.thumbnail} alt="Thumbnail" />
+                <img className="w-[11rem] h-[11rem] object-none" src={boardgames.boardgameData?.result?.item?.thumbnail} alt="Thumbnail" loading="lazy"/>
             </div>
             <div className="flex-1 text-white px-4">
                 <div className="flex font-bold text-2xl gap-2">
@@ -93,7 +130,9 @@ function PostModal() {
                 </div>
                 <div className="flex gap-6 pt-2">
                     <p>{boardgames.boardgameData?.result?.item?.minplayers.value}-{boardgames.boardgameData?.result?.item?.maxplayers.value} Players</p>
-                    <p>{boardgames.boardgameData?.result?.item?.minplaytime.value}-{boardgames.boardgameData?.result?.item?.maxplaytime.value} Min</p>
+                    {boardgames.boardgameData?.result?.item?.minplaytime.value === boardgames.boardgameData?.result?.item?.maxplaytime.value ?
+                    <p>{boardgames.boardgameData?.result?.item?.maxplaytime.value} Min</p> :
+                    <p>{boardgames.boardgameData?.result?.item?.minplaytime.value}-{boardgames.boardgameData?.result?.item?.maxplaytime.value} Min</p>}
                 </div>
                 
             </div>
@@ -107,17 +146,37 @@ function PostModal() {
                 <Search
                     placeholder="Search Board Game..."
                     onChange={handleChange}
-                    loadOptions={loadOptions}
+                    loadOptions={loadOptionsBoardGames}
                     value={search}
                     disabled={isLoading} />
                 
                 <div className="flex gap-4">
                     <div className="w-1/2">
-                        <Input
-                            onChange={(e) => setDate(e.target.value)}
-                            type={"datetime-local"}
-                            value={date}
-                            disabled={isLoading} />
+                        <DatePicker
+                            onChange={(date) => setDate(date)}
+                            selected={date}
+                            disabled={isLoading}
+                            showTimeSelect
+                            timeInputLabel="Time:"
+                            dateFormat="MM/dd/yyyy h:mm aa"
+                            wrapperClassName="w-full"
+                            className="
+                                w-full
+                                p-4
+                                text-lg
+                                placeholder-white
+                                bg-black
+                                border-2
+                                border-neutral-800
+                                rounded-md
+                                outline-none
+                                text-white
+                                focus:border-[#66FCF1]
+                                focus:border-2
+                                transition
+                                disabled:bg-neutral-900
+                                disabled:opacity-70
+                                disabled:cursor-not-allowed"/>
                     </div>
                     <div className="w-1/2">
                         <Input
@@ -128,13 +187,17 @@ function PostModal() {
                     </div>
                         
                 </div>
-                <Input
-                    placeholder="Location"
+                <Search
+                    placeholder="Search Location..."
                     onChange={(e) => setLocation(e.target.value)}
+                    loadOptions={loadOptionsLocation}
                     value={location}
                     disabled={isLoading} />
                 
-                { boardgameID ? defaultDisplay : null }
+                <div className="flex justify-center">
+                    { boardLoading ? <div className="flex h-[10rem] items-center"><MoonLoader color="#66FCF1"/></div> : boardgameID ? defaultDisplay : null }
+                </div>
+                
                 
                 <div className='flex flex-col gap-2 pt-10'>
                             <button type="submit" className='
