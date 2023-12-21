@@ -4,7 +4,7 @@ export const getPosts = async (req, res) => {
     try {
         const postEvents = await PostEvent.find()
 
-        console.log(postEvents);
+        
 
         res.status(200).json(postEvents);
     } catch (error) {

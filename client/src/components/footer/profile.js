@@ -22,7 +22,7 @@ function Profile({user}) {
             <img className="w-20 h-20 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
 
             <div className="
-                gap-2
+                gap-1
                 flex
                 flex-col
                 w-full
@@ -35,7 +35,7 @@ function Profile({user}) {
                     <IoLocationSharp size={20} color="gray" />
                     <p className="text-gray-400">{"Location"}</p>
                 </div>
-                <p className="text-gray-400 line-clamp-3">{"Description about yourself..."}</p>
+                <p className="pt-3 text-gray-400 line-clamp-3">{"Description about yourself..."}</p>
         
             </div>
             

@@ -98,7 +98,7 @@ function PostModal() {
         
         if (data?.result) {
             return {
-                options: data?.result.map((location) => {
+                options: data?.result.slice(0, 20).map((location) => {
                     return {
                         value: location.key,
                         label: `${location.EnglishName}, ${location.AdministrativeArea.EnglishName}, ${location.Country.EnglishName}`
@@ -142,6 +142,7 @@ function PostModal() {
                 photo: result.item.image,
                 date: date,
                 size: parseInt(partySize),
+                members: [user.result.id],
                 description: {
                     description: result.item.description,
                     minPlayers: result.item.minplayers.value,
