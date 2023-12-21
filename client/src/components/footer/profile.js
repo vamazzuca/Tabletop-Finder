@@ -35,7 +35,7 @@ function Profile({user}) {
                     <IoLocationSharp size={20} color="gray" />
                     <p className="text-gray-400">{"Location"}</p>
                 </div>
-                <p className="text-gray-400 line-clamp-3">{"Description"}</p>
+                <p className="text-gray-400 line-clamp-3">{"Description about yourself..."}</p>
         
             </div>
             

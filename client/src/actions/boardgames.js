@@ -1,14 +1,5 @@
 import * as api from '../api';
-import { SEARCH, GETDATA} from '../constants/actionTypes'
-
-export const boardGameSearch = (formData) => async (dispatch) =>{
-    try {
-        const { data } = await api.searchBoardGame(formData);
-        dispatch({type: SEARCH, data})
-    } catch (error) {
-        console.log(error)
-    }
-}
+import { GETDATA} from '../constants/actionTypes'
 
 
 export const boardGameData = (formData) => async (dispatch) =>{

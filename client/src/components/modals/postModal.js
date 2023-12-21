@@ -5,13 +5,13 @@ import Search from "../search";
 import { useCallback, useEffect, useState } from "react";
 import Input from "../input";
 import { useSelector, useDispatch } from "react-redux";
-import { boardGameData, boardGameSearch } from "../../actions/boardgames";
-import { locationSearch } from "../../actions/location";
+import { boardGameData } from "../../actions/boardgames";
+import { createPost } from "../../actions/posts";
 import { Markup } from 'interweave'
 import MoonLoader from "react-spinners/MoonLoader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import debounce from 'lodash.debounce';
+import * as api from '../../api';
 
 function PostModal() {
     const postModal = usePostModal();
@@ -24,19 +24,21 @@ function PostModal() {
     const [location, setLocation] = useState("")
     const [partySize, setPartySize] = useState("")
     const [isLoading, setIsLoading] = useState(false);
-    const [boardLoading, setBoardLoading] = useState(false)
+    const [boardLoading, setBoardLoading] = useState(false);
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
     const boardgames = useSelector((state) => state.boardgames)
-    const locationData = useSelector((state) => state.location)
+    const result = boardgames?.boardgameData?.result;
     
     useEffect(() => {
         if (!postModal.isOpen) {
-            setSearch("")
-            setboardgameId("")
-            setDate(new Date())
-            setPartySize("")
+            setSearch("");
+            setboardgameId("");
+            setPartySize("");
+            setLocation("");
         }
         setDate(new Date())
+        setUser(JSON.parse(localStorage.getItem('profile')));
     }, [postModal])
 
     useEffect(() => {
@@ -48,91 +50,151 @@ function PostModal() {
     useEffect(() => {
         setBoardLoading(false)
         if (boardgameID && !boardgames.boardgameData?.result?.item?.description) {
-            setBoardLoading(true)
+            setBoardLoading(true);
         }
     },[boardgameID, boardgames.boardgameData?.result?.item?.description])
     
-    const loadOptionsBoardGames = (inputValue) => {
+    const loadOptionsBoardGames = async(inputValue) => {
         const formData = { query: inputValue }
-        dispatch(boardGameSearch(formData));
-        console.log(boardgames)
-        return {
-            options: boardgames.boardgameSearchResults.result.item.map((game) => {
-                return {
-                    value: game.id ,
-                    label: `${game.name.value.replace("&#039;", '')} (${game.yearpublished.value})`
-                }
-            })
-        }
-    }
-
-    const loadOptionsLocation = (inputValue) => {
-        const formData = { query: inputValue }
-        setTimeout(() => {
-            if (formData.query !== "") {
-                dispatch(locationSearch(formData));
-                
-            } 
-            console.log(locationData)
-            
-        }, 2000)
-        return {
-            options: locationData?.locationResults?.map((game) => {
-                return {
-                    value: game.name
-                }
-            })
-        }
-    }
-
-
         
+        if (!formData.query) {
+            return {
+                options : []
+            }
+        }
+
+        const { data } = await api.searchBoardGame(formData);
+        
+       
+        if (data?.result?.item) {
+            return {
+                options: data.result.item.slice(0, 20).map((game) => {
+                    return {
+                        value: game.id ,
+                        label: `${game.name.value.replace("&#039;", '')} (${game.yearpublished.value})`
+                    }
+                })
+            }
+        } else {
+            return {
+                options : []
+            }
+        }
+            
+    }
+
+
+    const loadOptionsLocation = async (inputValue) => {
+       
+        const formData = { query: inputValue }
+
+        if (!formData.query) {
+            return {
+                options : []
+            }
+        }
+        const { data } = await api.locationSearch(formData);
+        
+        
+        if (data?.result) {
+            return {
+                options: data?.result.map((location) => {
+                    return {
+                        value: location.key,
+                        label: `${location.EnglishName}, ${location.AdministrativeArea.EnglishName}, ${location.Country.EnglishName}`
+                    }
+                })
+            }
+        } else {
+            return {
+                options : []
+            }
+        }
+        
+    }
+
+    const promiseLocationOptions = (inputValue) =>
+        new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(loadOptionsLocation(inputValue));
+        }, 1000);
+    });
     
+    const promiseBoardOptions = (inputValue) =>
+        new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(loadOptionsBoardGames(inputValue));
+        }, 1000);
+    });
+
 
     const onSubmit = useCallback(async (e) => {
         try {
             setIsLoading(true);
             e.preventDefault();
-            navigate("/")
+            
+            const post = {
+                title: Array.isArray(result?.item?.name) ? result?.item?.name[0].value : result?.item?.name.value,
+                year: result.item.yearpublished.value,
+                thumbnail: result.item.thumbnail,
+                location: location.label,
+                creator: user.result.id,
+                photo: result.item.image,
+                date: date,
+                size: parseInt(partySize),
+                description: {
+                    description: result.item.description,
+                    minPlayers: result.item.minplayers.value,
+                    maxplayers: result.item.maxplayers.value,
+                    minPlaytime: result.item.minplaytime.value,
+                    maxPlaytime: result.item.maxplaytime.value}
+            }
+
+            
+            dispatch(createPost(post));
+            postModal.onClose();
+            navigate("/");
         
         } catch (error){
             console.log(error);
         } finally {
             setIsLoading(false);
         }
-    }, [navigate]);
+    }, [navigate, dispatch, result, location, user, date, partySize, postModal]);
 
     const handleChange = (value) => {
         setSearch(value)
         setboardgameId(value?.value)
     }
 
-   
-    
+    const handleLocationChange = (value) => {
+        setLocation(value)
+    }
 
+   
     const defaultDisplay = (
         <div className="flex pt-4">
             <div className="">
-                <img className="w-[11rem] h-[11rem] object-none" src={boardgames.boardgameData?.result?.item?.thumbnail} alt="Thumbnail" loading="lazy"/>
+                <img className="w-[11rem] h-[11rem] object-none" src={result?.item?.thumbnail} alt="Thumbnail" loading="lazy"/>
             </div>
             <div className="flex-1 text-white px-4">
                 <div className="flex font-bold text-2xl gap-2">
-                    <Markup className="line-clamp-1" content={Array.isArray(boardgames?.boardgameData?.result?.item?.name) ?
-                        boardgames?.boardgameData?.result?.item?.name[0].value :
-                        boardgames?.boardgameData?.result?.item?.name.value}/>
-                    <h2>({boardgames.boardgameData?.result?.item?.yearpublished?.value})</h2>
+                    <Markup className="line-clamp-1" content={Array.isArray(result?.item?.name) ?
+                        result?.item?.name[0].value :
+                        result?.item?.name.value}/>
+                    <h2>({result?.item?.yearpublished?.value})</h2>
                 </div>
                 <div className=" h-[8rem] py-1 text-base line-clamp-5">
                     <>
                         
-                        <Markup className='h-full' content={boardgames.boardgameData?.result?.item?.description}/>
+                        <Markup className='h-full' content={result?.item?.description}/>
                     </>
                 </div>
                 <div className="flex gap-6 pt-2">
-                    <p>{boardgames.boardgameData?.result?.item?.minplayers.value}-{boardgames.boardgameData?.result?.item?.maxplayers.value} Players</p>
-                    {boardgames.boardgameData?.result?.item?.minplaytime.value === boardgames.boardgameData?.result?.item?.maxplaytime.value ?
-                    <p>{boardgames.boardgameData?.result?.item?.maxplaytime.value} Min</p> :
-                    <p>{boardgames.boardgameData?.result?.item?.minplaytime.value}-{boardgames.boardgameData?.result?.item?.maxplaytime.value} Min</p>}
+                    <p>{result?.item?.minplayers.value}-{result?.item?.maxplayers.value} Players</p>
+                    {result?.item?.minplaytime.value === result?.item?.maxplaytime.value ?
+                    <p>{result?.item?.maxplaytime.value} Min</p> :
+                    <p>{result?.item?.minplaytime.value}-{result?.item?.maxplaytime.value} Min</p>}
                 </div>
                 
             </div>
@@ -142,11 +204,11 @@ function PostModal() {
 
     const bodyContent = (
         <div>
-            <form className="flex flex-col gap-4">
+            <form className="flex flex-col gap-4" onSubmit={onSubmit}>
                 <Search
                     placeholder="Search Board Game..."
                     onChange={handleChange}
-                    loadOptions={loadOptionsBoardGames}
+                    loadOptions={promiseBoardOptions}
                     value={search}
                     disabled={isLoading} />
                 
@@ -188,9 +250,9 @@ function PostModal() {
                         
                 </div>
                 <Search
-                    placeholder="Search Location..."
-                    onChange={(e) => setLocation(e.target.value)}
-                    loadOptions={loadOptionsLocation}
+                    placeholder="Search City..."
+                    onChange={handleLocationChange}
+                    loadOptions={promiseLocationOptions}
                     value={location}
                     disabled={isLoading} />
                 
