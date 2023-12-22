@@ -9,6 +9,8 @@ function Profile({user}) {
     return (
         <div className="
             bg-[#1f2833]
+            sticky 
+            top-3
             w-[300px]
             h-[320px]
             flex

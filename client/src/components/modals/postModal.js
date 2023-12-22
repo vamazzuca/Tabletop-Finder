@@ -146,12 +146,12 @@ function PostModal() {
                 description: {
                     description: result.item.description,
                     minPlayers: result.item.minplayers.value,
-                    maxplayers: result.item.maxplayers.value,
+                    maxPlayers: result.item.maxplayers.value,
                     minPlaytime: result.item.minplaytime.value,
                     maxPlaytime: result.item.maxplaytime.value}
             }
 
-            
+            console.log(post)
             dispatch(createPost(post));
             postModal.onClose();
             navigate("/");

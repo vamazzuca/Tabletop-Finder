@@ -17,14 +17,17 @@ function Home() {
     }, [dispatch])
 
     return (
-        <div className="h-screen col-span-3 flex grid grid-cols-3">
+        <div className="h-screen col-span-3 overflow-y-scroll flex grid grid-cols-3">
             <div className="h-full xl:px-30 col-span-3 xl:col-span-2"> 
                 
-                    <div className="flex h-full flex-col items-center">
-                        <Header label="Home"/>
-                        <hr className="h-px w-11/12 border-0 dark:bg-neutral-800"></hr>
+                <div className="flex h-full flex-col items-center">
+                        <div className="w-11/12 sticky top-0 bg-[#0B0C10]">
+                            <Header label="Home"/>
+                            <hr className="h-px w-full border-0 dark:bg-neutral-800"></hr>
+                        </div>
+                        
                     
-                        <div className="pt-4 w-full h-full overflow-y-scroll flex flex-col items-center">
+                        <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
                             {posts.map((post, index) => <Post key={index} post={post} />)}
                         </div>
                     </div>
