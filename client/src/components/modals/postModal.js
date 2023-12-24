@@ -289,7 +289,7 @@ function PostModal() {
             <Modal
                 disabled={isLoading}
                 isOpen={postModal.isOpen}
-                title="Create Party"
+                title="Create Event"
                 onClose={postModal.onClose}
                 onSubmit={onSubmit}
                 body={bodyContent}

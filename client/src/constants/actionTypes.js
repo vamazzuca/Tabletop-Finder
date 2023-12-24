@@ -6,6 +6,8 @@ export const FETCH_ALL = 'FETCH_ALL';
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
 
-export const GETDATA = 'GETDATA';
+export const GETGAMEDATA = 'GETGAMEDATA';
+
+export const GETUSER = 'GETUSER';
 
 

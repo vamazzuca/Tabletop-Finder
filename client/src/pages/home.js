@@ -21,7 +21,7 @@ function Home() {
             <div className="h-full xl:px-30 col-span-3 xl:col-span-2"> 
                 
                 <div className="flex h-full flex-col items-center">
-                        <div className="w-11/12 sticky top-0 bg-[#0B0C10]">
+                        <div className="w-11/12 sticky z-10 top-0 bg-[#0B0C10]">
                             <Header label="Home"/>
                             <hr className="h-px w-full border-0 dark:bg-neutral-800"></hr>
                         </div>

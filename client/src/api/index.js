@@ -14,3 +14,5 @@ export const searchBoardGame = (formData) => API.post("/boardgames/search-boardg
 export const boardGameData = (formData) => API.post("/boardgames/boardgame-data", formData)
 
 export const locationSearch = (formData) => API.post("/location/search-location", formData)
+
+export const getUser = (formData => API.post("/user/getuser", formData))

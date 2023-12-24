@@ -44,3 +44,17 @@ export const signup = async(req, res) => {
         res.status(500).json({ message: 'Something went wrong' });
     }
 }
+
+export const getUser = async (req, res) => {
+    const { id } = req.body;
+    
+    try {
+        const exisitngUser = await User.findOne({ _id: id })
+        if (!exisitngUser) return res.status(400).json({ message: "Can't find User" });
+        
+        res.status(200).json({ result: {email: exisitngUser.email, name: exisitngUser.name, username: exisitngUser.username, photo: exisitngUser.photo}});
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+
+}

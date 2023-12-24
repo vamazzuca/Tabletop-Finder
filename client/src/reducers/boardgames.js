@@ -1,8 +1,8 @@
-import { GETDATA } from '../constants/actionTypes';
+import { GETGAMEDATA } from '../constants/actionTypes';
 
 const boardgameReducer = (state = {boardgameData: null}, action) => {
     switch (action.type) {
-        case GETDATA:
+        case GETGAMEDATA:
             return { ...state, boardgameData: action?.data }
         default:
             return state;
