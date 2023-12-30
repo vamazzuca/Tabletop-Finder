@@ -8,7 +8,7 @@ function Input({placeholder, value, type, disabled, onChange, onFocus}) {
                 value={value}
                 placeholder={placeholder}
                 onFocus={onFocus}
-                maxLength={32}
+                maxLength={30}
                 required
                 type={type}
                 className="

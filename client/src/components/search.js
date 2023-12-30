@@ -1,9 +1,10 @@
 import { AsyncPaginate } from "react-select-async-paginate"
+import { components } from "react-select";
 import { IoMdSearch } from "react-icons/io";
 
 function Search({ placeholder, value, disabled, onChange, loadOptions}) {
     
-    
+    const Input = props => <components.Input {...props} maxLength={30} />
    
     const customStyles = {
         control: (provided) => ({
@@ -67,6 +68,7 @@ function Search({ placeholder, value, disabled, onChange, loadOptions}) {
             <AsyncPaginate
                 isClearable
                 cacheOptions
+                components={{ Input }}
                 placeholder={placeholder}
                 onChange={onChange}
                 disabled={disabled}

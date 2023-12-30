@@ -1,4 +1,5 @@
 import { BsHouseFill, BsBellFill } from "react-icons/bs"
+import { IoMdMail } from "react-icons/io";
 import { FaUser } from "react-icons/fa"
 import SidebarTitle from "./sidebarTitle";
 import SidebarTabs from "./sidebarTabs";
@@ -21,6 +22,11 @@ function Sidebar() {
         label: "Notifications",
         href: "/notifications",
         icon: BsBellFill
+    },
+    {
+        label: "Messages",
+        href: "/messages",
+        icon: IoMdMail
     },
     {
         label: "Profile",

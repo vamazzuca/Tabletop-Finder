@@ -28,7 +28,7 @@ function Home() {
                         
                     
                         <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
-                            {posts.map((post, index) => <Post key={index} post={post} />)}
+                            {posts.posts.map((post, index) => <Post key={index} post={post} />)}
                         </div>
                     </div>
 

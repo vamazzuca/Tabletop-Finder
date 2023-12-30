@@ -15,15 +15,14 @@ function Post({ post }) {
 
 
     useEffect(() => {
-        const formData = { id: post.creator }
-        dispatch(getUser(formData))
-        console.log(post)
+       
+        dispatch(getUser({ id: post.creator }))
     }, [dispatch, post])
 
 
     return (
-        <Link to={`/event/${post._id}`}>
-            <div className="w-8/12 lg:w-[30rem] cursor-pointer bg-[#1f2833] rounded-lg flex flex-col ">
+        <Link className="w-8/12 lg:w-[30rem] cursor-pointer bg-[#1f2833] rounded-lg flex flex-col overflow-hidden" to={`/event/${post._id}`}>
+            
                 
                 <div className="flex flex-col p-4 w-full gap-2">
                     <div className='flex gap-2 items-center'>
@@ -87,7 +86,7 @@ function Post({ post }) {
             
                 
                 
-            </div>
+            
 
         </Link>
     )

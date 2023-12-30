@@ -15,7 +15,7 @@ function App() {
       <Sidebar />
       <Routes>
         <Route path="/" exact Component={Home}></Route>
-        <Route path='/event/:eventId' element={<Event />} />
+        <Route path='/event/:id' element={<Event />} />
       </Routes>
       <RegisterModal/>
       <LoginModal />
