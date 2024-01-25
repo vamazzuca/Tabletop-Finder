@@ -42,7 +42,7 @@ function Post({ post }) {
                         <h2>({post.year})</h2>
                     </div>
                 </div>
-                <img className="h-full  max-h-[36rem] object-fit" src={post.photo} alt="Thumbnail" loading="lazy" />
+            {<img className="h-full md:min-h-[10rem] max-h-[36rem]" src={post.photo} alt="" loading="lazy" />}
                 <div className='p-4 flex flex-col gap-2'>
                     <div className='flex justify-between gap-2'>
                         <div className="text-white text-sm md:text-xl flex  gap-2 md:gap-6">

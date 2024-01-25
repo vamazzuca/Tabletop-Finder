@@ -1,8 +1,10 @@
 import { BsHouseFill, BsBellFill } from "react-icons/bs"
 import { IoMdMail } from "react-icons/io";
 import { FaUser } from "react-icons/fa"
+import { FaUserGroup } from "react-icons/fa6";
 import SidebarTitle from "./sidebarTitle";
 import SidebarTabs from "./sidebarTabs";
+import { IoSearch } from "react-icons/io5";
 import PostButton from "./postButton";
 import { BiLogIn, BiLogOut } from 'react-icons/bi'
 import {useDispatch} from 'react-redux'
@@ -18,6 +20,11 @@ function Sidebar() {
         href: "/",
         icon: BsHouseFill
     },
+        {
+            label: "Search",
+            href: "/search",
+            icon: IoSearch
+    },
     {
         label: "Notifications",
         href: "/notifications",
@@ -27,6 +34,11 @@ function Sidebar() {
         label: "Messages",
         href: "/messages",
         icon: IoMdMail
+        },
+    {
+        label: "Groups",
+        href: "/groups",
+        icon: FaUserGroup
     },
     {
         label: "Profile",
