@@ -8,7 +8,8 @@
  • Used MongoDB database for storing event and profile information.   
 
  Tech Stack  
- • React    
+ • React  
+ • React Redux  
  • JavaScript    
  • Tailwind      
  • NodeJS    
