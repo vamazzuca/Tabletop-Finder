@@ -20,10 +20,10 @@ function Sidebar() {
         href: "/",
         icon: BsHouseFill
     },
-        {
-            label: "Search",
-            href: "/search",
-            icon: IoSearch
+    {
+        label: "Search",
+        href: "/search",
+        icon: IoSearch
     },
     {
         label: "Notifications",

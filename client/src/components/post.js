@@ -19,6 +19,11 @@ function Post({ post }) {
         dispatch(getUser({ id: post.creator }))
     }, [dispatch, post])
 
+    const joinhandler = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
 
     return (
         <Link className="w-8/12 lg:w-[30rem] cursor-pointer bg-[#1f2833] rounded-lg flex flex-col overflow-hidden" to={`/event/${post._id}`}>
@@ -63,9 +68,10 @@ function Post({ post }) {
                             </div>
                             <div className='w-1/2 flex justify-end'>
                                 <div className='relative'>
-                                <button className="
+                            <button onClick={joinhandler} className="
                                     absolute 
                                     bottom-0
+                                    z-1
                                     right-0
                                     bg-[#66FCF1]                               
                                     hover:bg-opacity-80
