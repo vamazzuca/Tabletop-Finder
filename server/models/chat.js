@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 const chatSchema = mongoose.Schema({
     chatName: { type: String, trim: true },
-    isGroupChat: { type: Boolean, default: true },
+    isGroupChat: { type: Boolean, default: false },
     users: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -16,7 +16,11 @@ const chatSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }
-})
+},
+    {
+        timestamps: true
+    }
+)
 
 
 export default mongoose.model("Chat", chatSchema);
