@@ -14,7 +14,7 @@ function Messages() {
                         <hr className="h-px w-full border-0 dark:bg-neutral-800"></hr>
                     </div>
 
-                    <div className="flex py-4 gap-4 min-h-0 w-11/12 grid grid-cols-3">
+                    <div className="h-full flex py-4 gap-4 min-h-0 w-11/12 grid grid-cols-3">
                         
                         <ChatList/>
                         <ChatBox/>

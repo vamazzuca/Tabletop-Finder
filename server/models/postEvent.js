@@ -6,6 +6,7 @@ const postSchema = mongoose.Schema({
     description: { description: String, minPlayers: Number, maxPlayers: Number, minPlaytime: Number, maxPlaytime: Number },
     creator: { type: String, required: true },
     photo: { type: String, required: true },
+    chatEventID: {type: String, required: true},
     thumbnail: { type: String, required: true },
     location: { type: String, required: true },
     date: { type: Date, required: true },

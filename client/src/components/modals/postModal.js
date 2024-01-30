@@ -7,11 +7,13 @@ import Input from "../input";
 import { useSelector, useDispatch } from "react-redux";
 import { boardGameData } from "../../actions/boardgames";
 import { createPost } from "../../actions/posts";
+import { createGroupChat } from "../../actions/chats";
 import { Markup } from 'interweave'
 import MoonLoader from "react-spinners/MoonLoader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as api from '../../api';
+import { v4 as uuidv4 } from 'uuid';
 
 function PostModal() {
     const postModal = usePostModal();
@@ -132,6 +134,8 @@ function PostModal() {
         try {
             setIsLoading(true);
             e.preventDefault();
+
+            const chatEventID = uuidv4();
             
             const post = {
                 title: Array.isArray(result?.item?.name) ? result?.item?.name[0].value : result?.item?.name.value,
@@ -140,6 +144,7 @@ function PostModal() {
                 location: location.label,
                 creator: user.result.id,
                 photo: result.item.image,
+                chatEventID: chatEventID,
                 date: date,
                 size: parseInt(partySize),
                 members: [user.result.id],
@@ -150,8 +155,16 @@ function PostModal() {
                     minPlaytime: result.item.minplaytime.value,
                     maxPlaytime: result.item.maxplaytime.value}
             }
+            
 
-            console.log(post)
+            const groupChat = {
+                senderId: user.result.id,
+                groupName: Array.isArray(result?.item?.name) ? result?.item?.name[0].value : result?.item?.name.value,
+                date: date,
+                chatEventID: chatEventID
+            }
+
+            dispatch(createGroupChat(groupChat))
             dispatch(createPost(post));
             postModal.onClose();
             navigate("/");

@@ -21,3 +21,16 @@ code {
     monospace;
 }
 
+*::-webkit-scrollbar {
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #c5c6c7;
+  border-radius: 14px;
+}
+

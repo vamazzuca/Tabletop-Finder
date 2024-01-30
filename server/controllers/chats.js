@@ -76,21 +76,22 @@ export const fetchChats = async (req, res) => {
 }
 
 export const createGroupChat = async (req, res) => {
-    const { senderId, groupName, date } = req.body
+    const { senderId, groupName, date, eventId } = req.body
     var users = [];
   
      
     try {
 
-    const user =  await User.findById(senderId).select("-password");
-    users.push(user);
+    
+    users.push(senderId);
 
     const groupChat = await Chat.create({
         chatName: groupName,
+        event: eventId,
         date: date,
         users: users,
         isGroupChat: true,
-        groupAdmin: user,
+        groupAdmin: senderId,
     });
   
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
