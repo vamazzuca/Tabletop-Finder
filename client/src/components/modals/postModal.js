@@ -67,17 +67,21 @@ function PostModal() {
 
         const { data } = await api.searchBoardGame(formData);
         
-       
-        if (data?.result?.item) {
+        const result = data?.result?.item
+        
+        if (result) {
+            
             return {
-                options: data.result.item.slice(0, 20).map((game) => {
+                options: result.slice(0, 20).map((game) => {
+                    
                     return {
                         value: game.id ,
-                        label: `${game.name.value.replace("&#039;", '')} (${game.yearpublished.value})`
+                        label: `${game.name.value.replace("&#039;", '')} (${game?.yearpublished?.value})`
                     }
                 })
             }
         } else {
+            
             return {
                 options : []
             }
@@ -99,6 +103,7 @@ function PostModal() {
         
         
         if (data?.result) {
+            
             return {
                 options: data?.result.slice(0, 20).map((location) => {
                     return {

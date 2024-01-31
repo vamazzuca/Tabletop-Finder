@@ -2,8 +2,17 @@
 import Header from "../components/header";
 import ChatBox from "../components/chat/chatbox";
 import ChatList from "../components/chat/chatList";
+import { useState, useEffect } from "react";
 
 function Messages() {
+
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+
+    useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem('profile')))
+        
+    }, [setUser])
+
     return (
         <div className="h-screen overflow-auto col-span-3 grid grid-cols-3">
             <div className="h-full relative xl:px-30 col-span-3 xl:col-span-3"> 
@@ -16,7 +25,7 @@ function Messages() {
 
                     <div className="h-full flex py-4 gap-4 min-h-0 w-11/12 grid grid-cols-3">
                         
-                        <ChatList/>
+                        <ChatList user={user} />
                         <ChatBox/>
                     
                     </div>

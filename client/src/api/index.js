@@ -19,5 +19,5 @@ export const locationSearch = (formData) => API.post("/location/search-location"
 export const getUser = (formData => API.post("/user/getuser", formData))
 
 
-export const createGroupChat = (newChat => API.post("/chats/group-chat", newChat))
-export const fetchChats = (userId => API.post( "/chats/fetch-chats", userId))
+export const createGroupChat = (newChat => API.post("/chat/group-chat", newChat))
+export const fetchChats = (userID => API.post( "/chat/fetch-chats", userID))

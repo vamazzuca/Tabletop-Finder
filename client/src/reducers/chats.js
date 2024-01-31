@@ -4,7 +4,7 @@ const chatReducer = (state = { chats: []}, action) => {
             
             return { ...state, chats: action.payload };
         case 'CREATEGROUPCHAT':
-            return {...state, chats: [...state.chats, action.payload]};
+            return {...state, chats: [...state.chats, action.payload] };
     
         default:
             return state;

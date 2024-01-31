@@ -55,8 +55,33 @@ export const accessChat = async (req, res) => {
 
 export const fetchChats = async (req, res) => {
     const { senderId } = req.body
+
+    
     try {
         Chat.find({ users: { $elemMatch: { $eq: senderId } } })
+            .populate("users", "-password")
+            .populate("groupAdmin", "-password")
+            .populate("latestMessage")
+            .sort({updatedAt: -1})
+            .then(async (results) => {
+                results = await User.populate(results, {
+                    path: "latestMessage.sender",
+                    select: "name photo username email"
+                });
+                res.status(200).send(results)
+            }
+           
+        );
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+
+export const fetchChat = async (req, res) => {
+    const { chatId } = req.body
+    try {
+        Chat.find({ _id: { $elemMatch: { $eq: chatId } } })
             .populate("users", "-password")
             .populate("groupAdmin", "-password")
             .populate("latestessage")
@@ -66,7 +91,7 @@ export const fetchChats = async (req, res) => {
                     path: "latestMessage.sender",
                     select: "name photo username email"
                 });
-                res.status.send(results)
+                res.status(200).send(results)
             }
            
         );

@@ -43,7 +43,6 @@ function LoginModal() {
             setEmail('');
             setPassword('');
 
-            //ADD Log IN
         } catch (error){
             console.log(error);
         } finally {

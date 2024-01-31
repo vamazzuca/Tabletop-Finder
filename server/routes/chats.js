@@ -4,7 +4,7 @@ import { accessChat, fetchChats, createGroupChat, removeFromGroup, addToGroup } 
 
 const router = express.Router();
 router.post("/access-chat", accessChat)
-router.get("/fetch-chats", fetchChats)
+router.post("/fetch-chats", fetchChats)
 router.post("/group-chat", createGroupChat)
 router.put("/group-remove", removeFromGroup)
 router.put("/group-add", addToGroup)
