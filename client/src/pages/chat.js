@@ -1,13 +1,16 @@
-
 import Header from "../components/header";
+import ChatBox from "../components/chat/chatbox";
 import ChatList from "../components/chat/chatList";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useParams } from "react-router";
 
-function Messages() {
+function Chat() {
 
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
+
+    const { id } = useParams();
 
     useEffect(() => {
         const isuser = JSON.parse(localStorage.getItem('profile'))
@@ -28,14 +31,10 @@ function Messages() {
 
                     <div className="h-full flex py-4 gap-4 min-h-0 w-11/12 grid grid-cols-3">
                         
-                        <div className="col-span-3 xl:col-span-1">
+                        <div className=" hidden xl:block xl:col-span-1">
                             <ChatList user={user} />
                         </div>
-                        
-                        <div className="h-full bg-[#1f2833] hidden xl:flex xl:col-span-2 rounded-lg">
-            
-                        </div>
-                      
+                        <ChatBox/>
                     
                     </div>
 
@@ -47,4 +46,4 @@ function Messages() {
 }
 
 
-export default Messages;
+export default Chat;

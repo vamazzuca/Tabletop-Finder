@@ -56,6 +56,7 @@ function LoginModal() {
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
                 type='email'
+                maxLength={30}
                 value={email}
                 disabled={isLoading}
             />
@@ -63,6 +64,7 @@ function LoginModal() {
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
                 type='password'
+                maxLength={30}
                 value={password}
                 disabled={isLoading}
             />

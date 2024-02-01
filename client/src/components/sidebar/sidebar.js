@@ -15,16 +15,7 @@ import { jwtDecode } from 'jwt-decode';
 import usePostModal from "../../hooks/usePostModel";
 
 function Sidebar() {
-    const tabs = [{
-        label: "Home",
-        href: "/",
-        icon: BsHouseFill
-    },
-    {
-        label: "Search",
-        href: "/search",
-        icon: IoSearch
-    },
+    const tabs = [
     {
         label: "Notifications",
         href: "/notifications",
@@ -60,13 +51,19 @@ function Sidebar() {
     }, [loginModal])
 
     const onClickPost = useCallback(() => {
-        postModal.onOpen();
-    }, [postModal])
+        if (user) {
+            postModal.onOpen();
+        } else {
+            loginModal.onOpen();
+        }
+        
+    }, [postModal, loginModal, user])
 
     const Logout = useCallback(() => {
         dispatch({ type: 'LOGOUT' });
         setUser(null)
         navigate("/")
+        navigate(0)
     }, [dispatch, navigate])
 
     useEffect(() => {
@@ -85,13 +82,24 @@ function Sidebar() {
         <div className="col-span-1 h-full pr-4 md:pr-6 py-2">
             <div className="flex flex-col items-end">
                 <div className="space-y-2 lg:w-[260px]">
-                    <SidebarTitle />
+                    <SidebarTitle href={"/"} />
+                    <SidebarTabs
+                            href={"/"}
+                            label={"Home"}
+                            icon={BsHouseFill}
+                        />
+                    <SidebarTabs
+                            href={"/search"}
+                            label={"Search"}
+                            icon={IoSearch}
+                            />
                     {tabs.map((tab) => (
                         <SidebarTabs
                             key={tab.href}
-                            href={tab.href}
+                            href={user ? tab.href : "/"}
                             label={tab.label}
-                            icon={ tab.icon} />
+                            icon={tab.icon}
+                            onClick={user ? null : onClickLogin}/>
                     ))}
                     {user ? <SidebarTabs onClick={Logout} icon={BiLogOut} label={"Logout"} /> : <SidebarTabs onClick={onClickLogin} icon={BiLogIn} label={"Login"} />}
                     <PostButton onClick={onClickPost} />

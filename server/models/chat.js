@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 const chatSchema = mongoose.Schema({
     chatName: { type: String, trim: true },
+    year: {type: Number},
     date: {type: Date},
     isGroupChat: { type: Boolean, default: false },
     chatEventID: {type: String},

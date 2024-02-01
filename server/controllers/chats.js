@@ -101,7 +101,7 @@ export const fetchChat = async (req, res) => {
 }
 
 export const createGroupChat = async (req, res) => {
-    const { senderId, groupName, date, eventId } = req.body
+    const { senderId, groupName, date, eventId, year } = req.body
     var users = [];
   
      
@@ -114,6 +114,7 @@ export const createGroupChat = async (req, res) => {
         chatName: groupName,
         event: eventId,
         date: date,
+        year: year,
         users: users,
         isGroupChat: true,
         groupAdmin: senderId,

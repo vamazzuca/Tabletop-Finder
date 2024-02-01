@@ -38,7 +38,7 @@ export const signup = async(req, res) => {
 
         const result = await User.create({ email, username, password: hashedPassword, name })
         
-        const token = jwt.sign({ email: result.email, id: result._id }, 'test', { expiresIn: "1h" });
+        const token = jwt.sign({ email: result.email, id: result._id }, 'test', { expiresIn: "7d" });
         res.status(200).json({ result: {id: result._id, email: result.email, name: result.name, username: result.username}, token });
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong' });

@@ -166,7 +166,8 @@ function PostModal() {
                 senderId: user.result.id,
                 groupName: Array.isArray(result?.item?.name) ? result?.item?.name[0].value : result?.item?.name.value,
                 date: date,
-                chatEventID: chatEventID
+                chatEventID: chatEventID,
+                year: result.item.yearpublished.value
             }
 
             dispatch(createGroupChat(groupChat))
@@ -263,6 +264,7 @@ function PostModal() {
                         <Input
                             placeholder="Party Size"
                             onChange={(e) => setPartySize(e.target.value)}
+                            maxLength={3}
                             value={partySize}
                             disabled={isLoading} />
                     </div>

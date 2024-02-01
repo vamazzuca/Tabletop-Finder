@@ -13,7 +13,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply h-full bg-[#0B0C10]
+  @apply h-full bg-[#0B0C10] w-full
 }
 
 code {
