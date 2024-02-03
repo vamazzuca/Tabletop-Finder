@@ -7,11 +7,13 @@ import { useDispatch } from "react-redux";
 import { signIn } from '../../actions/auth';
 import { useNavigate } from "react-router-dom"
 
+
 function LoginModal() {
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -40,6 +42,7 @@ function LoginModal() {
             e.preventDefault();
             const formData = { email: email, password: password};
             dispatch(signIn(formData, navigate, loginModal));
+            
             setEmail('');
             setPassword('');
 

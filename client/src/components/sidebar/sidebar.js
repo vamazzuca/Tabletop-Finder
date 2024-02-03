@@ -12,6 +12,8 @@ import useLoginModal from "../../hooks/useLoginModel";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+
+
 import usePostModal from "../../hooks/usePostModel";
 
 function Sidebar() {
@@ -43,6 +45,7 @@ function Sidebar() {
     const navigate = useNavigate();
     const location = useLocation();
     const postModal = usePostModal();
+   
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
@@ -61,6 +64,7 @@ function Sidebar() {
 
     const Logout = useCallback(() => {
         dispatch({ type: 'LOGOUT' });
+       
         setUser(null)
         navigate("/")
         navigate(0)
@@ -72,10 +76,15 @@ function Sidebar() {
         if (token) {
             const decodedToken = jwtDecode(token)
 
-            if (decodedToken.exp * 1000 < new Date().getTime()) Logout();
+            if (decodedToken.exp * 1000 < new Date().getTime()) { 
+                Logout();
+            } 
         }
        
         setUser(JSON.parse(localStorage.getItem('profile')))
+        
+        
+        
     }, [location, Logout, user?.token]);
 
     return (

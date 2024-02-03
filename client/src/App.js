@@ -8,6 +8,7 @@ import PostModal from './components/modals/postModal';
 import Event from './pages/event';
 import { Navigate } from 'react-router-dom';
 import Chat from './pages/chat';
+import RequireAuth from "./components/requireAuth";
 
 function App() {
 
@@ -19,8 +20,11 @@ function App() {
       <Routes>
         <Route path="/" exact Component={Home}></Route>
         <Route path='/event/:id' element={<Event />} />
-        <Route path='/messages' element={<Messages />} />
-        <Route path='/messages/:id' element={<Chat />} />
+        <Route element={<RequireAuth/>}>
+          <Route path='/messages' element={<Messages />} />
+          <Route path='/messages/:id' element={<Chat />} />
+        </Route>
+        
         <Route path="*" element={<Navigate to='/' />}></Route>
       </Routes>
       <RegisterModal/>

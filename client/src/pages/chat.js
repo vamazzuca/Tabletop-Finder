@@ -32,9 +32,9 @@ function Chat() {
                     <div className="h-full flex py-4 gap-4 min-h-0 w-11/12 grid grid-cols-3">
                         
                         <div className=" hidden xl:block xl:col-span-1">
-                            <ChatList user={user} />
+                            <ChatList user={user} chatid={ id} />
                         </div>
-                        <ChatBox/>
+                        <ChatBox user={user} chatid={ id}/>
                     
                     </div>
 

@@ -13,5 +13,6 @@ export const GETUSER = 'GETUSER';
 
 export const CREATEGROUPCHAT = 'CREATEGROUPCHAT';
 export const FETCHCHATS = 'FETCHCHATS'
+export const FETCHCHAT = 'FETCHCHAT'
 
 

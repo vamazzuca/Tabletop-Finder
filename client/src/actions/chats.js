@@ -22,3 +22,14 @@ export const getChats = (userID) => async (dispatch) => {
     }
     
 }
+
+export const getChat = (chat) => async (dispatch) => {
+    try {
+        const { data } = await api.fetchChat(chat)
+        
+        dispatch({ type: 'FETCHCHAT', payload: data})
+    } catch (error) {
+        console.log(error.message)
+    }
+    
+}

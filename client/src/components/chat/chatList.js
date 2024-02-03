@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getChats } from "../../actions/chats";
 import ChatListItem from "./chatListItem";
 
-function ChatList({user}) {
+function ChatList({user, chatid}) {
     
     const dispatch = useDispatch();
     
@@ -21,7 +21,7 @@ function ChatList({user}) {
     return (
         <div className="h-full rounded-lg overflow-auto bg-[#1f2833] ">
             <div className="flex overflow-auto divide-y divide-gray-500 flex-col">
-                {chats.chats.map((chat, index) => <ChatListItem key={index } chat={chat} />)}
+                {chats.chats.map((chat, index) => <ChatListItem key={index} chat={chat} chatid={chatid } />)}
                 
             </div>
             

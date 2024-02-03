@@ -20,4 +20,5 @@ export const getUser = (formData => API.post("/user/getuser", formData))
 
 
 export const createGroupChat = (newChat => API.post("/chat/group-chat", newChat))
-export const fetchChats = (userID => API.post( "/chat/fetch-chats", userID))
+export const fetchChats = (userID => API.post("/chat/fetch-chats", userID))
+export const fetchChat = (chat => API.post( "/chat/fetch-chat", chat))

@@ -79,13 +79,13 @@ export const fetchChats = async (req, res) => {
 
 
 export const fetchChat = async (req, res) => {
-    const { chatId } = req.body
+    const { chatId, senderId } = req.body
+
     try {
-        Chat.find({ _id: { $elemMatch: { $eq: chatId } } })
+        Chat.find({_id: { $eq: chatId }, users: { $elemMatch: { $eq: senderId } } })
             .populate("users", "-password")
             .populate("groupAdmin", "-password")
-            .populate("latestessage")
-            .sort({updatedAt: -1})
+            .populate("latestMessage")
             .then(async (results) => {
                 results = await User.populate(results, {
                     path: "latestMessage.sender",
