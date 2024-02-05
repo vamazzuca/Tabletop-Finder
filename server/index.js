@@ -9,6 +9,7 @@ import userRoutes from "./routes/users.js"
 import boardGamesRoutes from "./routes/boardGames.js"
 import locationRoutes from "./routes/location.js"
 import chatRoutes from "./routes/chats.js"
+import messageRoutes from "./routes/messages.js"
 
 const app = express();
 dotenv.config()
@@ -24,6 +25,7 @@ app.use('/user', userRoutes);
 app.use('/boardgames', boardGamesRoutes);
 app.use('/location', locationRoutes);
 app.use('/chat', chatRoutes);
+app.use("/api/message", messageRoutes);
 
 
 const PORT = process.env.PORT || 5000;
