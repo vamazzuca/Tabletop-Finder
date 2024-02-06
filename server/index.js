@@ -25,7 +25,7 @@ app.use('/user', userRoutes);
 app.use('/boardgames', boardGamesRoutes);
 app.use('/location', locationRoutes);
 app.use('/chat', chatRoutes);
-app.use("/api/message", messageRoutes);
+app.use("/message", messageRoutes);
 
 
 const PORT = process.env.PORT || 5000;

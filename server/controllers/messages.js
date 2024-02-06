@@ -1,6 +1,6 @@
-import Message from "../models/message";
-import User from "../models/user";
-import Chat from "../models/chat";
+import Message from "../models/message.js";
+import User from "../models/user.js";
+import Chat from "../models/chat.js";
 
 
 export const allMessages = async (req, res) => {
@@ -32,8 +32,8 @@ export const sendMessage = async (req, res) => {
   try {
     var message = await Message.create(newMessage);
 
-    message = await message.populate("sender", "name photo").execPopulate();
-    message = await message.populate("chat").execPopulate();
+    message = await message.populate("sender", "name photo");
+    message = await message.populate("chat");
     message = await User.populate(message, {
       path: "chat.users",
       select: "name photo username email",

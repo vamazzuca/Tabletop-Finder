@@ -35,7 +35,6 @@ function ChatListItem({chat, chatid}) {
 
             {chat.lastMessage ? <p className='text-white line-clamp-1'>Last Message: {chat.lastMessage} </p> : null}
             
-
             
             
         </Link>

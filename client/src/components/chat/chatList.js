@@ -20,9 +20,11 @@ function ChatList({user, chatid}) {
 
     return (
         <div className="h-full rounded-lg overflow-auto bg-[#1f2833] ">
-            <div className="flex overflow-auto divide-y divide-gray-500 flex-col">
+            <div className="flex overflow-scroll divide-y divide-gray-500 flex-col">
                 {chats.chats.map((chat, index) => <ChatListItem key={index} chat={chat} chatid={chatid } />)}
-                
+                <div className="h-[30rem]"></div>
+                <div className="h-[30rem]"></div>
+                <div className="h-[30rem]"></div>
             </div>
             
         </div>

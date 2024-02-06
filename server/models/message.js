@@ -8,7 +8,7 @@ const messageSchema = mongoose.Schema({
     },
     content: { type: String, trim: true },
     chat: {
-        tpye: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Chat"
     },
     
@@ -19,4 +19,4 @@ const messageSchema = mongoose.Schema({
 )
 
 
-export default mongoose.model("Chat", messageSchema);
+export default mongoose.model("Message", messageSchema);
