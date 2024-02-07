@@ -28,9 +28,9 @@ function Messages() {
 
                     <div className="h-full flex py-4 gap-4 min-h-0 w-11/12 grid grid-cols-3">
                         
-                        <div className="col-span-3 xl:col-span-1">
-                            <ChatList user={user} />
-                        </div>
+                        
+                        <ChatList user={user} isChat={false}/>
+                        
                         
                         <div className="h-full bg-[#1f2833] hidden xl:flex xl:col-span-2 rounded-lg">
             

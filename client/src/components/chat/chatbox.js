@@ -1,20 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { IoIosSend } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { getChat } from "../../actions/chats";
 import { fetchMessages, sendMessage } from "../../actions/message";
-import ChatScroll from "./chatScroll";
+import { isSameSenderMargin, isSameUser } from "./chatLogic";
 
 
 function ChatBox({user, chatid}) {
     const [isLoading, setIsLoading] = useState(false);
-    const [message, setMessage] = useState("")
+    const [message, setMessage] = useState("");
     
 
     const dispatch = useDispatch();
     
-    const chat = useSelector((state) => state.chat)
-    const messages = useSelector((state) => state.message)
+    const chat = useSelector((state) => state.chat);
+    const messages = useSelector((state) => state.message);
+    const messagesEndRef = useRef(null);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -30,9 +31,11 @@ function ChatBox({user, chatid}) {
             dispatch(fetchMessages(chatid))
         }
 
-     
-       
     }, [dispatch, user, chatid])
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView();
+    }, [messages])
 
 
     const submit = () => {
@@ -45,21 +48,40 @@ function ChatBox({user, chatid}) {
         } finally {
             setIsLoading(false)
         }
-        
-        
-       
+            
      }
 
     return (
-        <div className="h-full bg-[#1f2833] flex flex-col p-4 col-span-3 gap-2 xl:col-span-2 rounded-lg">
+        <div className="h-full bg-[#1f2833] flex flex-col p-4 overflow-auto gap-2 xl:col-span-2 col-span-3 rounded-lg">
             <div className="text-white p-1 text-lg font-bold line-clamp-1">{chat?.chat[0]?.chatName} ({chat?.chat[0]?.year}) Group Chat</div>
 
-            <div className="h-full w-full overflow-y-hidden rounded-lg bg-[#151C23]">
-                <div className="h-full w-full flex justify-end flex-column overflow-y-scroll ">
-                    <ChatScroll messages={messages} user={user} />
+          
+                <div className="h-full w-full p-3 d-flex flex-column overflow-auto align-items-start ustify-end rounded-lg bg-[#151C23]">
+                
+                
+                    {messages.messages && user && messages.messages.map((message, i)=> (
+                        <div className="flex" key={message._id}>
+                            <span
+                                style={{
+                                    backgroundColor: `${
+                                    message.sender._id === user.result.id ? "#BEE3F8" : "#B9F5D0"
+                                }`,
+                                    marginLeft: isSameSenderMargin(messages.messages, message, i, user.result.id),
+                                    marginTop: isSameUser(messages.messages, message, i, user.result.id) ? 3 : 10,
+                                    borderRadius: "20px",
+                                    padding: "5px 15px",
+                                    maxWidth: "100%",
+                                }}>
+                                    {message.content}
+                            </span>
+                        </div>
+                    ))}
+                
+                    <div ref={messagesEndRef}/>
+
                 </div>
-               
-            </div>
+           
+            
 
             <div className="flex items-center space-x-2 ">
             <input

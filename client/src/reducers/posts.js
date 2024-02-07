@@ -6,6 +6,15 @@ const postReducer = (state = { posts: []}, action) => {
         case 'FETCH_POST':
             
             return { ...state, post: action.payload };
+        case 'JOINEVENT':
+            
+            const event = state.posts.find((event => event._id === action.payload._id))
+            if (event) {
+                event.members = action.payload.members
+            }
+            
+           
+            return { ...state, posts: [...state.posts]};
         case 'CREATE':
             return {...state, posts: [...state.posts, action.payload]};
     

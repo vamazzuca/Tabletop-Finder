@@ -10,7 +10,7 @@ function ChatListItem({chat, chatid}) {
     return (
         <Link className={chatid === chat._id ?
             "p-4 flex gap-2 flex-col bg-blue-100 bg-opacity-10 cursor-pointer hover:bg-blue-300 hover:bg-opacity-10" : 
-                "p-4 flex gap-2 flex-col cursor-pointer hover:bg-blue-300 hover:bg-opacity-10"} to={`/messages/${chat._id}`}>
+                "p-4 flex gap-2  flex-col cursor-pointer hover:bg-blue-300 hover:bg-opacity-10"} to={`/messages/${chat._id}`}>
             <div className='flex gap-2 items-center'>
 
                 <img className="w-8 h-8 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />

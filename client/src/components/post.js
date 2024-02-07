@@ -1,27 +1,31 @@
 
 import { Markup } from 'interweave'
 import dateFormat from 'dateformat'
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { getUser } from '../actions/user';
+import {  useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { joinEvent } from '../actions/posts';
+import useLoginModal from '../hooks/useLoginModel';
 
 
-function Post({ post }) {
+function Post({ post, loginUser }) {
     
 
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.user)
+    
+    const loginModal = useLoginModal();
 
-
-    useEffect(() => {
-       
-        dispatch(getUser({ id: post.creator }))
-    }, [dispatch, post])
 
     const joinhandler = (e) => {
         e.preventDefault();
         e.stopPropagation();
+
+        if (loginUser) {
+            dispatch(joinEvent({ userId: loginUser.result.id, eventId: post._id }))
+        } else {
+            loginModal.onOpen();
+        }
+        
+
     }
 
 
@@ -32,11 +36,11 @@ function Post({ post }) {
                 <div className="flex flex-col p-4 w-full gap-2">
                     <div className='flex gap-2 items-center'>
                         <img className="w-8 h-8 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
-                        <h1 className='text-white text-sm md:text-base font-bold'>{user?.userData?.result?.name}</h1>
+                        <h1 className='text-white text-sm md:text-base font-bold'>{post.creator.name}</h1>
                         
                         
                         <div className='flex gap-1 text-sm text-gray-400 md:text-base'>
-                            <p>{user?.userData?.result?.username}</p>
+                            <p>{post.creator.username}</p>
                             <p>&#8226;</p>
                             <p>{dateFormat(post.createdAt, "mmm dS")}</p>
                         </div>
@@ -68,7 +72,20 @@ function Post({ post }) {
                             </div>
                             <div className='w-1/2 flex justify-end'>
                                 <div className='relative'>
-                            <button onClick={joinhandler} className="
+                            {post?.members?.some(member => member._id === loginUser?.result?.id) ?
+                                <button disabled={true} className="
+                                    absolute 
+                                    bottom-0
+                                    z-1
+                                    right-0
+                                    bg-[#A9A9A9]                               
+                                    text-[#1f2833]
+                                    font-bold
+                                    py-2
+                                    px-6
+                                    rounded-full">Joined</button> :
+                                
+                                <button onClick={joinhandler} className="
                                     absolute 
                                     bottom-0
                                     z-1
@@ -80,7 +97,7 @@ function Post({ post }) {
                                     font-bold
                                     py-2
                                     px-6
-                                    rounded-full">Join</button>
+                                    rounded-full">Join</button>}
                                 </div>
                                 
                             </div>

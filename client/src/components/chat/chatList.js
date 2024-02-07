@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getChats } from "../../actions/chats";
 import ChatListItem from "./chatListItem";
 
-function ChatList({user, chatid}) {
+function ChatList({user, chatid, isChat}) {
     
     const dispatch = useDispatch();
     
@@ -19,12 +19,12 @@ function ChatList({user, chatid}) {
     }, [dispatch, user] )
 
     return (
-        <div className="h-full rounded-lg overflow-auto bg-[#1f2833] ">
-            <div className="flex overflow-scroll divide-y divide-gray-500 flex-col">
-                {chats.chats.map((chat, index) => <ChatListItem key={index} chat={chat} chatid={chatid } />)}
-                <div className="h-[30rem]"></div>
-                <div className="h-[30rem]"></div>
-                <div className="h-[30rem]"></div>
+        <div className={isChat ? "h-full rounded-lg overflow-auto bg-[#1f2833] hidden xl:block xl:col-span-1" :
+            "h-full rounded-lg overflow-auto bg-[#1f2833] col-span-3 xl:col-span-1"}>
+            
+            <div className="flex divide-y divide-gray-500 flex-col">
+                {chats.chats.map((chat, index) => <ChatListItem key={index} chat={chat} chatid={chatid} />)}
+                
             </div>
             
         </div>
