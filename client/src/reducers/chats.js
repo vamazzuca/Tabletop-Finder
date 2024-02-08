@@ -8,7 +8,7 @@ const chatReducer = (state = { chats: [], chat: []}, action) => {
             return { ...state, chat: action.payload };
         case 'JOINCHAT':
             
-            const chat = state.posts.find((chat => chat._id === action.payload._id))
+            const chat = state.chats.find((chat => chat._id === action.payload._id))
             if (chat) {
                 chat.users = action.payload.users
             }

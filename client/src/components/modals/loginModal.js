@@ -77,6 +77,7 @@ function LoginModal() {
                                 font-semibold
                                 rounded-full
                                 text-xl
+                                text-[#0B0C10]
                                 px-4
                                 py-2
                                 transition

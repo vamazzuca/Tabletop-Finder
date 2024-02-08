@@ -101,7 +101,7 @@ export const fetchChat = async (req, res) => {
 }
 
 export const createGroupChat = async (req, res) => {
-    const { senderId, groupName, date, eventId, year } = req.body
+    const { senderId, groupName, date, chatEventID, year } = req.body
     var users = [];
   
      
@@ -112,7 +112,7 @@ export const createGroupChat = async (req, res) => {
 
     const groupChat = await Chat.create({
         chatName: groupName,
-        event: eventId,
+        chatEventID: chatEventID,
         date: date,
         year: year,
         users: users,
@@ -159,11 +159,15 @@ export const removeFromGroup = async (req, res) => {
 };
   
 export const addToGroup = async (req, res) => {
-    const { chatId, userId } = req.body;
+    const { chatEventId, userId } = req.body;
   
     try {
+
+        const chat = await Chat.find({ chatEventID: chatEventId  })
+       
+
         const added = await Chat.findByIdAndUpdate(
-            chatId,
+            chat[0]._id,
             {
               $push: { users: userId },
             },

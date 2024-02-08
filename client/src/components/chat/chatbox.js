@@ -3,7 +3,7 @@ import { IoIosSend } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { getChat } from "../../actions/chats";
 import { fetchMessages, sendMessage } from "../../actions/message";
-import { isSameSenderMargin, isSameUser } from "./chatLogic";
+import { isSameSenderMargin, isSameUser, isLastMessage, isSameSender } from "./chatLogic";
 
 
 function ChatBox({user, chatid}) {
@@ -52,20 +52,30 @@ function ChatBox({user, chatid}) {
      }
 
     return (
-        <div className="h-full bg-[#1f2833] flex flex-col p-4 overflow-auto gap-2 xl:col-span-2 col-span-3 rounded-lg">
-            <div className="text-white p-1 text-lg font-bold line-clamp-1">{chat?.chat[0]?.chatName} ({chat?.chat[0]?.year}) Group Chat</div>
+        <div className="h-full bg-[#1f2833]  flex flex-col p-4 overflow-auto gap-2 xl:col-span-2 col-span-3 rounded-lg">
+            <div className="text-white  p-1 text-lg font-bold line-clamp-1">{chat?.chat[0]?.chatName} ({chat?.chat[0]?.year}) Group Chat</div>
 
           
-                <div className="h-full w-full p-3 d-flex flex-column overflow-auto align-items-start ustify-end rounded-lg bg-[#151C23]">
+                <div className="h-full  w-full p-3 text-black d-flex flex-column overflow-auto align-items-start justify-end rounded-lg bg-[#151C23]">
                 
                 
-                    {messages.messages && user && messages.messages.map((message, i)=> (
+                {messages.messages && user && messages.messages.map((message, i) => (
+            
                         <div className="flex" key={message._id}>
+                                
+                            {(isSameSender(messages.messages, message, i, user.result.id) ||
+                                isLastMessage(messages.messages, i, user.result.id)) && (
+                                <div className="tooltip tooltip-right " data-tip={message.sender.name}>
+                                    <img className="w-8 h-8 mt-[11px] mr-1 cursor-pointer rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
+                                </div>
+                                    
+                                )}
                             <span
                                 style={{
                                     backgroundColor: `${
-                                    message.sender._id === user.result.id ? "#BEE3F8" : "#B9F5D0"
-                                }`,
+                                    message.sender._id === user.result.id ? "#79c5f1" : "#B9F5D0"
+                                    }`,
+                                    
                                     marginLeft: isSameSenderMargin(messages.messages, message, i, user.result.id),
                                     marginTop: isSameUser(messages.messages, message, i, user.result.id) ? 3 : 10,
                                     borderRadius: "20px",
@@ -119,6 +129,7 @@ function ChatBox({user, chatid}) {
                         flex
                         items-center
                         justify-center
+                        text-[#0B0C10]
                         bg-[#66FCF1]
                         hover:bg-opacity-80
                         transition

@@ -37,7 +37,6 @@ export const getChat = (chat) => async (dispatch) => {
 export const joinChat = (chat) => async (dispatch) => {
     try {
         const { data } = await api.joinChat(chat)
-        
         dispatch({ type: 'JOINCHAT', payload: data})
     } catch (error) {
         console.log(error.message)

@@ -5,15 +5,20 @@ import {  useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { joinEvent } from '../actions/posts';
 import useLoginModal from '../hooks/useLoginModel';
+import { joinChat } from '../actions/chats';
+import { useEffect, useState } from 'react';
 
-
-function Post({ post, loginUser }) {
-    
+function Post({ post }) {
+    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
     const dispatch = useDispatch();
     
     const loginModal = useLoginModal();
 
+    useEffect(() => {
+        setLoginUser(JSON.parse(localStorage.getItem('profile')))
+       
+    }, [])
 
     const joinhandler = (e) => {
         e.preventDefault();
@@ -21,6 +26,7 @@ function Post({ post, loginUser }) {
 
         if (loginUser) {
             dispatch(joinEvent({ userId: loginUser.result.id, eventId: post._id }))
+            dispatch(joinChat({chatEventId: post.chatEventID, userId: loginUser.result.id}))
         } else {
             loginModal.onOpen();
         }
