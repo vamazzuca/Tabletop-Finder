@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { IoIosSend } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { getChat } from "../../actions/chats";
-import { fetchMessages, sendMessage, fetchMessage } from "../../actions/message";
+import { fetchMessages, sendMessage, addMessage } from "../../actions/message";
 import { isSameSenderMargin, isSameUser, isLastMessage, isSameSender } from "./chatLogic";
 import io from "socket.io-client"
 import { UserState } from "../../Context/UserProvider";
@@ -49,7 +49,7 @@ function ChatBox({chatid}) {
             if (!selectedChatCompare || selectedChatCompare !== newMessageRecieved.chat._id) {
                 // Notification
             } else {
-                dispatch(fetchMessage(chatid))
+                dispatch(addMessage(newMessageRecieved))
                 
             }
         })

@@ -4,7 +4,15 @@ const messageReducer = (state = { messages: []}, action) => {
             
             return { ...state, messages: action.payload };
         case 'ADDMESSAGE':
-            return {...state, messages: [...state.messages, action.payload] };
+
+            const message = state.messages.find((message => message._id === action.payload._id))
+            if (message) {
+                return {...state, messages: [...state.messages] };
+            } else {
+                return {...state, messages: [...state.messages, action.payload] };
+            }
+            
+            
         case 'SENDMESSAGE':
            
             return {...state, messages: [...state.messages, action.payload] };
