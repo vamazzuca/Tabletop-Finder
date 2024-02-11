@@ -76,7 +76,8 @@ function Sidebar() {
         if (token) {
             const decodedToken = jwtDecode(token)
 
-            if (decodedToken.exp * 1000 < new Date().getTime()) { 
+            if (decodedToken.exp < new Date() / 1000) { 
+                console.log("EXPIRED")
                 Logout();
             } 
         }

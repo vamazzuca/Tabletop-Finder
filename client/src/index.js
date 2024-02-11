@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import {createStore, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk';
 import reducers from "./reducers";
+import UserProvider from './Context/UserProvider';
 
 const store = createStore(reducers, compose(applyMiddleware(thunk)))
 
@@ -15,9 +16,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        
-          <App />
-        
+        <UserProvider>
+            <App />
+        </UserProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

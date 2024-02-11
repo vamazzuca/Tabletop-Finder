@@ -2,13 +2,20 @@ import { useState, useEffect, useRef } from "react";
 import { IoIosSend } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { getChat } from "../../actions/chats";
-import { fetchMessages, sendMessage } from "../../actions/message";
+import { fetchMessages, sendMessage, fetchMessage } from "../../actions/message";
 import { isSameSenderMargin, isSameUser, isLastMessage, isSameSender } from "./chatLogic";
+import io from "socket.io-client"
+import { UserState } from "../../Context/UserProvider";
 
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
 
-function ChatBox({user, chatid}) {
+function ChatBox({chatid}) {
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState("");
+    const [socketConnected, setSocketConnected] = useState(false);
+
+    const { user } = UserState();
     
 
     const dispatch = useDispatch();
@@ -26,22 +33,49 @@ function ChatBox({user, chatid}) {
     
 
     useEffect(() => {
+        socket = io(ENDPOINT);
         if (user) {
-            dispatch(getChat({ senderId: user.result.id, chatId: chatid }))
-            dispatch(fetchMessages(chatid))
+            
+            socket.emit("setup", user.result);
+            socket.on("connected", () => setSocketConnected(true))
+          
         }
 
-    }, [dispatch, user, chatid])
+       
+    }, [user])
 
     useEffect(() => {
+        socket.on("message recieved", (newMessageRecieved) => {
+            if (!selectedChatCompare || selectedChatCompare !== newMessageRecieved.chat._id) {
+                // Notification
+            } else {
+                dispatch(fetchMessage(chatid))
+                
+            }
+        })
+    }, [dispatch, chatid])
+
+    useEffect(() => {
+        if (user) {
+           
+            dispatch(getChat({ senderId: user.result.id, chatId: chatid }))
+            dispatch(fetchMessages(chatid, socket))
+            selectedChatCompare = chatid
+        }
+
+    }, [dispatch, chatid, user])
+
+    useEffect(() => {
+        
         messagesEndRef.current?.scrollIntoView();
     }, [messages])
 
 
     const submit = () => {
+        if (!socketConnected) return;
         try {
             setIsLoading(true) 
-            dispatch(sendMessage({content: message, chatId: chatid, userId: user.result.id }))
+            dispatch(sendMessage({ content: message, chatId: chatid, userId: user.result.id }, socket))
             setMessage("")
         } catch (error) {
             console.log(error)
@@ -61,8 +95,9 @@ function ChatBox({user, chatid}) {
                 
                 {messages.messages && user && messages.messages.map((message, i) => (
             
-                        <div className="flex" key={message._id}>
-                                
+                        <div className="flex" key={i}>
+
+                        
                             {(isSameSender(messages.messages, message, i, user.result.id) ||
                                 isLastMessage(messages.messages, i, user.result.id)) && (
                                 <div className="tooltip tooltip-right " data-tip={message.sender.name}>

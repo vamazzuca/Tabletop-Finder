@@ -18,6 +18,7 @@ export const FETCHCHAT = 'FETCHCHAT'
 export const JOINCHAT = 'JOINCHAT'
 
 export const SENDMESSAGE = 'SENDMESSAGE'
+export const ADDMESSAGE = 'ADDMESSAGE'
 export const FETCHMESSAGES = 'FETCHMESSAGES'
 
 
