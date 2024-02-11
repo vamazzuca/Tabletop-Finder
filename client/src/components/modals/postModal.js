@@ -7,11 +7,13 @@ import Input from "../input";
 import { useSelector, useDispatch } from "react-redux";
 import { boardGameData } from "../../actions/boardgames";
 import { createPost } from "../../actions/posts";
+import { createGroupChat } from "../../actions/chats";
 import { Markup } from 'interweave'
 import MoonLoader from "react-spinners/MoonLoader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as api from '../../api';
+import { v4 as uuidv4 } from 'uuid';
 
 function PostModal() {
     const postModal = usePostModal();
@@ -65,17 +67,21 @@ function PostModal() {
 
         const { data } = await api.searchBoardGame(formData);
         
-       
-        if (data?.result?.item) {
+        const result = data?.result?.item
+        
+        if (result) {
+            
             return {
-                options: data.result.item.slice(0, 20).map((game) => {
+                options: result.slice(0, 20).map((game) => {
+                    
                     return {
                         value: game.id ,
-                        label: `${game.name.value.replace("&#039;", '')} (${game.yearpublished.value})`
+                        label: `${game.name.value.replace("&#039;", '')} (${game?.yearpublished?.value})`
                     }
                 })
             }
         } else {
+            
             return {
                 options : []
             }
@@ -97,6 +103,7 @@ function PostModal() {
         
         
         if (data?.result) {
+            
             return {
                 options: data?.result.slice(0, 20).map((location) => {
                     return {
@@ -132,6 +139,8 @@ function PostModal() {
         try {
             setIsLoading(true);
             e.preventDefault();
+
+            const chatEventID = uuidv4();
             
             const post = {
                 title: Array.isArray(result?.item?.name) ? result?.item?.name[0].value : result?.item?.name.value,
@@ -140,6 +149,7 @@ function PostModal() {
                 location: location.label,
                 creator: user.result.id,
                 photo: result.item.image,
+                chatEventID: chatEventID,
                 date: date,
                 size: parseInt(partySize),
                 members: [user.result.id],
@@ -150,8 +160,17 @@ function PostModal() {
                     minPlaytime: result.item.minplaytime.value,
                     maxPlaytime: result.item.maxplaytime.value}
             }
+            
 
-            console.log(post)
+            const groupChat = {
+                senderId: user.result.id,
+                groupName: Array.isArray(result?.item?.name) ? result?.item?.name[0].value : result?.item?.name.value,
+                date: date,
+                chatEventID: chatEventID,
+                year: result.item.yearpublished.value
+            }
+
+            dispatch(createGroupChat(groupChat))
             dispatch(createPost(post));
             postModal.onClose();
             navigate("/");
@@ -245,6 +264,7 @@ function PostModal() {
                         <Input
                             placeholder="Party Size"
                             onChange={(e) => setPartySize(e.target.value)}
+                            maxLength={3}
                             value={partySize}
                             disabled={isLoading} />
                     </div>
@@ -268,6 +288,7 @@ function PostModal() {
                                 font-semibold
                                 rounded-full
                                 text-xl
+                                text-[#0B0C10]
                                 px-4
                                 py-2
                                 transition

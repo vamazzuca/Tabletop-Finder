@@ -7,11 +7,13 @@ import { useDispatch } from "react-redux";
 import { signIn } from '../../actions/auth';
 import { useNavigate } from "react-router-dom"
 
+
 function LoginModal() {
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -40,10 +42,10 @@ function LoginModal() {
             e.preventDefault();
             const formData = { email: email, password: password};
             dispatch(signIn(formData, navigate, loginModal));
+            
             setEmail('');
             setPassword('');
 
-            //ADD Log IN
         } catch (error){
             console.log(error);
         } finally {
@@ -57,6 +59,7 @@ function LoginModal() {
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
                 type='email'
+                maxLength={30}
                 value={email}
                 disabled={isLoading}
             />
@@ -64,6 +67,7 @@ function LoginModal() {
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
                 type='password'
+                maxLength={30}
                 value={password}
                 disabled={isLoading}
             />
@@ -73,6 +77,7 @@ function LoginModal() {
                                 font-semibold
                                 rounded-full
                                 text-xl
+                                text-[#0B0C10]
                                 px-4
                                 py-2
                                 transition

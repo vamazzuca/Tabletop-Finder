@@ -1,18 +1,19 @@
 import Header from "../components/header";
 import Footer from "../components/footer/footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getPosts } from "../actions/posts";
 import Post from "../components/post";
 
 function Home() {
     const dispatch = useDispatch();
-    
+    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
     const posts = useSelector((state) => state.posts)
 
     useEffect(() => {
         dispatch(getPosts())
+        setLoginUser(JSON.parse(localStorage.getItem('profile')))
         
     }, [dispatch])
 
@@ -28,7 +29,7 @@ function Home() {
                         
                     
                         <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
-                            {posts.posts.map((post, index) => <Post key={index} post={post} />)}
+                        {posts.posts.map((post, index) => <Post key={index} post={post} loginUser={loginUser } />)}
                         </div>
                     </div>
 

@@ -1,4 +1,4 @@
-function Input({placeholder, value, type, disabled, onChange, onFocus}) {
+function Input({placeholder, value, type, maxLength, disabled, onChange, onFocus}) {
 
     return (
         <div>
@@ -8,7 +8,7 @@ function Input({placeholder, value, type, disabled, onChange, onFocus}) {
                 value={value}
                 placeholder={placeholder}
                 onFocus={onFocus}
-                maxLength={30}
+                maxLength={maxLength}
                 required
                 type={type}
                 className="

@@ -31,3 +31,14 @@ export const createPost = (post) => async (dispatch) => {
         console.log(error)
     }
 }
+
+
+export const joinEvent = (post) => async (dispatch) => {
+    try {
+        const { data } = await api.joinEvent(post);
+
+        dispatch({type: "JOINEVENT", payload: data})
+    } catch (error) {
+        console.log(error)
+    }
+}

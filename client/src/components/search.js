@@ -73,7 +73,7 @@ function Search({ placeholder, value, disabled, onChange, loadOptions}) {
                 onChange={onChange}
                 disabled={disabled}
                 required 
-                debounceTimeout={500}  
+                debounceTimeout={700}  
                 value={value}
                 cacheUniqs={[value]}
                 styles={customStyles}

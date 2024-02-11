@@ -1,6 +1,5 @@
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
-import Search from "./search";
 
 function Header({ label, showBackArrow }) {
     

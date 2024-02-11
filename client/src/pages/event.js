@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getPost } from "../actions/posts";
 import { useParams } from "react-router";
-import { getUser } from "../actions/user";
 import dateFormat from 'dateformat'
 import { Markup } from 'interweave'
 
@@ -13,16 +12,15 @@ function Event() {
 
     const dispatch = useDispatch();
     const post = useSelector((state) => state.posts)
-    const user = useSelector((state) => state.user)
+    
     const { id } = useParams();
 
     useEffect(() => {
         
         dispatch(getPost(id))
-        if (post?.post?.creator) {
-            dispatch(getUser({ id: post.post.creator }))
-        }
-    }, [dispatch, id, post?.post?.creator])
+        
+        
+    }, [dispatch, id])
 
     
 
@@ -40,11 +38,11 @@ function Event() {
                             <div className="flex flex-col p-4 w-full gap-2">
                                 <div className='flex gap-2 items-center'>
                                     <img className=" w-8 h-8 md:w-12 md:h-12 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
-                                        <h1 className='text-white text-sm md:text-lg font-bold'>{user?.userData?.result?.name}</h1>
+                                        <h1 className='text-white text-sm md:text-lg font-bold'>{post?.post?.creator?.name}</h1>
                                         
                                         
                                         <div className='flex gap-1 text-sm text-gray-400 md:text-lg'>
-                                            <p>{user?.userData?.result?.username}</p>
+                                            <p>{post?.post?.creator?.username}</p>
                                             <p>&#8226;</p>
                                             <p>{dateFormat(post?.post?.createdAt, "mmm dS")}</p>
                                         </div>

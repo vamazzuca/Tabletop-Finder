@@ -12,19 +12,12 @@ import useLoginModal from "../../hooks/useLoginModel";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+
+
 import usePostModal from "../../hooks/usePostModel";
 
 function Sidebar() {
-    const tabs = [{
-        label: "Home",
-        href: "/",
-        icon: BsHouseFill
-    },
-        {
-            label: "Search",
-            href: "/search",
-            icon: IoSearch
-    },
+    const tabs = [
     {
         label: "Notifications",
         href: "/notifications",
@@ -52,6 +45,7 @@ function Sidebar() {
     const navigate = useNavigate();
     const location = useLocation();
     const postModal = usePostModal();
+   
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
@@ -60,13 +54,20 @@ function Sidebar() {
     }, [loginModal])
 
     const onClickPost = useCallback(() => {
-        postModal.onOpen();
-    }, [postModal])
+        if (user) {
+            postModal.onOpen();
+        } else {
+            loginModal.onOpen();
+        }
+        
+    }, [postModal, loginModal, user])
 
     const Logout = useCallback(() => {
         dispatch({ type: 'LOGOUT' });
+       
         setUser(null)
         navigate("/")
+        navigate(0)
     }, [dispatch, navigate])
 
     useEffect(() => {
@@ -75,23 +76,40 @@ function Sidebar() {
         if (token) {
             const decodedToken = jwtDecode(token)
 
-            if (decodedToken.exp * 1000 < new Date().getTime()) Logout();
+            if (decodedToken.exp < new Date() / 1000) { 
+                console.log("EXPIRED")
+                Logout();
+            } 
         }
        
         setUser(JSON.parse(localStorage.getItem('profile')))
+        
+        
+        
     }, [location, Logout, user?.token]);
 
     return (
         <div className="col-span-1 h-full pr-4 md:pr-6 py-2">
             <div className="flex flex-col items-end">
                 <div className="space-y-2 lg:w-[260px]">
-                    <SidebarTitle />
+                    <SidebarTitle href={"/"} />
+                    <SidebarTabs
+                            href={"/"}
+                            label={"Home"}
+                            icon={BsHouseFill}
+                        />
+                    <SidebarTabs
+                            href={"/search"}
+                            label={"Search"}
+                            icon={IoSearch}
+                            />
                     {tabs.map((tab) => (
                         <SidebarTabs
                             key={tab.href}
-                            href={tab.href}
+                            href={user ? tab.href : "/"}
                             label={tab.label}
-                            icon={ tab.icon} />
+                            icon={tab.icon}
+                            onClick={user ? null : onClickLogin}/>
                     ))}
                     {user ? <SidebarTabs onClick={Logout} icon={BiLogOut} label={"Logout"} /> : <SidebarTabs onClick={onClickLogin} icon={BiLogIn} label={"Login"} />}
                     <PostButton onClick={onClickPost} />

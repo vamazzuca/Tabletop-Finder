@@ -8,6 +8,7 @@ export const signIn = (formData, navigate, loginModal) => async (dispatch) =>{
         dispatch({type: AUTH, data})
         loginModal.onClose()
         navigate("/")
+        navigate(0)
     } catch (error) {
         console.log(error)
     }
@@ -20,6 +21,7 @@ export const signUp = (formData, navigate, registerModal) => async (dispatch) =>
         dispatch({ type: AUTH, data })
         registerModal.onClose();
         navigate("/")
+        navigate(0)
     } catch (error) {
         console.log(error)
     }
