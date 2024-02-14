@@ -1,14 +1,25 @@
 import PostEvent from "../models/postEvent.js";
 
 export const getPosts = async (req, res) => {
+    const { location } = req.body;
+    
     try {
-        const postEvents = await PostEvent.find()
-            .populate("members", "-password")
-            .populate("creator", "-password")
+
+        if (location) {
+            const postEvents = await PostEvent.find({ location: { $eq: location } }, {"date" : { $gte : new Date() }} )
+                .populate("members", "-password")
+                .populate("creator", "-password")
+                .sort({date: 1})
+            res.status(200).json(postEvents);
+        } else {
+            const postEvents = await PostEvent.find({"date" : { $gte : new Date() }})
+                .populate("members", "-password")
+                .populate("creator", "-password")
+                .sort({date: 1})
+            res.status(200).json(postEvents);
+        }
 
         
-
-        res.status(200).json(postEvents);
     } catch (error) {
         res.status(404).json({message: error.message})
     }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getPosts } from "../actions/posts";
 import Post from "../components/post";
+import useLocation from "../hooks/useLocation";
 
 function Home() {
     const dispatch = useDispatch();
@@ -11,11 +12,13 @@ function Home() {
 
     const posts = useSelector((state) => state.posts)
 
+    const { location } = useLocation();
+
+
     useEffect(() => {
-        dispatch(getPosts())
+        dispatch(getPosts({location: location}))
         setLoginUser(JSON.parse(localStorage.getItem('profile')))
-        
-    }, [dispatch])
+    }, [dispatch, location])
 
     return (
         <div className="h-screen col-span-3 overflow-y-scroll flex grid grid-cols-3">
@@ -23,13 +26,13 @@ function Home() {
                 
                 <div className="flex h-full flex-col items-center">
                         <div className="w-11/12 sticky z-10 top-0 bg-[#0B0C10]">
-                            <Header label="Home"/>
+                            <Header label="Home" showLocation={true}/>
                             <hr className="h-px w-full border-0 dark:bg-neutral-800"></hr>
                         </div>
                         
                     
                         <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
-                        {posts.posts.map((post, index) => <Post key={index} post={post} loginUser={loginUser } />)}
+                        {posts.posts.map((post, index) => <Post key={index} post={post} loginUser={loginUser} />)}
                         </div>
                     </div>
 

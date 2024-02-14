@@ -4,9 +4,9 @@ const API = axios.create({ baseURL: "http://localhost:5000"})
 
 
 
-export const fetchPosts = () => API.get("/posts");
+export const fetchPosts = (location) => API.post("/posts", location);
 export const fetchPost = (id) => API.get(`/posts/${id}`);
-export const createPost = (newPost) => API.post("/posts", newPost);
+export const createPost = (newPost) => API.post("/posts/create", newPost);
 export const joinEvent = (post) => API.post("/posts/join-event", post);
 
 export const signIn = (formData) => API.post('/user/signin', formData);

@@ -95,13 +95,13 @@ function ChatBox({chatid}) {
                 
                 {messages.messages && user && messages.messages.map((message, i) => (
             
-                        <div className="flex" key={i}>
+                        <div className="flex gap-1" key={i}>
 
                         
                             {(isSameSender(messages.messages, message, i, user.result.id) ||
                                 isLastMessage(messages.messages, i, user.result.id)) && (
                                 <div className="tooltip tooltip-right " data-tip={message.sender.name}>
-                                    <img className="w-8 h-8 mt-[11px] mr-1 cursor-pointer rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
+                                    <img className="w-8 h-8 mt-[11px] cursor-pointer rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
                                 </div>
                                     
                                 )}

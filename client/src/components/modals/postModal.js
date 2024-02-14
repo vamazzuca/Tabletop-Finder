@@ -108,7 +108,7 @@ function PostModal() {
                 options: data?.result.slice(0, 20).map((location) => {
                     return {
                         value: location.key,
-                        label: `${location.EnglishName}, ${location.AdministrativeArea.EnglishName}, ${location.Country.EnglishName}`
+                        label: `${location.EnglishName}, ${location.AdministrativeArea.EnglishName}`
                     }
                 })
             }
@@ -136,6 +136,7 @@ function PostModal() {
 
 
     const onSubmit = useCallback(async (e) => {
+        console.log(user)
         try {
             setIsLoading(true);
             e.preventDefault();

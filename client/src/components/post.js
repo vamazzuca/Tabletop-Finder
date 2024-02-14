@@ -36,16 +36,16 @@ function Post({ post }) {
 
 
     return (
-        <Link className="w-8/12 lg:w-[30rem] cursor-pointer bg-[#1f2833] rounded-lg flex flex-col overflow-hidden" to={`/event/${post._id}`}>
+        <Link className="w-10/12 lg:w-[30rem] cursor-pointer bg-[#1f2833] rounded-lg flex flex-col overflow-hidden" to={`/event/${post._id}`}>
             
                 
                 <div className="flex flex-col p-4 w-full gap-2">
                     <div className='flex gap-2 items-center'>
                         <img className="w-8 h-8 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
-                        <h1 className='text-white text-sm md:text-base font-bold'>{post.creator.name}</h1>
+                        <h1 className='text-white line-clamp-1 text-sm md:text-base font-bold'>{post?.creator?.name}</h1>
                         
                         
-                        <div className='flex gap-1 text-sm text-gray-400 md:text-base'>
+                        <div className='flex gap-1 text-sm line-clamp-1 text-gray-400 md:text-base'>
                             <p>{post.creator.username}</p>
                             <p>&#8226;</p>
                             <p>{dateFormat(post.createdAt, "mmm dS")}</p>
@@ -60,13 +60,13 @@ function Post({ post }) {
             {<img className="h-auto md:min-h-[10rem] object-cover max-h-[36rem]" src={post.photo} alt="" loading="lazy" />}
                 <div className='p-4 flex flex-col gap-2'>
                     <div className='flex justify-between gap-2'>
-                        <div className="text-white text-sm md:text-xl flex  gap-2 md:gap-6">
+                        <div className="text-white text-xs md:text-xl flex  gap-2 md:gap-6">
                             <p>{post.description.minPlayers}-{post.description.maxPlayers} Players</p>
                             {post.description.minPlaytime === post.description.maxPlaytime ?
                             <p>{post.description.maxPlaytime} Min</p> :
                             <p>{post.description.minPlaytime}-{post.description.maxPlaytime} Min</p>}
                         </div>
-                        <div className='text-white text-sm md:text-xl flex justify-end'>
+                        <div className='text-white text-xs md:text-xl flex justify-end'>
                             <p>{post.members.length} / {post.size} Members</p>
                         </div>
                     </div>

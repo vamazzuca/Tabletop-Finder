@@ -9,6 +9,7 @@ import Event from './pages/event';
 import { Navigate } from 'react-router-dom';
 import Chat from './pages/chat';
 import RequireAuth from "./components/requireAuth";
+import { LocationProvider } from './Context/locationProvider';
 
 function App() {
 
@@ -16,20 +17,23 @@ function App() {
   return (
 
     <>
-      <Sidebar />
-      <Routes>
-        <Route path="/" exact Component={Home}></Route>
-        <Route path='/event/:id' element={<Event />} />
-        <Route element={<RequireAuth/>}>
-          <Route path='/messages' element={<Messages />} />
-          <Route path='/messages/:id' element={<Chat />} />
-        </Route>
-        
-        <Route path="*" element={<Navigate to='/' />}></Route>
-      </Routes>
-      <RegisterModal/>
-      <LoginModal />
-      <PostModal/>
+      <LocationProvider>
+        <Sidebar />
+      
+        <Routes>
+          <Route path="/" exact Component={Home}></Route>
+          <Route path='/event/:id' element={<Event />} />
+          <Route element={<RequireAuth/>}>
+            <Route path='/messages' element={<Messages />} />
+            <Route path='/messages/:id' element={<Chat />} />
+          </Route>
+          
+          <Route path="*" element={<Navigate to='/' />}></Route>
+        </Routes>
+        <RegisterModal/>
+        <LoginModal />
+          <PostModal />
+      </LocationProvider>
     </>
   );
 }
