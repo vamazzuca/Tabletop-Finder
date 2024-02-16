@@ -17,23 +17,25 @@ function App() {
   return (
 
     <>
-      <LocationProvider>
-        <Sidebar />
       
-        <Routes>
-          <Route path="/" exact Component={Home}></Route>
-          <Route path='/event/:id' element={<Event />} />
-          <Route element={<RequireAuth/>}>
-            <Route path='/messages' element={<Messages />} />
-            <Route path='/messages/:id' element={<Chat />} />
-          </Route>
-          
-          <Route path="*" element={<Navigate to='/' />}></Route>
-        </Routes>
-        <RegisterModal/>
-        <LoginModal />
-          <PostModal />
-      </LocationProvider>
+        <LocationProvider>
+          <Sidebar />
+        
+          <Routes>
+            <Route path="/" exact Component={Home}></Route>
+            <Route path='/event/:id' element={<Event />} />
+            <Route element={<RequireAuth/>}>
+              <Route path='/messages' element={<Messages />} />
+              <Route path='/messages/:id' element={<Chat />} />
+            </Route>
+            
+            <Route path="*" element={<Navigate to='/' />}></Route>
+          </Routes>
+          <RegisterModal/>
+          <LoginModal />
+            <PostModal />
+          </LocationProvider>
+     
     </>
   );
 }

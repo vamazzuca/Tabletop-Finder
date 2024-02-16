@@ -8,7 +8,7 @@ import useLoginModal from '../hooks/useLoginModel';
 import { joinChat } from '../actions/chats';
 import { useEffect, useState } from 'react';
 
-function Post({ post }) {
+function Post({ post, innerRef }) {
     const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
     const dispatch = useDispatch();
@@ -17,7 +17,6 @@ function Post({ post }) {
 
     useEffect(() => {
         setLoginUser(JSON.parse(localStorage.getItem('profile')))
-       
     }, [])
 
     const joinhandler = (e) => {
@@ -36,7 +35,7 @@ function Post({ post }) {
 
 
     return (
-        <Link className="w-10/12 lg:w-[30rem] cursor-pointer bg-[#1f2833] rounded-lg flex flex-col overflow-hidden" to={`/event/${post._id}`}>
+        <Link ref={innerRef } className="w-10/12 lg:w-[30rem] cursor-pointer bg-[#1f2833] rounded-lg flex flex-col overflow-hidden" to={`/event/${post._id}`}>
             
                 
                 <div className="flex flex-col p-4 w-full gap-2">

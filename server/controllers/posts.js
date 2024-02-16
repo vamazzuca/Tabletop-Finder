@@ -1,21 +1,28 @@
 import PostEvent from "../models/postEvent.js";
 
 export const getPosts = async (req, res) => {
-    const { location } = req.body;
-    
+    const { location, page } = req.body;
+   
     try {
+        const LIMIT = 5;
+        const startIndex = (Number(page) - 1) * LIMIT;
+        const total = await PostEvent.countDocuments({})
 
         if (location) {
-            const postEvents = await PostEvent.find({ location: { $eq: location } }, {"date" : { $gte : new Date() }} )
+            const postEvents = await PostEvent.find({ location: { $eq: location } , "date" : { $gte : new Date() }} )
                 .populate("members", "-password")
                 .populate("creator", "-password")
-                .sort({date: 1})
+                .sort({ date: 1 })
+                .limit(LIMIT)
+                .skip(startIndex)
             res.status(200).json(postEvents);
         } else {
             const postEvents = await PostEvent.find({"date" : { $gte : new Date() }})
                 .populate("members", "-password")
                 .populate("creator", "-password")
-                .sort({date: 1})
+                .sort({ date: 1 })
+                .limit(LIMIT)
+                .skip(startIndex)
             res.status(200).json(postEvents);
         }
 

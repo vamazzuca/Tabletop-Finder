@@ -58,7 +58,7 @@ function Event() {
                                     
                             <img className=" w-full object-cover" src={post?.post?.photo} alt="Thumbnail" loading="lazy" />
                         
-                            <div className='p-4 flex flex-col gap-8'>
+                            <div className='p-4 flex flex-col gap-2 md:gap-8'>
                                 <div className="text-white text-sm md:text-2xl gap-4 flex md:gap-12">
                                     <div className="flex flex-col gap-1">
                                         <p>Recommended Players:</p>
@@ -75,7 +75,7 @@ function Event() {
                                 </div>
                             
                                 <div className='text-sm md:text-2xl flex text-white'>
-                                    <div className="flex flex-col gap-8">
+                                    <div className="flex flex-col gap-2 md:gap-8">
                                         <div>
                                             <p>Location: </p>
                                             <p>{post?.post?.location} </p>
@@ -99,9 +99,12 @@ function Event() {
                                         active:bg-opacity-90
                                         text-[#1f2833]
                                         font-bold
-                                        text-[20px]
-                                        py-2
-                                        px-6
+                                        text-[15px]
+                                        py-1
+                                        px-3
+                                        md:text-[20px]
+                                        md:py-2
+                                        md:px-6
                                         rounded-full">Join</button>
                                       
                                     
