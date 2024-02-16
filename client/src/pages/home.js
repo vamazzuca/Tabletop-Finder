@@ -2,17 +2,20 @@ import Header from "../components/header";
 import Footer from "../components/footer/footer";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getPosts } from "../actions/posts";
+import { getPosts, getPostsLocation } from "../actions/posts";
 import Post from "../components/post";
 import useLocation from "../hooks/useLocation";
+import MoonLoader from "react-spinners/MoonLoader";
 
 function Home() {
     const dispatch = useDispatch();
     const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const [pageNumber, setPageNumber] = useState(1)
+    const { posts, isLoading } = useSelector((state) => state.posts)
 
     const observer = useRef()
     const lastEventElement = useCallback(node => {
+        
         if (observer.current) observer.current.disconnect()
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) {
@@ -22,15 +25,27 @@ function Home() {
         if (node) observer.current.observe(node)
     }, [])
 
-    const posts = useSelector((state) => state.posts)
+
 
     const { location } = useLocation();
 
+    const preLocation = useRef();
+    const prePage = useRef()
+
 
     useEffect(() => {
-        dispatch(getPosts({location: location, page: pageNumber}))
         setLoginUser(JSON.parse(localStorage.getItem('profile')))
+
+        if (preLocation.current !== location) {
+            dispatch(getPostsLocation({location: location, page: pageNumber}))
+        } else {
+            dispatch(getPosts({location: location, page: pageNumber}))
+        }
+
+        preLocation.current = location;
+        prePage.current = pageNumber;
     }, [dispatch, location, pageNumber])
+
 
     return (
         <div className="h-screen col-span-3 overflow-y-scroll flex grid grid-cols-3">
@@ -45,14 +60,15 @@ function Home() {
                     
                     <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
                         
-                        {posts.posts.map((post, index) => {
-                            if (posts.posts.length === index + 1) {
+                        {posts && posts.map((post, index) => {
+                            if (posts.length === index + 1) {
                                 return <Post innerRef={lastEventElement} key={index} post={post} loginUser={loginUser} />
                             } else {
                                 return <Post key={index} post={post} loginUser={loginUser} />
                             }
                         }
-                            )}
+                        )}
+                        {isLoading ? <div className="flex items-center"><MoonLoader size={30 } color="#66FCF1"/></div>: null}
                     </div>
                 </div>
 

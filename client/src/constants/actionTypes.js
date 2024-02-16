@@ -4,6 +4,7 @@ export const DELETE = 'DELETE';
 export const FETCH_ALL = 'FETCH_ALL';
 export const FETCH_POST = 'FETCH_POST';
 export const JOINEVENT = 'JOINEVENT';
+export const FETCH_ALL_LOCATION = 'FETCH_ALL_LOCATION';
 
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
@@ -20,5 +21,8 @@ export const JOINCHAT = 'JOINCHAT'
 export const SENDMESSAGE = 'SENDMESSAGE'
 export const ADDMESSAGE = 'ADDMESSAGE'
 export const FETCHMESSAGES = 'FETCHMESSAGES'
+
+export const START_LOADING = 'START_LOADING'
+export const END_LOADING = 'END_LOADING'
 
 

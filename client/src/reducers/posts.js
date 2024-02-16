@@ -1,9 +1,15 @@
-const postReducer = (state = { posts: []}, action) => {
+const postReducer = (state = { isLoading: true, posts: []}, action) => {
     switch (action.type) {
+        case 'START_LOADING':
+            return { ...state, isLoading: true }
+        case 'END_LOADING':
+            return {...state, isLoading: false}
         case 'FETCH_ALL':
             var ids = new Set(state.posts.map(d => d._id));
             var merged = [...state.posts, ...action.payload.filter(d => !ids.has(d._id))];
             return { ...state, posts: merged };
+        case 'FETCH_ALL_LOCATION':
+            return { ...state, posts: action.payload }
         case 'FETCH_POST':
             
             return { ...state, post: action.payload };

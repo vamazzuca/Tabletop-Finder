@@ -2,9 +2,24 @@ import * as api from '../api';
 
 export const getPosts = (location) => async (dispatch) => {
     try {
+        dispatch({type: 'START_LOADING'})
         const { data } = await api.fetchPosts(location)
         
-        dispatch({ type: 'FETCH_ALL', payload: data})
+        dispatch({ type: 'FETCH_ALL', payload: data })
+        dispatch({type: 'END_LOADING'})
+    } catch (error) {
+        console.log(error.message)
+    }
+    
+}
+
+export const getPostsLocation = (location) => async (dispatch) => {
+    try {
+        dispatch({type: 'START_LOADING'})
+        const { data } = await api.fetchPosts(location)
+        
+        dispatch({ type: 'FETCH_ALL_LOCATION', payload: data })
+        dispatch({type: 'END_LOADING'})
     } catch (error) {
         console.log(error.message)
     }
@@ -13,9 +28,11 @@ export const getPosts = (location) => async (dispatch) => {
 
 export const getPost = (id) => async (dispatch) => {
     try {
+        dispatch({type: 'START_LOADING'})
         const { data } = await api.fetchPost(id)
         
-        dispatch({ type: 'FETCH_POST', payload: data})
+        dispatch({ type: 'FETCH_POST', payload: data })
+        dispatch({type: 'END_LOADING'})
     } catch (error) {
         console.log(error.message)
     }
