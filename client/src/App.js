@@ -10,6 +10,8 @@ import { Navigate } from 'react-router-dom';
 import Chat from './pages/chat';
 import RequireAuth from "./components/requireAuth";
 import { LocationProvider } from './Context/locationProvider';
+import Profile from './pages/profile';
+import UpdateModal from './components/modals/updateModal';
 
 function App() {
 
@@ -27,14 +29,16 @@ function App() {
             <Route element={<RequireAuth/>}>
               <Route path='/messages' element={<Messages />} />
               <Route path='/messages/:id' element={<Chat />} />
+              <Route path='/profile/:username' element={<Profile/>} />
             </Route>
             
             <Route path="*" element={<Navigate to='/' />}></Route>
           </Routes>
           <RegisterModal/>
           <LoginModal />
-            <PostModal />
-          </LocationProvider>
+          <PostModal />
+          <UpdateModal/>
+        </LocationProvider>
      
     </>
   );

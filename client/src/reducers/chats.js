@@ -1,5 +1,9 @@
-const chatReducer = (state = { chats: [], chat: []}, action) => {
+const chatReducer = (state = { isLoading: true, chats: [], chat: []}, action) => {
     switch (action.type) {
+        case 'START_LOADING':
+            return { ...state, isLoading: true }
+        case 'END_LOADING':
+            return {...state, isLoading: false}
         case 'FETCHCHATS':
             
             return { ...state, chats: action.payload };

@@ -1,5 +1,9 @@
-const messageReducer = (state = { messages: []}, action) => {
+const messageReducer = (state = {isLoading: true, messages: []}, action) => {
     switch (action.type) {
+        case 'START_LOADING':
+            return { ...state, isLoading: true }
+        case 'END_LOADING':
+            return {...state, isLoading: false}
         case 'FETCHMESSAGES':
             
             return { ...state, messages: action.payload };

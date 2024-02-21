@@ -18,6 +18,7 @@ export const boardGameData = (formData) => API.post("/boardgames/boardgame-data"
 export const locationSearch = (formData) => API.post("/location/search-location", formData)
 
 export const getUser = (formData => API.post("/user/getuser", formData))
+export const updateUser = (user => API.put("/user/updateuser", user))
 
 
 export const createGroupChat = (newChat => API.post("/chat/group-chat", newChat))

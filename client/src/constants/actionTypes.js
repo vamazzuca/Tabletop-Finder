@@ -12,6 +12,7 @@ export const LOGOUT = 'LOGOUT';
 export const GETGAMEDATA = 'GETGAMEDATA';
 
 export const GETUSER = 'GETUSER';
+export const UPDATEUSER = 'UPDATEUSER'
 
 export const CREATEGROUPCHAT = 'CREATEGROUPCHAT';
 export const FETCHCHATS = 'FETCHCHATS'

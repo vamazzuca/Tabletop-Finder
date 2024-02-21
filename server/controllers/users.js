@@ -46,15 +46,36 @@ export const signup = async(req, res) => {
 }
 
 export const getUser = async (req, res) => {
-    const { id } = req.body;
+    const { username } = req.body;
     
     try {
-        const exisitngUser = await User.findOne({ _id: id })
+        const exisitngUser = await User.findOne({ username: username })
         if (!exisitngUser) return res.status(400).json({ message: "Can't find User" });
         
-        res.status(200).json({ result: {email: exisitngUser.email, name: exisitngUser.name, username: exisitngUser.username, photo: exisitngUser.photo}});
+        res.status(200).json({ result: {email: exisitngUser.email, name: exisitngUser.name, username: exisitngUser.username, photo: exisitngUser.photo, bio: exisitngUser.bio, location: exisitngUser.location}});
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong' });
     }
 
+}
+
+
+export const updateUser = async(req, res) => {
+    const { id, username, name, photo, bio, location } = req.body;
+    
+    try {
+        const existingUsername = await User.findOne({ _id: { $ne: id }, username: { $eq: username } });
+        if (existingUsername) return res.status(400).json({ message: "Username already in usee." });
+
+        var update = await User.findByIdAndUpdate(id, { username: username, name: name, photo: photo, bio: bio, location: location }).select("-password");
+        
+        if (!update) {
+            res.status(404).json({ message: "User Not Found" });
+        } else {
+          res.json(update);
+        }
+
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong' });
+    }
 }

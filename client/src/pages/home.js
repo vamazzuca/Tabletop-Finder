@@ -37,9 +37,10 @@ function Home() {
         setLoginUser(JSON.parse(localStorage.getItem('profile')))
 
         if (preLocation.current !== location) {
-            dispatch(getPostsLocation({location: location, page: pageNumber}))
+            setPageNumber(1)
+            dispatch(getPostsLocation({ location: location, page: pageNumber }))  
         } else {
-            dispatch(getPosts({location: location, page: pageNumber}))
+            dispatch(getPosts({ location: location, page: pageNumber }))
         }
 
         preLocation.current = location;

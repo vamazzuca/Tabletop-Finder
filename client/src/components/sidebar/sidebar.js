@@ -17,6 +17,7 @@ import { jwtDecode } from 'jwt-decode';
 import usePostModal from "../../hooks/usePostModel";
 
 function Sidebar() {
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const tabs = [
     {
         label: "Notifications",
@@ -35,7 +36,7 @@ function Sidebar() {
     },
     {
         label: "Profile",
-        href: "/123",
+        href: `/profile/${user?.result?.username}`,
         icon: FaUser
     }
     ];
@@ -47,7 +48,7 @@ function Sidebar() {
     const postModal = usePostModal();
    
 
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    
 
     const onClickLogin = useCallback(() => {
         loginModal.onOpen();
@@ -77,8 +78,8 @@ function Sidebar() {
             const decodedToken = jwtDecode(token)
 
             if (decodedToken.exp < new Date() / 1000) { 
-                console.log("EXPIRED")
-                Logout();
+               
+                //Logout();
             } 
         }
        

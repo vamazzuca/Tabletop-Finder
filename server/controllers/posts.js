@@ -32,6 +32,31 @@ export const getPosts = async (req, res) => {
     }
 }
 
+
+export const getPostsByUser = async (req, res) => {
+    const { userId, page } = req.body;
+   
+    try {
+        const LIMIT = 5;
+        const startIndex = (Number(page) - 1) * LIMIT;
+        const total = await PostEvent.countDocuments({})
+
+        
+        const postEvents = await PostEvent.find({ creator: { $eq: userId }} )
+                .populate("members", "-password")
+                .populate("creator", "-password")
+                .sort({ createdAt: 1 })
+                .limit(LIMIT)
+                .skip(startIndex)
+        res.status(200).json(postEvents);
+        
+
+        
+    } catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
+
 export const getPost = async (req, res) => {
 
     const { id } = req.params;
