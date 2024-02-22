@@ -13,6 +13,19 @@ export const getPosts = (location) => async (dispatch) => {
     
 }
 
+export const getPostsByUser = (userId) => async (dispatch) => {
+    try {
+        dispatch({type: 'START_LOADING'})
+        const { data } = await api.fetchPostsByUser(userId)
+        
+        dispatch({ type: 'FETCH_BY_USER', payload: data })
+        dispatch({type: 'END_LOADING'})
+    } catch (error) {
+        console.log(error.message)
+    }
+    
+}
+
 export const getPostsLocation = (location) => async (dispatch) => {
     try {
         dispatch({type: 'START_LOADING'})

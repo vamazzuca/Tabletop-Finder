@@ -3,10 +3,11 @@ import { IoLocationSharp } from "react-icons/io5";
 import { useParams } from "react-router";
 import { getUser } from "../actions/user";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import MoonLoader from "react-spinners/MoonLoader";
 import useUpdateModal from "../hooks/useUpdateModel";
-
+import { getPostsByUser } from "../actions/posts";
+import Post from "../components/post";
 
 export default function Profile() {
 
@@ -14,9 +15,24 @@ export default function Profile() {
     const dispatch = useDispatch();
 
     const { userData } = useSelector((state) => state.user)
+    const { postsUser, isLoading } = useSelector((state) => state.posts)
+    const [pageNumber, setPageNumber] = useState(1)
     const { username } = useParams();
 
     const updateModal = useUpdateModal()
+
+
+    const observer = useRef()
+    const lastEventElement = useCallback(node => {
+        
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                setPageNumber(prevPageNumber => prevPageNumber + 1)
+            }
+        })
+        if (node) observer.current.observe(node)
+    }, [])
 
 
     const onClickUpdate = useCallback(() => {
@@ -28,8 +44,8 @@ export default function Profile() {
     useEffect(() => {
         
         dispatch(getUser({ username: username }))
-        
-    }, [dispatch, username, updateModal])
+        dispatch(getPostsByUser({userId: userData?.result?.id, page: pageNumber}))
+    }, [dispatch, username, userData?.result?.id, updateModal, pageNumber])
 
     return (
         <div className="h-screen col-span-3 overflow-y-scroll flex grid grid-cols-3">
@@ -88,7 +104,18 @@ export default function Profile() {
                         <hr className="h-px w-11/12 border-0 dark:bg-neutral-800"></hr>
                     </div>
 
-
+                    <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
+                        
+                        {postsUser && postsUser.map((post, index) => {
+                            if (postsUser.length === index + 1) {
+                                return <Post innerRef={lastEventElement} key={index} post={post} />
+                            } else {
+                                return <Post key={index} post={post}  />
+                            }
+                        }
+                        )}
+                        {isLoading ? <div className="flex items-center"><MoonLoader size={30 } color="#66FCF1"/></div>: null}
+                    </div>
                     
                 </div>
             </div>

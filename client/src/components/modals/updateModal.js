@@ -45,6 +45,7 @@ function UpdateModal() {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('profile'))
         setUser(user)
+        setImageURL(user?.result?.photo)
         setUsername(user?.result?.username)
         setName(user?.result?.name)
         setBio(user?.result?.bio)
@@ -66,7 +67,7 @@ function UpdateModal() {
     }, [updateModal,  user, username, name, dispatch, bio, location, imageURL]);
 
     const bodyContent = (
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex h-auto flex-col items-center gap-4">
             <div className="w-full flex flex-col items-center gap-2">
                 {isLoadingImg ? <MoonLoader size={40} color="#66FCF1"/> :<img className={imageURL ? "w-40 h-40 rounded-full object-cover" : "w-40 h-40 rounded-full bg-white object-cover"}
                     src={imageURL ? imageURL : "/images/Default_pfp.svg.png"} loading="lazy" alt="Rounded avatar" /> }
@@ -85,7 +86,8 @@ function UpdateModal() {
                             uploadImage(event.target.files)
                         }}/>
             </div>
-            <form className="flex flex-col w-full gap-4" onSubmit={onSubmit}>
+            <form className="flex flex-col w-full gap-1" onSubmit={onSubmit}>
+            <h1 className="text-white">Name</h1>
              <Input
                 placeholder="Name"
                 onChange={(e) => setName(e.target.value)}  
@@ -94,6 +96,7 @@ function UpdateModal() {
                 required={true}
                 disabled={isLoading}
                 />
+                <h1 className="text-white">Username</h1>
                 <Input
                     placeholder="Username"
                     onChange={(e) => setUsername(e.target.value)}
@@ -102,6 +105,7 @@ function UpdateModal() {
                     maxLength={30}
                     disabled={isLoading}
                 />
+                <h1 className="text-white">Location</h1>
                 <Input
                     placeholder="Location"
                     onChange={(e) => setLocation(e.target.value)}
@@ -109,6 +113,7 @@ function UpdateModal() {
                     maxLength={250}
                     disabled={isLoading}
                 />
+                <h1 className="text-white">Biography</h1>
                 <Input
                     placeholder="Biography"
                     onChange={(e) => setBio(e.target.value)}
@@ -116,7 +121,7 @@ function UpdateModal() {
                     maxLength={250}
                     disabled={isLoading}
                 />
-                <div className='flex flex-col gap-2 pt-10'>
+                <div className='flex flex-col gap-2 pb-10 pt-10'>
                             <button type="submit" className='
                             w-full
                             font-semibold

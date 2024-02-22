@@ -52,7 +52,7 @@ export const getUser = async (req, res) => {
         const exisitngUser = await User.findOne({ username: username })
         if (!exisitngUser) return res.status(400).json({ message: "Can't find User" });
         
-        res.status(200).json({ result: {email: exisitngUser.email, name: exisitngUser.name, username: exisitngUser.username, photo: exisitngUser.photo, bio: exisitngUser.bio, location: exisitngUser.location}});
+        res.status(200).json({ result: {id: exisitngUser._id, email: exisitngUser.email, name: exisitngUser.name, username: exisitngUser.username, photo: exisitngUser.photo, bio: exisitngUser.bio, location: exisitngUser.location}});
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong' });
     }
