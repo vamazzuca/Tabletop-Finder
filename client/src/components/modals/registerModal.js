@@ -33,7 +33,7 @@ function RegisterModal() {
         try {
             setIsLoading(true);
             e.preventDefault();
-            const formData = { email: email, username: username, password: password, confirmPassword: confirmPassword, name: name };
+            const formData = { email: email, username: username.trim(), password: password.trim(), confirmPassword: confirmPassword.trim(), name: name };
             dispatch(signUp(formData, navigate, registerModal));
             setEmail('');
             setPassword('');

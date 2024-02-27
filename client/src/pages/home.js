@@ -4,12 +4,11 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getPosts, getPostsLocation } from "../actions/posts";
 import Post from "../components/post";
-import useLocation from "../hooks/useLocation";
+import useLocationSelector from "../hooks/useLocation";
 import MoonLoader from "react-spinners/MoonLoader";
 
 function Home() {
     const dispatch = useDispatch();
-    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const [pageNumber, setPageNumber] = useState(1)
     const { posts, isLoading } = useSelector((state) => state.posts)
 
@@ -27,14 +26,13 @@ function Home() {
 
 
 
-    const { location } = useLocation();
+    const { location } = useLocationSelector();
 
     const preLocation = useRef();
     const prePage = useRef()
 
 
     useEffect(() => {
-        setLoginUser(JSON.parse(localStorage.getItem('profile')))
 
         if (preLocation.current !== location) {
             setPageNumber(1)
@@ -45,6 +43,7 @@ function Home() {
 
         preLocation.current = location;
         prePage.current = pageNumber;
+        
     }, [dispatch, location, pageNumber])
 
 
@@ -63,9 +62,9 @@ function Home() {
                         
                         {posts && posts.map((post, index) => {
                             if (posts.length === index + 1) {
-                                return <Post innerRef={lastEventElement} key={index} post={post} loginUser={loginUser} />
+                                return <Post innerRef={lastEventElement} key={index} post={post}/>
                             } else {
-                                return <Post key={index} post={post} loginUser={loginUser} />
+                                return <Post key={index} post={post} />
                             }
                         }
                         )}

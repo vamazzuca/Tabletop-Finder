@@ -13,6 +13,19 @@ export const getPosts = (location) => async (dispatch) => {
     
 }
 
+export const getPostBySearch = (searchQuery) => async (dispatch) => {
+    try {
+        dispatch({type: 'START_LOADING'})
+        const { data } = await api.fetchPostsBySearch(searchQuery)
+
+        dispatch({ type: 'FETCH_BY_SEARCH', payload: data.data })
+        dispatch({type: 'END_LOADING'})
+        console.log(data.data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const getPostsByUser = (userId) => async (dispatch) => {
     try {
         dispatch({type: 'START_LOADING'})
@@ -52,11 +65,14 @@ export const getPost = (id) => async (dispatch) => {
     
 }
 
-export const createPost = (post) => async (dispatch) => {
+export const createPost = (post, location) => async (dispatch) => {
     try {
         const { data } = await api.createPost(post);
 
-        dispatch({type: "CREATE", payload: data})
+        if (post.location === location) {
+            dispatch({type: "CREATE", payload: data})
+        }
+        
     } catch (error) {
         console.log(error)
     }

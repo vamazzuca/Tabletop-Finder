@@ -1,4 +1,5 @@
 import PostEvent from "../models/postEvent.js";
+import User from "../models/user.js";
 
 export const getPosts = async (req, res) => {
     const { location, page } = req.body;
@@ -45,13 +46,52 @@ export const getPostsByUser = async (req, res) => {
         const postEvents = await PostEvent.find({ creator: { $eq: userId }} )
                 .populate("members", "-password")
                 .populate("creator", "-password")
-                .sort({ createdAt: 1 })
+                .sort({ createdAt: -1 })
                 .limit(LIMIT)
                 .skip(startIndex)
         res.status(200).json(postEvents);
         
 
         
+    } catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
+
+export const getPostsBySearch = async (req, res) => {
+    const { searchQuery, location} = req.query;
+
+    try {
+        const LIMIT = 5;
+        //const startIndex = (Number(page) - 1) * LIMIT;
+        const total = await PostEvent.countDocuments({})
+
+        const regex = new RegExp(searchQuery, 'i');
+        const users = await User.find({ $or: [{ username: regex }, { name: regex }] });
+        const userIds = users.map(user => user._id);
+
+        let query = {
+            $or: [
+                { title: regex }, 
+                { creator: { $in: userIds } },
+            ]
+        };
+
+        if (location && location !== 'null') {
+            query = { $and: [{ ...query }, { location }] }; 
+        }
+
+       
+        const postEvents = await PostEvent.find(query)
+            .populate("members", "-password")
+            .populate("creator", "-password")
+            .sort({ createdAt: -1 })
+           
+        
+        
+        res.status(200).json({ data: postEvents, users: users });
+        
+     
     } catch (error) {
         res.status(404).json({message: error.message})
     }

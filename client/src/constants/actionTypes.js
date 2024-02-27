@@ -6,6 +6,7 @@ export const FETCH_POST = 'FETCH_POST';
 export const JOINEVENT = 'JOINEVENT';
 export const FETCH_ALL_LOCATION = 'FETCH_ALL_LOCATION';
 export const FETCH_BY_USER = 'FETCH_BY_USER';
+export const FETCH_BY_SEARCH = 'FETCH_BY_SEARCH'
 
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';

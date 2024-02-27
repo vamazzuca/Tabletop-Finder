@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as api from '../../api';
 import { v4 as uuidv4 } from 'uuid';
+import useLocationSelector from "../../hooks/useLocation";
 
 function PostModal() {
     const postModal = usePostModal();
@@ -23,7 +24,7 @@ function PostModal() {
     const [search, setSearch] = useState("")
     const [boardgameID, setboardgameId] = useState("")
     const [date, setDate] = useState(new Date())
-    const [location, setLocation] = useState("")
+    const [postLocation, setPostLocation] = useState("")
     const [partySize, setPartySize] = useState("")
     const [isLoading, setIsLoading] = useState(false);
     const [boardLoading, setBoardLoading] = useState(false);
@@ -32,12 +33,14 @@ function PostModal() {
     const boardgames = useSelector((state) => state.boardgames)
     const result = boardgames?.boardgameData?.result;
     
+    const { location } = useLocationSelector()
+    
     useEffect(() => {
         if (!postModal.isOpen) {
             setSearch("");
             setboardgameId("");
             setPartySize("");
-            setLocation("");
+            setPostLocation("");
         }
         setDate(new Date())
         setUser(JSON.parse(localStorage.getItem('profile')));
@@ -136,10 +139,14 @@ function PostModal() {
 
 
     const onSubmit = useCallback(async (e) => {
-        console.log(user)
+        
         try {
             setIsLoading(true);
             e.preventDefault();
+
+            if (parseInt(partySize) <= 0 || parseInt(partySize) > result.item.maxplayers.value) {
+                throw new Error('Party Size out of bounds')
+            } 
 
             const chatEventID = uuidv4();
             
@@ -147,7 +154,7 @@ function PostModal() {
                 title: Array.isArray(result?.item?.name) ? result?.item?.name[0].value : result?.item?.name.value,
                 year: result.item.yearpublished.value,
                 thumbnail: result.item.thumbnail,
-                location: location.label,
+                location: postLocation.label,
                 creator: user.result.id,
                 photo: result.item.image,
                 chatEventID: chatEventID,
@@ -172,7 +179,7 @@ function PostModal() {
             }
 
             dispatch(createGroupChat(groupChat))
-            dispatch(createPost(post));
+            dispatch(createPost(post, location));
             postModal.onClose();
             navigate("/");
         
@@ -181,7 +188,7 @@ function PostModal() {
         } finally {
             setIsLoading(false);
         }
-    }, [navigate, dispatch, result, location, user, date, partySize, postModal]);
+    }, [navigate, dispatch, result, postLocation, user, date, partySize, postModal, location]);
 
     const handleChange = (value) => {
         setSearch(value)
@@ -189,7 +196,7 @@ function PostModal() {
     }
 
     const handleLocationChange = (value) => {
-        setLocation(value)
+        setPostLocation(value)
     }
 
    
@@ -265,6 +272,7 @@ function PostModal() {
                         <Input
                             placeholder="Party Size"
                             onChange={(e) => setPartySize(e.target.value)}
+                            required={true}
                             maxLength={3}
                             value={partySize}
                             disabled={isLoading} />
@@ -275,7 +283,7 @@ function PostModal() {
                     placeholder="Search City..."
                     onChange={handleLocationChange}
                     loadOptions={promiseLocationOptions}
-                    value={location}
+                    value={postLocation}
                     disabled={isLoading} />
                 
                 <div className="flex justify-center">

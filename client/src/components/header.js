@@ -2,17 +2,18 @@ import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
 import LocationSearch from "./locationSearch";
 import { IoLocationSharp } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as api from '../api';
-import useLocation from "../hooks/useLocation";
+import useLocationSelector from "../hooks/useLocation";
+import { IoMdSearch } from "react-icons/io";
 
-function Header({ label, showBackArrow, showLocation }) {
+function Header({ label, showBackArrow, showLocation, showSearch, search, setSearch, handleKeyPress, setFilter, showFooter }) {
     
     const navigate = useNavigate();
     
     
-    const { setLocation } = useLocation()
-    const {location} = useLocation()
+    const { setLocation } = useLocationSelector()
+    const {location} = useLocationSelector()
 
     useEffect(() => {
         setLocation(localStorage.getItem('location'))
@@ -51,10 +52,7 @@ function Header({ label, showBackArrow, showLocation }) {
             console.log(error)
         } 
         
-        
-        
-       
-        
+            
     }
 
     const promiseLocationOptions = (inputValue) =>
@@ -65,7 +63,7 @@ function Header({ label, showBackArrow, showLocation }) {
     });
 
     const handleLocationChange = (value) => {
-        console.log(value)
+        
         if (value) {
             setLocation(value.label)
             localStorage.setItem('location', value.label)
@@ -78,8 +76,8 @@ function Header({ label, showBackArrow, showLocation }) {
     }
 
     return (
-        <div className="p-5 w-full">
-            <div className="flex flex-row items-center gap-2">
+        <div className=" flex flex-col gap-2 w-full">
+            <div className="px-5 pt-5 pb-3 flex w-full flex-row items-center gap-2">
                 
                     {
                         showBackArrow && (
@@ -87,17 +85,48 @@ function Header({ label, showBackArrow, showLocation }) {
                         )
                     }
                 
-                <div className="flex w-full gap-2 items-center justify-between">
-                    <h1 className="text-white text-lg lg:text-xl font-semibold">{label}</h1>
+                <div className="flex  flex-col md:flex-row w-full md:gap-4 md:items-center justify-between">
+                    
+                    {label && <h1 className="text-white text-lg lg:text-xl font-semibold">{label}</h1>}
 
+                    {showSearch && <div id="search" className=" 
+                        w-full
+                        border-2
+                        border-neutral-800
+                        flex
+                        flex-1
+                        bg-[#0B0C10]
+                        rounded-md
+                        focus-within:border-[#66FCF1]
+                        focus-within:border-2
+                        transition">
+                        <div className="pl-2 items-center flex ">
+                            <IoMdSearch size="24" color="white"/>
+                        </div>
+            
+            
+                        <input className="
+                            outline-none
+                            w-full
+                            p-2
+                            text-lg
+                            text-white
+                            placeholder-white
+                            w-full
+                            bg-[#0B0C10]"
+                            placeholder="Search"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyDown={handleKeyPress}/>
+                    </div>}
                     {
                         showLocation && (<div className="flex items-center">
                             <IoLocationSharp size={22} />
-                            <div className="w-[10rem] lg:w-[16rem]">
+                            <div className="w-full md:w-[16rem]">
                                 <LocationSearch placeholder={location ? location : "Search City..."}
                                     onChange={handleLocationChange}
                                     loadOptions={promiseLocationOptions}
-                                    value={location}
+                                    defaultValue={location}
                                     />
                             </div>
                         </div>)
@@ -106,8 +135,21 @@ function Header({ label, showBackArrow, showLocation }) {
                     
                    
                 </div>
+
+               
                 
             </div>
+
+            { showFooter && (<div className="flex w-full divide-x divide-neutral-800">
+                <div onClick={() => setFilter('events')} className="w-full py-4 hover:bg-blue-300 cursor-pointer hover:bg-opacity-10 text-center">
+                    <h1>Events</h1>
+                </div>
+                <div onClick={() => setFilter('users')} className="w-full py-4 hover:bg-blue-300 cursor-pointer hover:bg-opacity-10 text-center">
+                    <h1>Users</h1>
+                </div>
+            
+            </div>)
+            }
         </div>
         
     )

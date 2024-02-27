@@ -12,6 +12,7 @@ import RequireAuth from "./components/requireAuth";
 import { LocationProvider } from './Context/locationProvider';
 import Profile from './pages/profile';
 import UpdateModal from './components/modals/updateModal';
+import Search from './pages/search';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           <Routes>
             <Route path="/" exact Component={Home}></Route>
             <Route path='/event/:id' element={<Event />} />
+            <Route path='/search' element={<Search />} />
             <Route element={<RequireAuth/>}>
               <Route path='/messages' element={<Messages />} />
               <Route path='/messages/:id' element={<Chat />} />
