@@ -67,7 +67,7 @@ export const getPostsBySearch = async (req, res) => {
         const total = await PostEvent.countDocuments({})
 
         const regex = new RegExp(searchQuery, 'i');
-        const users = await User.find({ $or: [{ username: regex }, { name: regex }] });
+        const users = await User.find({ $or: [{ username: regex }, { name: regex }] }).select("-password");
         const userIds = users.map(user => user._id);
 
         let query = {

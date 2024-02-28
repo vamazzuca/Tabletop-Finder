@@ -8,6 +8,7 @@ import MoonLoader from "react-spinners/MoonLoader";
 import useUpdateModal from "../hooks/useUpdateModel";
 import { getPostsByUser } from "../actions/posts";
 import Post from "../components/post";
+import { useLocation } from "react-router";
 
 export default function Profile() {
 
@@ -18,6 +19,8 @@ export default function Profile() {
     const { postsUser, isLoading } = useSelector((state) => state.posts)
     const [pageNumber, setPageNumber] = useState(1)
     const { username } = useParams();
+  
+    const location = useLocation();
 
     const updateModal = useUpdateModal()
 
@@ -41,11 +44,18 @@ export default function Profile() {
     }, [updateModal])
 
 
+
     useEffect(() => {
-        
         dispatch(getUser({ username: username }))
-        dispatch(getPostsByUser({userId: userData?.result?.id, page: pageNumber}))
-    }, [dispatch, username, userData?.result?.id, updateModal, pageNumber])
+        if (userData?.result?.username === username) {
+            dispatch(getPostsByUser({ userId: userData?.result?.id, page: pageNumber }))
+        }
+    }, [dispatch, username, userData?.result?.id, updateModal, pageNumber, location, userData?.result?.username])
+
+
+    useEffect(() => {
+        setPageNumber(1)
+    }, [location])
 
     return (
         <div className="h-screen col-span-3 overflow-y-scroll flex grid grid-cols-3">

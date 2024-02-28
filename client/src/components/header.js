@@ -7,7 +7,7 @@ import * as api from '../api';
 import useLocationSelector from "../hooks/useLocation";
 import { IoMdSearch } from "react-icons/io";
 
-function Header({ label, showBackArrow, showLocation, showSearch, search, setSearch, handleKeyPress, setFilter, showFooter }) {
+function Header({ label, showBackArrow, showLocation, showSearch, search, setSearch, handleKeyPress, setFilter, showFooter, filter }) {
     
     const navigate = useNavigate();
     
@@ -132,20 +132,20 @@ function Header({ label, showBackArrow, showLocation, showSearch, search, setSea
                         </div>)
                     }
                     
-                    
-                   
+                                     
                 </div>
-
                
-                
             </div>
 
             { showFooter && (<div className="flex w-full divide-x divide-neutral-800">
-                <div onClick={() => setFilter('events')} className="w-full py-4 hover:bg-blue-300 cursor-pointer hover:bg-opacity-10 text-center">
-                    <h1>Events</h1>
+                <div onClick={() => setFilter('events')} className="w-full flex flex-col items-center hover:bg-blue-300 cursor-pointer hover:bg-opacity-10 text-center">
+                    <h1 className="py-4">Events</h1>
+                    {filter === 'events' ? <div className='w-1/4 border-[#66FCF1] border-b-2' /> : null}
                 </div>
-                <div onClick={() => setFilter('users')} className="w-full py-4 hover:bg-blue-300 cursor-pointer hover:bg-opacity-10 text-center">
-                    <h1>Users</h1>
+                
+                <div onClick={() => setFilter('users')} className="w-full flex flex-col items-center hover:bg-blue-300 cursor-pointer hover:bg-opacity-10 text-center">
+                    <h1 className="py-4 ">Users</h1>
+                    {filter === 'users' ? <div className='w-1/4 border-[#66FCF1] border-b-2' /> : null}
                 </div>
             
             </div>)

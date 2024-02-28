@@ -19,8 +19,8 @@ export const getPostBySearch = (searchQuery) => async (dispatch) => {
         const { data } = await api.fetchPostsBySearch(searchQuery)
 
         dispatch({ type: 'FETCH_BY_SEARCH', payload: data.data })
+        dispatch({ type: 'FETCH_BY_SEARCH_USERS', payload: data.users })
         dispatch({type: 'END_LOADING'})
-        console.log(data.data)
     } catch (error) {
         console.log(error)
     }
@@ -28,7 +28,8 @@ export const getPostBySearch = (searchQuery) => async (dispatch) => {
 
 export const getPostsByUser = (userId) => async (dispatch) => {
     try {
-        dispatch({type: 'START_LOADING'})
+        dispatch({ type: 'START_LOADING' })
+        console.log(userId)
         const { data } = await api.fetchPostsByUser(userId)
         
         dispatch({ type: 'FETCH_BY_USER', payload: data })
@@ -50,6 +51,14 @@ export const getPostsLocation = (location) => async (dispatch) => {
         console.log(error.message)
     }
     
+}
+
+export const reset = () => (dispatch) => {
+    try {
+        dispatch({ type: 'RESET'})
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const getPost = (id) => async (dispatch) => {

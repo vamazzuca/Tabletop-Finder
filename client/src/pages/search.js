@@ -1,12 +1,13 @@
 import Header from "../components/header"
 import { useState, useRef, useCallback } from "react"
 import { useNavigate, useLocation } from "react-router";
-import { getPostBySearch } from "../actions/posts";
+import { getPostBySearch, reset } from "../actions/posts";
 import { useSelector, useDispatch  } from "react-redux";
 import { useEffect } from "react";
 import useLocationSelector from "../hooks/useLocation";
 import Post from "../components/post";
 import MoonLoader from "react-spinners/MoonLoader";
+import Profile from "../components/footer/profile";
 
 
 function useQuery() {
@@ -18,9 +19,10 @@ export default function Search() {
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('events')
     const [pageNumber, setPageNumber] = useState(1)
+    const [message, setMessage] = useState(`Search for tabletop events in your area...`)
     
     const { location } = useLocationSelector()
-    const { posts, isLoading } = useSelector((state) => state.posts)
+    const { postsSearch, isLoading, users } = useSelector((state) => state.posts)
     
     const query = useQuery();
     const navigate = useNavigate();
@@ -46,6 +48,9 @@ export default function Search() {
             setSearch(searchQuery)
             dispatch(getPostBySearch({ search: searchQuery, location }))
             scrollToRef()
+            setMessage('No search results...')
+        } else {
+            dispatch(reset())
         }
         
         
@@ -72,6 +77,15 @@ export default function Search() {
         }
     }
 
+    const handleFilter = (value) => {
+        setFilter(value)
+        if (value === 'events' && !searchQuery) {
+            setMessage(`Search for tabletop events in your area...`)
+        } else if (value === 'users' && !searchQuery) {
+            setMessage('Search for users...')
+        }
+    }
+
     return (
         <div ref={divRef} className="h-screen col-span-3 overflow-y-scroll flex grid grid-cols-3">
                 <div className="h-full xl:px-30 col-span-3 xl:col-span-2"> 
@@ -83,7 +97,8 @@ export default function Search() {
                             showFooter={true}
                             showSearch={true}
                             search={search}
-                            setFilter={setFilter}
+                            filter={filter}
+                            setFilter={handleFilter}
                             setSearch={setSearch}
                             handleKeyPress={handleKeyPress} />
                         <hr className="h-px w-full border-0 dark:bg-neutral-800"></hr>
@@ -91,15 +106,42 @@ export default function Search() {
 
                     <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
                         
-                        {posts && posts.map((post, index) => {
-                            if (posts.length === index + 1) {
+                        {!isLoading && postsSearch && filter === 'events' && postsSearch.map((post, index) => {
+                            if (postsSearch.length === index + 1) {
                                 return <Post innerRef={lastEventElement} key={index} post={post}/>
                             } else {
                                 return <Post key={index} post={post} />
                             }
+                            
+                        }
+                            
+                        )}
+
+                        {!isLoading && users && filter === 'users' && users.map((user, index) => {
+                            if (users.length === index + 1) {
+                                return <Profile innerRef={lastEventElement} key={index} user={user}/>
+                            } else {
+                                return <Profile key={index} user={user} />
+                            }
                         }
                         )}
-                        {isLoading ? <div className="flex items-center"><MoonLoader size={30 } color="#66FCF1"/></div>: null}
+                        
+                        
+                                {isLoading ? (
+                                    <div className="flex items-center">
+                                        <MoonLoader size={30} color="#66FCF1" />
+                                    </div>
+                                ) : (
+                                    <>
+                                        {filter === 'events' && postsSearch.length === 0 && (
+                                            <h1 className="text-white mt-10 text-base md:text-2xl p-2">{message}</h1>
+                                        )}
+                                        {filter === 'users' && users.length === 0 && (
+                                            <h1 className="text-white mt-10 text-base md:text-2xl p-2">{message}</h1>
+                                        )}
+                                    </>
+                                )
+                            }
                     </div>
                 </div>
 
