@@ -1,11 +1,11 @@
 import { GETUSER, UPDATEUSER, START_LOADING, END_LOADING } from '../constants/actionTypes';
 
-const userReducer = (state = {isLoading: false, userData: null}, action) => {
+const userReducer = (state = {isLoadingUser: false, userData: null}, action) => {
     switch (action.type) {
         case START_LOADING:
-            return { ...state, isLoading: true }
+            return { ...state, isLoadingUser: true }
         case END_LOADING:
-            return { ...state, isLoading: false }
+            return { ...state, isLoadingUser: false }
         case GETUSER:
             return { ...state, userData: action?.data };
         case UPDATEUSER:

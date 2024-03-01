@@ -15,7 +15,7 @@ export default function Profile() {
 
     const dispatch = useDispatch();
 
-    const { userData } = useSelector((state) => state.user)
+    const { userData, isLoadingUser } = useSelector((state) => state.user)
     const { postsUser, isLoading } = useSelector((state) => state.posts)
     const [pageNumber, setPageNumber] = useState(1)
     const { username } = useParams();
@@ -87,7 +87,7 @@ export default function Profile() {
                             </button>
                                 
                         </div>
-                        <div className="flex flex-col items-center gap-2 w-11/12 pb-4">
+                        {isLoadingUser ? <MoonLoader size={20 } color="#66FCF1"/> :<div className="flex flex-col items-center gap-2 w-11/12 pb-4">
                         
                             <img className={userData?.result?.photo ? "w-28 h-28 rounded-full object-cover" : "w-28 h-28 rounded-full bg-white object-cover"}
                                 src={userData?.result?.photo ? userData?.result?.photo : "/images/Default_pfp.svg.png"} alt="Rounded avatar" />
@@ -100,20 +100,20 @@ export default function Profile() {
                                             text-center
                                             overflow-hidden">
                 
-                                    <h1 className="text-lg font-semibold text-white truncate">{userData?.result?.name}</h1>
-                                    <h2 className="text-gray-400 truncate">{userData?.result?.username}</h2>
-                                    <div className="flex items-center justify-center gap-2">
-                                        <IoLocationSharp size={20} color="gray" />
-                                        <p className="text-gray-400">{userData?.result?.location ? userData?.result?.location : "No Location"}</p>
-                                    </div>
-                                    <p className="pt-1 w-3/4 text-gray-400 line-clamp-2">{userData?.result?.bio ? userData?.result?.bio : "This user currently has no biography..."}</p>
-        
+                                <h1 className="text-lg font-semibold text-white truncate">{userData?.result?.name}</h1>
+                                <h2 className="text-gray-400 truncate">{userData?.result?.username}</h2>
+                                <div className="flex items-center justify-center gap-2">
+                                    {userData?.result?.location ? <IoLocationSharp size={20} color="gray" /> : null}
+                                    <p className="text-gray-400">{userData?.result?.location ? userData?.result?.location : null}</p>
                                 </div>
+                                <p className="pt-1 w-3/4 text-gray-400 line-clamp-2">{userData?.result?.bio ? userData?.result?.bio : null}</p>
+        
+                            </div>
                             
-                        </div>
+                        </div>}
                         <hr className="h-px w-11/12 border-0 dark:bg-neutral-800"></hr>
                     </div>
-
+                    
                     <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
                         
                         {postsUser && postsUser.map((post, index) => {

@@ -59,11 +59,11 @@ export const getPostsByUser = async (req, res) => {
 }
 
 export const getPostsBySearch = async (req, res) => {
-    const { searchQuery, location} = req.query;
+    const { searchQuery, location, page} = req.query;
 
     try {
         const LIMIT = 5;
-        //const startIndex = (Number(page) - 1) * LIMIT;
+        const startIndex = (Number(page) - 1) * LIMIT;
         const total = await PostEvent.countDocuments({})
 
         const regex = new RegExp(searchQuery, 'i');
@@ -86,6 +86,8 @@ export const getPostsBySearch = async (req, res) => {
             .populate("members", "-password")
             .populate("creator", "-password")
             .sort({ createdAt: -1 })
+            .limit(LIMIT)
+            .skip(startIndex)
            
         
         

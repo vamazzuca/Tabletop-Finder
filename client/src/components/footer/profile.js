@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 
 
-function Profile({user}) {
+function Profile({user, innerRef}) {
 
     
     return (
-        <Link className="
+        <Link ref={innerRef } className="
             bg-[#1f2833]
             sticky 
             top-3

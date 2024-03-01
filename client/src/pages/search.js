@@ -46,15 +46,15 @@ export default function Search() {
        
         if (searchQuery) {
             setSearch(searchQuery)
-            dispatch(getPostBySearch({ search: searchQuery, location }))
-            scrollToRef()
+            dispatch(getPostBySearch({ search: searchQuery, location, page: pageNumber  }))
+           
             setMessage('No search results...')
         } else {
             dispatch(reset())
         }
         
-        
-    }, [searchQuery, dispatch, location])
+        console.log(pageNumber)
+    }, [searchQuery, dispatch, location, pageNumber, filter])
     
     const observer = useRef()
     const lastEventElement = useCallback(node => {
@@ -70,6 +70,9 @@ export default function Search() {
 
     const searchPost = () => {
         if (search.trim()) {
+            scrollToRef()
+            dispatch(reset())
+            setPageNumber(1)
             dispatch(getPostBySearch({ search, location }))
             navigate(`/search?searchQuery=${search || 'none'}`)
         } else {
@@ -79,6 +82,7 @@ export default function Search() {
 
     const handleFilter = (value) => {
         setFilter(value)
+        setPageNumber(1)
         if (value === 'events' && !searchQuery) {
             setMessage(`Search for tabletop events in your area...`)
         } else if (value === 'users' && !searchQuery) {
@@ -106,7 +110,7 @@ export default function Search() {
 
                     <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
                         
-                        {!isLoading && postsSearch && filter === 'events' && postsSearch.map((post, index) => {
+                        {postsSearch && filter === 'events' && postsSearch.map((post, index) => {
                             if (postsSearch.length === index + 1) {
                                 return <Post innerRef={lastEventElement} key={index} post={post}/>
                             } else {
@@ -117,7 +121,7 @@ export default function Search() {
                             
                         )}
 
-                        {!isLoading && users && filter === 'users' && users.map((user, index) => {
+                        {users && filter === 'users' && users.map((user, index) => {
                             if (users.length === index + 1) {
                                 return <Profile innerRef={lastEventElement} key={index} user={user}/>
                             } else {

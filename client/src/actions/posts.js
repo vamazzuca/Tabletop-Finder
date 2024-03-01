@@ -9,6 +9,7 @@ export const getPosts = (location) => async (dispatch) => {
         dispatch({type: 'END_LOADING'})
     } catch (error) {
         console.log(error.message)
+        dispatch({type: 'END_LOADING'})
     }
     
 }
@@ -49,6 +50,7 @@ export const getPostsLocation = (location) => async (dispatch) => {
         dispatch({type: 'END_LOADING'})
     } catch (error) {
         console.log(error.message)
+        dispatch({type: 'END_LOADING'})
     }
     
 }
