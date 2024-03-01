@@ -8,6 +8,7 @@ export const FETCH_ALL_LOCATION = 'FETCH_ALL_LOCATION';
 export const FETCH_BY_USER = 'FETCH_BY_USER';
 export const FETCH_BY_SEARCH = 'FETCH_BY_SEARCH'
 export const FETCH_BY_SEARCH_USERS = 'FETCH_BY_SEARCH_USERS'
+export const FETCH_BY_MEMBER = 'FETCH_BY_MEMBER'
 
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';

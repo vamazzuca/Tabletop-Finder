@@ -9,7 +9,8 @@ export const fetchPost = (id) => API.get(`/posts/${id}`);
 export const createPost = (newPost) => API.post("/posts/create", newPost);
 export const joinEvent = (post) => API.post("/posts/join-event", post);
 export const fetchPostsByUser = (userId) => API.post("/posts/user", userId);
-export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&location=${searchQuery.location}&page=${searchQuery.page}`)
+export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&location=${searchQuery.location}&page=${searchQuery.page}`);
+export const fetchPostsByMember = (member) => API.post("/posts/member", member);
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);

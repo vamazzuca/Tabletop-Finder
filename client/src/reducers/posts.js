@@ -1,5 +1,5 @@
 
-const postReducer = (state = { isLoading: false, posts: [], postsUser: [], postsSearch: [], users: []}, action) => {
+const postReducer = (state = { isLoading: false, posts: [], postsUser: [], postsSearch: [], users: [], postsMember: []}, action) => {
     switch (action.type) {
         case 'START_LOADING':
             return { ...state, isLoading: true };
@@ -13,6 +13,9 @@ const postReducer = (state = { isLoading: false, posts: [], postsUser: [], posts
             return { ...state, postsSearch: mergePosts(state.postsSearch, action.payload) };
         case 'FETCH_BY_SEARCH_USERS':
             return { ...state, users: mergePosts(state.users, action.payload) };
+        case 'FETCH_BY_MEMBER':
+            
+            return { ...state, postsMember: mergePosts(state.postsMember, action.payload) };
         case 'FETCH_ALL_LOCATION':
             return { ...state, posts: action.payload };
         case 'FETCH_POST':

@@ -30,10 +30,26 @@ export const getPostBySearch = (searchQuery) => async (dispatch) => {
 export const getPostsByUser = (userId) => async (dispatch) => {
     try {
         dispatch({ type: 'START_LOADING' })
-        console.log(userId)
+        
         const { data } = await api.fetchPostsByUser(userId)
         
         dispatch({ type: 'FETCH_BY_USER', payload: data })
+        dispatch({type: 'END_LOADING'})
+    } catch (error) {
+        console.log(error.message)
+    }
+    
+}
+
+
+export const getPostsByMember = (userId) => async (dispatch) => {
+    try {
+        dispatch({ type: 'START_LOADING' })
+        
+        
+        const { data } = await api.fetchPostsByMember(userId)
+       
+        dispatch({ type: 'FETCH_BY_MEMBER', payload: data })
         dispatch({type: 'END_LOADING'})
     } catch (error) {
         console.log(error.message)

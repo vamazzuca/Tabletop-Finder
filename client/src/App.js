@@ -13,6 +13,7 @@ import { LocationProvider } from './Context/locationProvider';
 import Profile from './pages/profile';
 import UpdateModal from './components/modals/updateModal';
 import Search from './pages/search';
+import Groups from './pages/groups';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
             <Route path='/search' element={<Search />} />
             <Route element={<RequireAuth/>}>
               <Route path='/messages' element={<Messages />} />
+              <Route path='/groups' element={<Groups />} />
               <Route path='/messages/:id' element={<Chat />} />
               <Route path='/profile/:username' element={<Profile/>} />
             </Route>
