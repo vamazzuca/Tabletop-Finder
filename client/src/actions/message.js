@@ -27,12 +27,4 @@ export const fetchMessages = (id, socket) => async (dispatch) => {
     
 }
 
-export const fetchMessage = (id) => async (dispatch) => {
-    try {
-        const { data } = await api.fetchMessages(id)
-        dispatch({ type: 'FETCHMESSAGES', payload: data})
-    } catch (error) {
-        console.log(error.message)
-    }
-    
-}
+

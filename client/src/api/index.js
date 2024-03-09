@@ -4,10 +4,13 @@ const API = axios.create({ baseURL: "http://localhost:5000"})
 
 
 
-export const fetchPosts = () => API.get("/posts");
+export const fetchPosts = (location) => API.post("/posts", location);
 export const fetchPost = (id) => API.get(`/posts/${id}`);
-export const createPost = (newPost) => API.post("/posts", newPost);
+export const createPost = (newPost) => API.post("/posts/create", newPost);
 export const joinEvent = (post) => API.post("/posts/join-event", post);
+export const fetchPostsByUser = (userId) => API.post("/posts/user", userId);
+export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&location=${searchQuery.location}&page=${searchQuery.page}`);
+export const fetchPostsByMember = (member) => API.post("/posts/member", member);
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
@@ -18,6 +21,7 @@ export const boardGameData = (formData) => API.post("/boardgames/boardgame-data"
 export const locationSearch = (formData) => API.post("/location/search-location", formData)
 
 export const getUser = (formData => API.post("/user/getuser", formData))
+export const updateUser = (user => API.put("/user/updateuser", user))
 
 
 export const createGroupChat = (newChat => API.post("/chat/group-chat", newChat))

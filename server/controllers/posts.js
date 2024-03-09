@@ -1,14 +1,124 @@
 import PostEvent from "../models/postEvent.js";
+import User from "../models/user.js";
 
 export const getPosts = async (req, res) => {
+    const { location, page } = req.body;
+   
     try {
-        const postEvents = await PostEvent.find()
-            .populate("members", "-password")
-            .populate("creator", "-password")
+        const LIMIT = 5;
+        const startIndex = (Number(page) - 1) * LIMIT;
+        const total = await PostEvent.countDocuments({})
+
+        if (location) {
+            const postEvents = await PostEvent.find({ location: { $eq: location } , "date" : { $gte : new Date() }} )
+                .populate("members", "-password")
+                .populate("creator", "-password")
+                .sort({ date: 1 })
+                .limit(LIMIT)
+                .skip(startIndex)
+            res.status(200).json(postEvents);
+        } else {
+            const postEvents = await PostEvent.find({"date" : { $gte : new Date() }})
+                .populate("members", "-password")
+                .populate("creator", "-password")
+                .sort({ date: 1 })
+                .limit(LIMIT)
+                .skip(startIndex)
+            res.status(200).json(postEvents);
+        }
 
         
+    } catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
 
+
+export const getPostsByUser = async (req, res) => {
+    const { userId, page } = req.body;
+   
+    try {
+        const LIMIT = 5;
+        const startIndex = (Number(page) - 1) * LIMIT;
+        const total = await PostEvent.countDocuments({})
+
+        
+        const postEvents = await PostEvent.find({ creator: { $eq: userId }} )
+                .populate("members", "-password")
+                .populate("creator", "-password")
+                .sort({ createdAt: -1 })
+                .limit(LIMIT)
+                .skip(startIndex)
         res.status(200).json(postEvents);
+        
+
+        
+    } catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
+
+export const getPostsByMember = async (req, res) => {
+    const { userId, page } = req.body;
+   
+    try {
+        const LIMIT = 5;
+        const startIndex = (Number(page) - 1) * LIMIT;
+        const total = await PostEvent.countDocuments({})
+
+        
+        const postEvents = await PostEvent.find({ members: { $elemMatch: { $eq: userId } } } )
+                .populate("members", "-password")
+                .populate("creator", "-password")
+                .sort({ createdAt: -1 })
+                .limit(LIMIT)
+                .skip(startIndex)
+        
+        res.status(200).json(postEvents);
+        
+
+        
+    } catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
+
+export const getPostsBySearch = async (req, res) => {
+    const { searchQuery, location, page} = req.query;
+
+    try {
+        const LIMIT = 5;
+        const startIndex = (Number(page) - 1) * LIMIT;
+        const total = await PostEvent.countDocuments({})
+
+        const regex = new RegExp(searchQuery, 'i');
+        const users = await User.find({ $or: [{ username: regex }, { name: regex }] }).select("-password");
+        const userIds = users.map(user => user._id);
+
+        let query = {
+            $or: [
+                { title: regex }, 
+                { creator: { $in: userIds } },
+            ]
+        };
+
+        if (location && location !== 'null') {
+            query = { $and: [{ ...query }, { location }] }; 
+        }
+
+       
+        const postEvents = await PostEvent.find(query)
+            .populate("members", "-password")
+            .populate("creator", "-password")
+            .sort({ createdAt: -1 })
+            .limit(LIMIT)
+            .skip(startIndex)
+           
+        
+        
+        res.status(200).json({ data: postEvents, users: users });
+        
+     
     } catch (error) {
         res.status(404).json({message: error.message})
     }

@@ -24,6 +24,9 @@ const postSchema = mongoose.Schema({
         default: new Date()
     }
 
+},
+{
+    timestamps: true
 })
 
 const PostEvent = mongoose.model('PostEvent', postSchema)

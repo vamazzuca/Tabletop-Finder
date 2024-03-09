@@ -9,6 +9,11 @@ import Event from './pages/event';
 import { Navigate } from 'react-router-dom';
 import Chat from './pages/chat';
 import RequireAuth from "./components/requireAuth";
+import { LocationProvider } from './Context/locationProvider';
+import Profile from './pages/profile';
+import UpdateModal from './components/modals/updateModal';
+import Search from './pages/search';
+import Groups from './pages/groups';
 
 function App() {
 
@@ -16,20 +21,29 @@ function App() {
   return (
 
     <>
-      <Sidebar />
-      <Routes>
-        <Route path="/" exact Component={Home}></Route>
-        <Route path='/event/:id' element={<Event />} />
-        <Route element={<RequireAuth/>}>
-          <Route path='/messages' element={<Messages />} />
-          <Route path='/messages/:id' element={<Chat />} />
-        </Route>
+      
+        <LocationProvider>
+          <Sidebar />
         
-        <Route path="*" element={<Navigate to='/' />}></Route>
-      </Routes>
-      <RegisterModal/>
-      <LoginModal />
-      <PostModal/>
+          <Routes>
+            <Route path="/" exact Component={Home}></Route>
+            <Route path='/event/:id' element={<Event />} />
+            <Route path='/search' element={<Search />} />
+            <Route element={<RequireAuth/>}>
+              <Route path='/messages' element={<Messages />} />
+              <Route path='/groups' element={<Groups />} />
+              <Route path='/messages/:id' element={<Chat />} />
+              <Route path='/profile/:username' element={<Profile/>} />
+            </Route>
+            
+            <Route path="*" element={<Navigate to='/' />}></Route>
+          </Routes>
+          <RegisterModal/>
+          <LoginModal />
+          <PostModal />
+          <UpdateModal/>
+        </LocationProvider>
+     
     </>
   );
 }

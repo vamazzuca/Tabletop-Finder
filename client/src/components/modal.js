@@ -57,6 +57,7 @@ function Modal({ isOpen, onClose, disabled, title, body, footer }) {
                         focus:outline-none'>
                         
                         <div className='
+                            
                             flex
                             items-center
                             justify-between
@@ -78,7 +79,7 @@ function Modal({ isOpen, onClose, disabled, title, body, footer }) {
                     
                         </div>
                         
-                        <div className='realtive p-10 flex-auto'>
+                        <div className='realtive p-8 flex-auto'>
                             {body}
                             {footer}
                         </div>

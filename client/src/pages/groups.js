@@ -2,15 +2,16 @@ import Header from "../components/header";
 import Footer from "../components/footer/footer";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getPosts, getPostsLocation } from "../actions/posts";
+import { getPostsByMember } from "../actions/posts";
 import Post from "../components/post";
-import useLocationSelector from "../hooks/useLocation";
+
 import MoonLoader from "react-spinners/MoonLoader";
 
-function Home() {
+function Groups() {
     const dispatch = useDispatch();
     const [pageNumber, setPageNumber] = useState(1)
-    const { posts, isLoading } = useSelector((state) => state.posts)
+    const { postsMember, isLoading } = useSelector((state) => state.posts)
+    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
     const observer = useRef()
     const lastEventElement = useCallback(node => {
@@ -25,26 +26,11 @@ function Home() {
     }, [])
 
 
-
-    const { location } = useLocationSelector();
-
-    const preLocation = useRef();
-    const prePage = useRef()
-
-
     useEffect(() => {
-
-        if (preLocation.current !== location) {
-            setPageNumber(1)
-            dispatch(getPostsLocation({ location: location, page: pageNumber }))  
-        } else {
-            dispatch(getPosts({ location: location, page: pageNumber }))
-        }
-
-        preLocation.current = location;
-        prePage.current = pageNumber;
-        
-    }, [dispatch, location, pageNumber])
+            setLoginUser(JSON.parse(localStorage.getItem('profile')))
+            dispatch(getPostsByMember({ userId: loginUser.result.id, page: pageNumber }))
+           
+    }, [dispatch, pageNumber, loginUser.result.id])
 
 
     return (
@@ -53,15 +39,15 @@ function Home() {
                 
                 <div className="flex h-full flex-col items-center">
                         <div className="w-11/12 sticky z-10 top-0 bg-[#0B0C10]">
-                            <Header label="Home" showLocation={true}/>
+                            <Header label="My Groups"/>
                             <hr className="h-px w-full border-0 dark:bg-neutral-800"></hr>
                         </div>
                         
                     
                     <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
                         
-                        {posts && posts.map((post, index) => {
-                            if (posts.length === index + 1) {
+                        {postsMember && postsMember.map((post, index) => {
+                            if (postsMember.length === index + 1) {
                                 return <Post innerRef={lastEventElement} key={index} post={post}/>
                             } else {
                                 return <Post key={index} post={post} />
@@ -79,5 +65,8 @@ function Home() {
         </div>
       
     );
-  }
-  export default Home;
+}
+  
+
+
+export default Groups;

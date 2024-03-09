@@ -25,7 +25,7 @@ function Footer() {
             hidden
             xl:flex
             xl:col-span-1">
-            {user ? <Profile user={user} />: null}
+            {user ? <Profile user={user.result} />: null}
         </div>
     )
 }

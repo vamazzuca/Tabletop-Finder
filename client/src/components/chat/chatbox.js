@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { IoIosSend } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { getChat } from "../../actions/chats";
-import { fetchMessages, sendMessage, fetchMessage } from "../../actions/message";
+import { fetchMessages, sendMessage, addMessage } from "../../actions/message";
 import { isSameSenderMargin, isSameUser, isLastMessage, isSameSender } from "./chatLogic";
 import io from "socket.io-client"
 import { UserState } from "../../Context/UserProvider";
@@ -49,7 +49,7 @@ function ChatBox({chatid}) {
             if (!selectedChatCompare || selectedChatCompare !== newMessageRecieved.chat._id) {
                 // Notification
             } else {
-                dispatch(fetchMessage(chatid))
+                dispatch(addMessage(newMessageRecieved))
                 
             }
         })
@@ -95,13 +95,13 @@ function ChatBox({chatid}) {
                 
                 {messages.messages && user && messages.messages.map((message, i) => (
             
-                        <div className="flex" key={i}>
+                        <div className="flex gap-1" key={i}>
 
                         
                             {(isSameSender(messages.messages, message, i, user.result.id) ||
                                 isLastMessage(messages.messages, i, user.result.id)) && (
                                 <div className="tooltip tooltip-right " data-tip={message.sender.name}>
-                                    <img className="w-8 h-8 mt-[11px] mr-1 cursor-pointer rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
+                                    <img className="w-8 h-8 mt-[11px] cursor-pointer rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
                                 </div>
                                     
                                 )}
