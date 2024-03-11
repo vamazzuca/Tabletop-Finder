@@ -35,7 +35,7 @@ function Post({ post, innerRef }) {
 
 
     return (
-        <Link ref={innerRef } className="w-10/12 lg:w-[30rem] cursor-pointer border-4 border-neutral-800 rounded-lg flex flex-col overflow-hidden" to={`/event/${post._id}`}>
+        <Link ref={innerRef } className="w-10/12 lg:w-[30rem] cursor-pointer border-2 border-neutral-800 rounded-lg flex flex-col overflow-hidden" to={`/event/${post._id}`}>
             
                 
                 <div className="flex flex-col p-4 w-full gap-2">

@@ -26,7 +26,7 @@ function Event() {
     
 
     return (
-        < div className = "h-screen col-span-3 overflow-y-scroll flex grid grid-cols-3" >
+        < div className = "h-screen col-span-4 sm:col-span-3 overflow-y-scroll flex grid grid-cols-3" >
             <div className="h-full xl:px-30 col-span-3 xl:col-span-2"> 
                 
                 <div className="flex h-full flex-col items-center">
@@ -36,7 +36,7 @@ function Event() {
                         </div>
                         
                     {isLoading ? <div className="flex mt-4 items-center"><MoonLoader size={50} color="#66FCF1" /></div> :
-                        <div className="mt-4 mb-4 flex flex-col w-10/12 h-full border-4 border-neutral-800 rounded-lg overflow-hidden">
+                        <div className="mt-4 mb-4 flex flex-col w-10/12 h-full border-2 border-neutral-800 rounded-lg overflow-hidden">
                         <div className="flex flex-col p-4 w-full gap-2">
                             <div className='flex gap-2 items-center'>
                                 <img className=" w-8 h-8 md:w-12 md:h-12 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />

@@ -14,6 +14,7 @@ import Profile from './pages/profile';
 import UpdateModal from './components/modals/updateModal';
 import Search from './pages/search';
 import Groups from './pages/groups';
+import Navbar from './components/sidebar/navbar';
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
       
         <LocationProvider>
           <Sidebar />
-        
+          <Navbar />
           <Routes>
             <Route path="/" exact Component={Home}></Route>
             <Route path='/event/:id' element={<Event />} />

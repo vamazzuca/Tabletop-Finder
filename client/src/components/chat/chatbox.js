@@ -86,11 +86,11 @@ function ChatBox({chatid}) {
      }
 
     return (
-        <div className="h-full bg-[#1f2833]  flex flex-col p-4 overflow-auto gap-2 xl:col-span-2 col-span-3 rounded-lg">
+        <div className="h-full bg-[#0B0C10] border-2  border-neutral-800  flex flex-col p-4 overflow-auto gap-2 xl:col-span-2 col-span-3 rounded-lg">
             <div className="text-white  p-1 text-lg font-bold line-clamp-1">{chat?.chat[0]?.chatName} ({chat?.chat[0]?.year}) Group Chat</div>
 
           
-                <div className="h-full  w-full p-3 text-black d-flex flex-column overflow-auto align-items-start justify-end rounded-lg bg-[#151C23]">
+                <div className="h-full  w-full p-3 text-black d-flex flex-column overflow-auto align-items-start justify-end rounded-lg bg-[#0B0C10]">
                 
                 
                 {messages.messages && user && messages.messages.map((message, i) => (
@@ -142,9 +142,9 @@ function ChatBox({chatid}) {
                         p-4
                         text-lg
                         placeholder-white
-                        bg-[#151C23]
+                        bg-[#0B0C10]
                         border-2
-                        border-gray-700
+                        border-neutral-800
                         rounded-md
                         outline-none
                         text-white

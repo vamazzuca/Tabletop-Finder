@@ -58,7 +58,7 @@ export default function Profile() {
     }, [location])
 
     return (
-        <div className="h-screen col-span-3 overflow-y-scroll flex grid grid-cols-3">
+        <div className="h-screen col-span-4 sm:col-span-3 overflow-y-scroll flex grid grid-cols-3">
                 <div className="h-full xl:px-30 col-span-3 xl:col-span-2"> 
                 
                 <div className="flex h-full flex-col items-center">
@@ -90,7 +90,7 @@ export default function Profile() {
                         {isLoadingUser ? <MoonLoader size={20 } color="#66FCF1"/> :<div className="flex flex-col items-center gap-2 w-11/12 pb-4">
                         
                             <img className={userData?.result?.photo ? "w-28 h-28 rounded-full object-cover" : "w-28 h-28 rounded-full bg-white object-cover"}
-                                src={userData?.result?.photo ? userData?.result?.photo : "/images/Default_pfp.svg.png"} alt="Rounded avatar" />
+                                src={userData?.result?.photo ? userData?.result?.photo : "/images/Default_pfp.svg.png"} alt="" />
                             <div className="
                                             gap-1
                                             flex

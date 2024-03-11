@@ -34,7 +34,7 @@ function Groups() {
 
 
     return (
-        <div className="h-screen col-span-3 overflow-y-scroll flex grid grid-cols-3">
+        <div className="h-screen col-span-4 sm:col-span-3 overflow-y-scroll flex grid grid-cols-3">
             <div className="h-full xl:px-30 col-span-3 xl:col-span-2"> 
                 
                 <div className="flex h-full flex-col items-center">

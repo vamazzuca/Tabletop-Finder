@@ -12,6 +12,7 @@ import useLoginModal from "../../hooks/useLoginModel";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { Link } from "react-router-dom";
 
 
 import usePostModal from "../../hooks/usePostModel";
@@ -90,8 +91,8 @@ function Sidebar() {
     }, [location, Logout, user?.token]);
 
     return (
-        <div className="col-span-1 h-full pr-4 md:pr-6 py-2">
-            <div className="flex flex-col items-end">
+        <div className="hidden sm:block sm:col-span-1 h-full pr-4 md:pr-6 py-2">
+            <div className="flex flex-col items-end justify-between h-full">
                 <div className="space-y-2 lg:w-[260px]">
                     <SidebarTitle href={"/"} />
                     <SidebarTabs
@@ -114,7 +115,18 @@ function Sidebar() {
                     ))}
                     {user ? <SidebarTabs onClick={Logout} icon={BiLogOut} label={"Logout"} /> : <SidebarTabs onClick={onClickLogin} icon={BiLogIn} label={"Login"} />}
                     <PostButton onClick={onClickPost} />
+
+                    
                 </div>
+                {user ? <Link className="flex lg:w-[260px] gap-6  p-2 rounded-full hover:bg-slate-300 hover:bg-opacity-10 cursor-pointer" to={`/profile/${user?.result?.username}`}>
+                    
+                    <img className={user?.result?.photo ? "w-14 h-14 rounded-full object-cover" : "w-14 h-14 rounded-full bg-white object-cover"}
+                                src={user?.result?.photo ? user?.result?.photo : "/images/Default_pfp.svg.png"} alt="" />
+                    <div className="hidden lg:flex flex-col justify-center">
+                        <h1 className="font-semibold text-white truncate">{user?.result?.name}</h1>
+                        <h2 className="text-gray-400 truncate">{user?.result?.username}</h2>
+                    </div>
+                </Link>: null}
             </div>
         </div>
     )

@@ -10,6 +10,7 @@ function Profile({user, innerRef}) {
         <Link ref={innerRef } className="
             bg-[#1f2833]
             sticky 
+            hidden
             top-3
             w-[300px]
             h-[320px]
