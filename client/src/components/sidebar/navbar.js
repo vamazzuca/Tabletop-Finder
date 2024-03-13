@@ -35,7 +35,7 @@ function Navbar() {
     const location = useLocation();
     const postModal = usePostModal();
    
-
+    console.log(window.location.pathname.split("/")[1]);
     
 
     const onClickLogin = useCallback(() => {
@@ -102,9 +102,10 @@ function Navbar() {
                         {user ? <SidebarTabs onClick={Logout} icon={BiLogOut} /> : <SidebarTabs onClick={onClickLogin} icon={BiLogIn}  />}
                         
                 </div>
-                <div className="absolute bottom-20 right-0">
-                    <PostButton onClick={onClickPost}/>
-                </div>
+                {window.location.pathname.split("/")[1] === 'messages' ? null :
+                    <div className="absolute bottom-20 right-3">
+                    <PostButton onClick={onClickPost} />
+                </div>}
                 
             </div>
         </div>

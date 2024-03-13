@@ -1,7 +1,7 @@
 import Header from "../components/header";
 import Footer from "../components/footer/footer";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getPost } from "../actions/posts";
 import { useParams } from "react-router";
 import dateFormat from 'dateformat'
@@ -10,7 +10,7 @@ import MoonLoader from "react-spinners/MoonLoader";
 
 
 function Event() {
-
+    const [isOpen, setIsOpen] = useState(false)
     const dispatch = useDispatch();
     const { post, isLoading } = useSelector((state) => state.posts)
     
@@ -38,16 +38,33 @@ function Event() {
                     {isLoading ? <div className="flex mt-4 items-center"><MoonLoader size={50} color="#66FCF1" /></div> :
                         <div className="mt-4 mb-4 flex flex-col w-10/12 h-full border-2 border-neutral-800 rounded-lg overflow-hidden">
                         <div className="flex flex-col p-4 w-full gap-2">
-                            <div className='flex gap-2 items-center'>
-                                <img className=" w-8 h-8 md:w-12 md:h-12 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
-                                <h1 className='text-white text-sm md:text-lg font-bold'>{post?.creator?.name}</h1>
-                                        
-                                        
-                                <div className='flex gap-1 text-sm text-gray-400 md:text-lg'>
-                                    <p>{post?.creator?.username}</p>
-                                    <p>&#8226;</p>
-                                    <p>{dateFormat(post?.createdAt, "mmm dS")}</p>
-                                </div>
+                                <div className='flex gap-2 items-center justify-between'>
+                                    <div className="flex gap-2 items-center">
+                                        <img className=" w-8 h-8 md:w-12 md:h-12 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
+                                        <h1 className='text-white text-sm md:text-lg font-bold'>{post?.creator?.name}</h1>
+                                            
+                                            
+                                        <div className='flex gap-1 text-sm text-gray-400 md:text-lg'>
+                                            <p>{post?.creator?.username}</p>
+                                            <p>&#8226;</p>
+                                            <p>{dateFormat(post?.createdAt, "mmm dS")}</p>
+                                        </div>
+                                    </div>
+                                
+                                    <div className="relative">
+                                        <button onClick={() => setIsOpen((prev) => !prev) } id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100  focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-[#0B0C10] dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                                                <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                            </svg>
+                                            
+                                        </button>
+                                        {isOpen && (
+                                            <div className="bg-[#FF0000] hover:bg-opacity-80 text-black font-semibold cursor-pointer absolute rounded-lg text-lg p-2 top-10 right-[1px]">
+                                                <h1>Leave</h1>
+                                            </div>
+                                        )}
+                                    </div>
+                                    
                                     
                             </div>
                             

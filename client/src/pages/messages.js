@@ -17,7 +17,7 @@ function Messages() {
     }, [setUser, navigate])
 
     return (
-        <div className="h-screen overflow-auto col-span-4 sm:col-span-3 grid grid-cols-3">
+        <div className="h-screen overflow-auto pb-16 sm:pb-0 col-span-4 sm:col-span-3 grid grid-cols-3">
             <div className="h-full relative xl:px-30 col-span-3 xl:col-span-3"> 
                 
                 <div className="h-full absolute top-0 right-0 bottom-0 left-0 flex flex-col items-center">
