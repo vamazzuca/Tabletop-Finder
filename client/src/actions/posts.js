@@ -92,6 +92,18 @@ export const getPost = (id) => async (dispatch) => {
     
 }
 
+export const deletePost = (id) => async (dispatch) => {
+    try {
+        
+        await api.deletePost(id)
+        
+        dispatch({ type: 'DELETE_POST', payload: id })
+    } catch (error) {
+        console.log(error.message)
+    }
+    
+}
+
 export const createPost = (post, location) => async (dispatch) => {
     try {
         const { data } = await api.createPost(post);
@@ -110,7 +122,18 @@ export const joinEvent = (post) => async (dispatch) => {
     try {
         const { data } = await api.joinEvent(post);
 
-        dispatch({type: "JOINEVENT", payload: data})
+        dispatch({type: "UPDATEEVENT", payload: data})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const leaveEvent = (post) => async (dispatch) => {
+    try {
+        const { data } = await api.leaveEvent(post);
+       
+        dispatch({type: "UPDATEEVENT", payload: data})
     } catch (error) {
         console.log(error)
     }

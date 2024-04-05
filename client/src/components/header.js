@@ -39,7 +39,7 @@ function Header({ label, showBackArrow, showLocation, showSearch, search, setSea
                     options: data?.result.slice(0, 20).map((location) => {
                         return {
                             value: location.key,
-                            label: `${location.EnglishName}, ${location.AdministrativeArea.EnglishName}`
+                            label: `${location.name}, ${location.country}`
                         }
                     })
                 }

@@ -10,7 +10,7 @@ const chatReducer = (state = { isLoading: true, chats: [], chat: []}, action) =>
         case 'FETCHCHAT':
             
             return { ...state, chat: action.payload };
-        case 'JOINCHAT':
+        case 'UPDATECHAT':
             
             const chat = state.chats.find((chat => chat._id === action.payload._id))
             if (chat) {

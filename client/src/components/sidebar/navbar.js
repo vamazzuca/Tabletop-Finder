@@ -35,7 +35,7 @@ function Navbar() {
     const location = useLocation();
     const postModal = usePostModal();
    
-    console.log(window.location.pathname.split("/")[1]);
+    
     
 
     const onClickLogin = useCallback(() => {

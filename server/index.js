@@ -11,9 +11,14 @@ import locationRoutes from "./routes/location.js"
 import chatRoutes from "./routes/chats.js"
 import messageRoutes from "./routes/messages.js"
 import { Server } from "socket.io";
+import path from "path";
+
 
 const app = express();
+
 dotenv.config()
+
+
 
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -27,6 +32,21 @@ app.use('/boardgames', boardGamesRoutes);
 app.use('/location', locationRoutes);
 app.use('/chat', chatRoutes);
 app.use("/message", messageRoutes);
+
+
+const _dirname = path.dirname("")
+const buildPath = path.join(_dirname, "../client/build")
+app.use(express.static(buildPath))
+
+app.get("*/", function (req, res) {
+    res.sendFile(
+        path.join(__firname, "../client/build/index.html"),
+        function (err) {
+            if (err)
+                res.status(500).send(err)
+        }
+    )
+})
 
 
 const PORT = process.env.PORT || 5000;

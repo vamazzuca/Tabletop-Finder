@@ -82,19 +82,11 @@ export const fetchChat = async (req, res) => {
     const { chatId, senderId } = req.body
 
     try {
-        Chat.find({_id: { $eq: chatId }, users: { $elemMatch: { $eq: senderId } } })
+        const chat = await Chat.find({_id: { $eq: chatId }, users: { $elemMatch: { $eq: senderId } } })
             .populate("users", "-password")
             .populate("groupAdmin", "-password")
-            .populate("latestMessage")
-            .then(async (results) => {
-                results = await User.populate(results, {
-                    path: "latestMessage.sender",
-                    select: "name photo username email"
-                });
-                res.status(200).send(results)
-            }
-           
-        );
+            
+        res.status(200).json(chat)
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -129,34 +121,7 @@ export const createGroupChat = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-  
-export const removeFromGroup = async (req, res) => {
-    const { chatId, userId } = req.body;
-  
-    try {
-        const removed = await Chat.findByIdAndUpdate(
-            chatId,
-            {
-              $pull: { users: userId },
-            },
-            {
-              new: true,
-            }
-          )
-            .populate("users", "-password")
-            .populate("groupAdmin", "-password");
-        
-          if (!removed) {
-              res.status(404).json({ message: "Chat Not Found" });
-          } else {
-            res.json(removed);
-          } 
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-  
-    
-};
+
   
 export const addToGroup = async (req, res) => {
     const { chatEventId, userId } = req.body;
@@ -182,6 +147,38 @@ export const addToGroup = async (req, res) => {
               res.status(404).json({ message: "Chat Not Found" });
           } else {
             res.json(added);
+          } 
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+  
+    
+};
+  
+export const removeFromGroup = async (req, res) => {
+    const { chatEventId, userId } = req.body;
+  
+    try {
+
+        const chat = await Chat.find({ chatEventID: chatEventId  })
+       
+
+        const removed = await Chat.findByIdAndUpdate(
+            chat[0]._id,
+            {
+              $pull: { users: userId },
+            },
+            {
+              new: true,
+            }
+          )
+            .populate("users", "-password")
+            .populate("groupAdmin", "-password");
+        
+          if (!removed) {
+              res.status(404).json({ message: "Chat Not Found" });
+          } else {
+            res.json(removed);
           } 
     } catch (error) {
         res.status(400).json({ message: error.message });

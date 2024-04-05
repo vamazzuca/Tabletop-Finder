@@ -6,21 +6,23 @@ import { fetchMessages, sendMessage, addMessage } from "../../actions/message";
 import { isSameSenderMargin, isSameUser, isLastMessage, isSameSender } from "./chatLogic";
 import io from "socket.io-client"
 import { UserState } from "../../Context/UserProvider";
+import { useNavigate } from "react-router";
 
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
 
 function ChatBox({chatid}) {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
     const [message, setMessage] = useState("");
     const [socketConnected, setSocketConnected] = useState(false);
+   
 
     const { user } = UserState();
     
-
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     
-    const chat = useSelector((state) => state.chat);
+    const { chat} = useSelector((state) => state.chat);
     const messages = useSelector((state) => state.message);
     const messagesEndRef = useRef(null);
 
@@ -31,7 +33,7 @@ function ChatBox({chatid}) {
        }
     }
     
-
+    
     useEffect(() => {
         socket = io(ENDPOINT);
         if (user) {
@@ -56,14 +58,27 @@ function ChatBox({chatid}) {
     }, [dispatch, chatid])
 
     useEffect(() => {
-        if (user) {
+        if (user && chatid.match(/^[0-9a-fA-F]{24}$/)) {
            
             dispatch(getChat({ senderId: user.result.id, chatId: chatid }))
             dispatch(fetchMessages(chatid, socket))
             selectedChatCompare = chatid
+           
+            
+        } else {
+            navigate("/")
         }
 
-    }, [dispatch, chatid, user])
+    }, [dispatch, chatid, user, navigate])
+
+
+    useEffect(() => {
+        
+        if (chat === null) {
+            navigate("/")
+        }
+        
+    }, [chat, navigate])
 
     useEffect(() => {
         
@@ -74,20 +89,22 @@ function ChatBox({chatid}) {
     const submit = () => {
         if (!socketConnected) return;
         try {
-            setIsLoading(true) 
+            setIsLoadingSubmit(true) 
             dispatch(sendMessage({ content: message, chatId: chatid, userId: user.result.id }, socket))
             setMessage("")
         } catch (error) {
             console.log(error)
         } finally {
-            setIsLoading(false)
+            setIsLoadingSubmit(false)
         }
             
-     }
+    }
+    
+    
 
     return (
         <div className="h-full bg-[#0B0C10] border-2  border-neutral-800  flex flex-col p-4 overflow-auto gap-2 xl:col-span-2 col-span-3 rounded-lg">
-            <div className="text-white  p-1 text-lg font-bold line-clamp-1">{chat?.chat[0]?.chatName} ({chat?.chat[0]?.year}) Group Chat</div>
+            <div className="text-white  p-1 text-lg font-bold line-clamp-1">{chat? chat[0]?.chatName: null} ({chat? chat[0]?.year: null}) Group Chat</div>
 
           
                 <div className="h-full  w-full p-3 text-black d-flex flex-column overflow-auto align-items-start justify-end rounded-lg bg-[#0B0C10]">
@@ -100,8 +117,10 @@ function ChatBox({chatid}) {
                         
                             {(isSameSender(messages.messages, message, i, user.result.id) ||
                                 isLastMessage(messages.messages, i, user.result.id)) && (
-                                <div className="tooltip tooltip-right " data-tip={message.sender.name}>
-                                    <img className="w-8 h-8 mt-[11px] cursor-pointer rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
+                            <div className="tooltip tooltip-right " data-tip={message.sender.name}>
+                                <img className={message.sender.photo ? "w-8 h-8 mt-[11px] cursor-pointer rounded-full object-cover" : "w-8 h-8 mt-[11px] cursor-pointer rounded-full bg-white object-cover"}
+                                            src={message.sender.photo ? message.sender.photo : "/images/Default_pfp.svg.png"} alt="" />
+                                    
                                 </div>
                                     
                                 )}
@@ -130,7 +149,7 @@ function ChatBox({chatid}) {
 
             <div className="flex items-center space-x-2 ">
             <input
-                    disabled={isLoading}
+                    disabled={isLoadingSubmit}
                     onKeyDown={handleKeyDown}
                     required
                     onChange={(e) => setMessage(e.target.value)}

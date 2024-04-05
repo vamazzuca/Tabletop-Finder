@@ -20,14 +20,18 @@ const postReducer = (state = { isLoading: false, posts: [], postsUser: [], posts
             return { ...state, posts: action.payload };
         case 'FETCH_POST':
             return { ...state, post: action.payload };
-        case 'JOINEVENT':
+        case 'UPDATEEVENT':
             const event = state.posts.find((event => event._id === action.payload._id))
             if (event) {
                 event.members = action.payload.members
             }
-            return { ...state, posts: [...state.posts] };
+            
+            return { ...state, posts: [...state.posts], post: action.payload };
         case 'CREATE':
-            return { ...state, posts: [...state.posts, action.payload] };
+            return { ...state, posts: [action.payload, ...state.posts] };
+        case 'DELETE':
+            const updatedPosts = state.posts.filter(post => post._id !== action.payload);
+            return { ...state, posts: updatedPosts };
         case 'RESET':
             return { ...state, postsSearch: [], postsUser: [], users: [] };
         default:

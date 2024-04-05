@@ -15,6 +15,8 @@ import UpdateModal from './components/modals/updateModal';
 import Search from './pages/search';
 import Groups from './pages/groups';
 import Navbar from './components/sidebar/navbar';
+import { ToastContainer} from 'react-toastify';
+
 
 function App() {
 
@@ -32,8 +34,9 @@ function App() {
             <Route path='/search' element={<Search />} />
             <Route element={<RequireAuth/>}>
               <Route path='/messages' element={<Messages />} />
-              <Route path='/groups' element={<Groups />} />
+              <Route path='/groups' element={<Groups />} />   
               <Route path='/messages/:id' element={<Chat />} />
+     
               <Route path='/profile/:username' element={<Profile/>} />
             </Route>
             
@@ -41,6 +44,7 @@ function App() {
           </Routes>
           <RegisterModal/>
           <LoginModal />
+          <ToastContainer/>
           <PostModal />
           <UpdateModal/>
         </LocationProvider>

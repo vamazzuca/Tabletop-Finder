@@ -1,5 +1,6 @@
 import PostEvent from "../models/postEvent.js";
 import User from "../models/user.js";
+import mongoose from 'mongoose';
 
 export const getPosts = async (req, res) => {
     const { location, page } = req.body;
@@ -31,6 +32,16 @@ export const getPosts = async (req, res) => {
     } catch (error) {
         res.status(404).json({message: error.message})
     }
+}
+
+export const deletePost = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+    await PostEvent.findByIdAndRemove(id);
+
+    res.status(200).json({ message: "Post deleted successfully." });
 }
 
 
@@ -179,6 +190,34 @@ export const joinEvent = async (req, res) => {
               res.status(404).json({ message: "Event Not Found" });
           } else {
             res.json(added);
+          } 
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+  
+    
+};
+  
+export const leaveEvent = async (req, res) => {
+    const { eventId, userId } = req.body;
+    
+    try {
+        const left = await PostEvent.findByIdAndUpdate(
+            eventId,
+            {
+              $pull: { members: userId },
+            },
+            {
+              new: true,
+            }
+        )
+            .populate("members", "-password")
+            .populate("creator", "-password");
+        
+          if (!left) {
+              res.status(404).json({ message: "Event Not Found" });
+          } else {
+            res.json(left);
           } 
     } catch (error) {
         res.status(400).json({ message: error.message });

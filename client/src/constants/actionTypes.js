@@ -3,7 +3,7 @@ export const UPDATE = 'UPDATE';
 export const DELETE = 'DELETE';
 export const FETCH_ALL = 'FETCH_ALL';
 export const FETCH_POST = 'FETCH_POST';
-export const JOINEVENT = 'JOINEVENT';
+export const UPDATEEVENT = 'UPDATEEVENT';
 export const FETCH_ALL_LOCATION = 'FETCH_ALL_LOCATION';
 export const FETCH_BY_USER = 'FETCH_BY_USER';
 export const FETCH_BY_SEARCH = 'FETCH_BY_SEARCH'
@@ -21,7 +21,9 @@ export const UPDATEUSER = 'UPDATEUSER'
 export const CREATEGROUPCHAT = 'CREATEGROUPCHAT';
 export const FETCHCHATS = 'FETCHCHATS'
 export const FETCHCHAT = 'FETCHCHAT'
-export const JOINCHAT = 'JOINCHAT'
+export const UPDATECHAT = 'UPDATECHAT'
+
+
 
 export const SENDMESSAGE = 'SENDMESSAGE'
 export const ADDMESSAGE = 'ADDMESSAGE'

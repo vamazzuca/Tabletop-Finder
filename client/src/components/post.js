@@ -7,6 +7,22 @@ import { joinEvent } from '../actions/posts';
 import useLoginModal from '../hooks/useLoginModel';
 import { joinChat } from '../actions/chats';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+const notify = (errorMessage) => {
+    toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+};
 
 function Post({ post, innerRef }) {
     const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
@@ -17,17 +33,20 @@ function Post({ post, innerRef }) {
 
     useEffect(() => {
         setLoginUser(JSON.parse(localStorage.getItem('profile')))
+        
     }, [])
 
     const joinhandler = (e) => {
         e.preventDefault();
         e.stopPropagation();
 
-        if (loginUser) {
+        if (loginUser && post.members.length < post.size) {
             dispatch(joinEvent({ userId: loginUser.result.id, eventId: post._id }))
             dispatch(joinChat({chatEventId: post.chatEventID, userId: loginUser.result.id}))
-        } else {
+        } else if (!loginUser){
             loginModal.onOpen();
+        } else if (post.members.length === post.size) {
+            notify("Event Full")
         }
         
 
@@ -39,8 +58,9 @@ function Post({ post, innerRef }) {
             
                 
                 <div className="flex flex-col p-4 w-full gap-2">
-                    <div className='flex gap-2 items-center'>
-                        <img className="w-8 h-8 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
+                <div className='flex gap-2 items-center'>
+                        <img className={post?.creator.photo ? "w-8 h-8 rounded-full object-cover" : "w-8 h-8 rounded-full bg-white object-cover"}
+                                src={post?.creator.photo ? post?.creator.photo : "/images/Default_pfp.svg.png"} alt="" />
                         <h1 className='text-white line-clamp-1 text-sm md:text-base font-bold'>{post?.creator?.name}</h1>
                         
                         
@@ -55,7 +75,8 @@ function Post({ post, innerRef }) {
                         <Markup className="line-clamp-1" content={post.title } />
                         <h2>({post.year})</h2>
                     </div>
-                </div>
+            </div>
+            
             {<img className="h-auto md:min-h-[10rem] object-cover max-h-[36rem]" src={post.photo} alt="" loading="lazy" />}
                 <div className='p-4 flex flex-col gap-2'>
                     <div className='flex justify-between gap-2'>

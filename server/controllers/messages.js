@@ -6,7 +6,7 @@ import Chat from "../models/chat.js";
 export const allMessages = async (req, res) => {
   try {
     const messages = await Message.find({ chat: req.params.chatId })
-      .populate("sender", "name pic email username")
+      .populate("sender", "name photo email username")
       .populate("chat");
     res.json(messages);
   } catch (error) {

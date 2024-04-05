@@ -6,10 +6,10 @@ import { getPosts, getPostsLocation } from "../actions/posts";
 import Post from "../components/post";
 import useLocationSelector from "../hooks/useLocation";
 import MoonLoader from "react-spinners/MoonLoader";
-import Navbar from "../components/sidebar/navbar";
 
 function Home() {
     const dispatch = useDispatch();
+    const [message, setMessage] = useState("")
     const [pageNumber, setPageNumber] = useState(1)
     const { posts, isLoading } = useSelector((state) => state.posts)
 
@@ -42,9 +42,10 @@ function Home() {
             dispatch(getPosts({ location: location, page: pageNumber }))
         }
 
+        setMessage("No events at this location...")
+
         preLocation.current = location;
         prePage.current = pageNumber;
-        
     }, [dispatch, location, pageNumber])
 
 
@@ -60,7 +61,7 @@ function Home() {
                         
                     
                     <div className="pt-4 w-full h-full flex gap-5 flex-col items-center">
-                        
+                        {posts.length === 0 && !isLoading  ? message : null}
                         {posts && posts.map((post, index) => {
                             if (posts.length === index + 1) {
                                 return <Post innerRef={lastEventElement} key={index} post={post}/>

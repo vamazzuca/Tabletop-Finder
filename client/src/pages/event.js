@@ -7,23 +7,78 @@ import { useParams } from "react-router";
 import dateFormat from 'dateformat'
 import { Markup } from 'interweave'
 import MoonLoader from "react-spinners/MoonLoader";
+import { joinEvent } from '../actions/posts';
+import { joinChat } from '../actions/chats';
+import useLoginModal from '../hooks/useLoginModel';
+import { deletePost } from "../actions/posts";
+import { useNavigate } from "react-router";
+import { leaveEvent } from "../actions/posts";
+import { leaveChat } from "../actions/chats";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+
+
+const notify = (errorMessage) => {
+    toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+};
 
 function Event() {
     const [isOpen, setIsOpen] = useState(false)
     const dispatch = useDispatch();
     const { post, isLoading } = useSelector((state) => state.posts)
+    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const loginModal = useLoginModal();
+    const navigate = useNavigate();
     
     const { id } = useParams();
 
     useEffect(() => {
         
         dispatch(getPost(id))
-        
-        
+      
     }, [dispatch, id])
 
+    useEffect(() => {
+        setLoginUser(JSON.parse(localStorage.getItem('profile')))
+       
+    }, [])
+
+    const joinhandler = () => {
     
+        if (loginUser && post.members.length < post.size) {
+            dispatch(joinEvent({ userId: loginUser.result.id, eventId: post._id }))
+            dispatch(joinChat({chatEventId: post.chatEventID, userId: loginUser.result.id}))
+        } else if (!loginUser) {
+            loginModal.onOpen();
+        } else if (post.members.length === post.size) {
+            notify("Event Full")
+        }
+        
+
+    }
+
+
+    const handleDelete = () => {
+        dispatch(deletePost(post._id))
+        dispatch(leaveChat({chatEventId: post.chatEventID, userId: loginUser.result.id}))
+        navigate("/")
+    }
+
+    const leaveHandler = () => {
+    
+        dispatch(leaveEvent({ userId: loginUser.result.id, eventId: post._id }))
+        dispatch(leaveChat({chatEventId: post.chatEventID, userId: loginUser.result.id}))
+    }
 
     return (
         < div className = "h-screen col-span-4 sm:col-span-3 overflow-y-scroll flex grid grid-cols-3" >
@@ -40,7 +95,9 @@ function Event() {
                         <div className="flex flex-col p-4 w-full gap-2">
                                 <div className='flex gap-2 items-center justify-between'>
                                     <div className="flex gap-2 items-center">
-                                        <img className=" w-8 h-8 md:w-12 md:h-12 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
+                                        <img className={post?.creator.photo ? "w-8 h-8  md:w-12 md:h-12 rounded-full object-cover" : "w-8 h-8  md:w-12 md:h-12 rounded-full bg-white object-cover"}
+                                            src={post?.creator.photo ? post?.creator.photo : "/images/Default_pfp.svg.png"} alt="" />
+                                       
                                         <h1 className='text-white text-sm md:text-lg font-bold'>{post?.creator?.name}</h1>
                                             
                                             
@@ -51,19 +108,24 @@ function Event() {
                                         </div>
                                     </div>
                                 
-                                    <div className="relative">
-                                        <button onClick={() => setIsOpen((prev) => !prev) } id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100  focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-[#0B0C10] dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                                                <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                    {post?.members.find(mem => mem._id === loginUser?.result?.id) ? <div className="relative">
+                                        <button onClick={() => setIsOpen((prev) => !prev)} id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100  focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-[#0B0C10] dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+                                            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                                                <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                                             </svg>
                                             
                                         </button>
-                                        {isOpen && (
-                                            <div className="bg-[#FF0000] hover:bg-opacity-80 text-black font-semibold cursor-pointer absolute rounded-lg text-lg p-2 top-10 right-[1px]">
+                                        {isOpen && post.creator._id === loginUser?.result?.id && (
+                                            <div onClick={handleDelete} className="bg-[#FF0000] hover:bg-opacity-80 text-black font-semibold cursor-pointer absolute rounded-lg text-lg p-2 top-10 right-[1px]">
+                                                <h1>Delete</h1>
+                                            </div>
+                                        )}
+                                        {isOpen && post.creator._id !== loginUser?.result?.id && (
+                                            <div onClick={leaveHandler} className="bg-[#FF0000] hover:bg-opacity-80 text-black font-semibold cursor-pointer absolute rounded-lg text-lg p-2 top-10 right-[1px]">
                                                 <h1>Leave</h1>
                                             </div>
                                         )}
-                                    </div>
+                                    </div>: null}
                                     
                                     
                             </div>
@@ -111,20 +173,33 @@ function Event() {
                                 
                             <div className='text-white text-sm md:text-2xl items-center flex gap-4 md:gap-6'>
                                     
-                                <p>{post?.members.length} / {post?.size} Members</p>
-                                <button className="
-                                        bg-[#66FCF1]                               
-                                        hover:bg-opacity-80
-                                        active:bg-opacity-90
-                                        text-[#1f2833]
-                                        font-bold
-                                        text-[15px]
-                                        py-1
-                                        px-3
-                                        md:text-[20px]
-                                        md:py-2
-                                        md:px-6
-                                        rounded-full">Join</button>
+                                    <p>{post?.members.length} / {post?.size} Members</p>
+                                    
+                                    {post?.members?.some(member => member._id === loginUser?.result?.id) ?
+                                            <button disabled={true} className="
+                                            bg-[#A9A9A9]  
+                                            text-[#1f2833]
+                                            font-bold
+                                            text-[15px]
+                                            py-1
+                                            px-3
+                                            md:text-[20px]
+                                            md:py-2
+                                            md:px-6
+                                            rounded-full">Joined</button> :
+                                                <button onClick={joinhandler} className="
+                                                bg-[#66FCF1]                               
+                                                hover:bg-opacity-80
+                                                active:bg-opacity-90
+                                                text-[#1f2833]
+                                                font-bold
+                                                text-[15px]
+                                                py-1
+                                                px-3
+                                                md:text-[20px]
+                                                md:py-2
+                                                md:px-6
+                                                rounded-full">Join</button>}
                                       
                                     
                             </div>

@@ -1,6 +1,22 @@
 import * as api from '../api';
 import { AUTH } from '../constants/actionTypes'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+
+
+const notify = (errorMessage) => {
+    toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+};
 
 export const signIn = (formData, navigate, loginModal) => async (dispatch) =>{
     try {
@@ -10,7 +26,8 @@ export const signIn = (formData, navigate, loginModal) => async (dispatch) =>{
         navigate("/")
         navigate(0)
     } catch (error) {
-        console.log(error)
+        
+        notify(error.response.data.message || "An error occurred")
     }
 }
 
@@ -23,6 +40,6 @@ export const signUp = (formData, navigate, registerModal) => async (dispatch) =>
         navigate("/")
         navigate(0)
     } catch (error) {
-        console.log(error)
+        notify(error.response.data.message || "An error occurred")
     }
 }

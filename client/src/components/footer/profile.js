@@ -5,12 +5,11 @@ import { Link } from "react-router-dom";
 
 function Profile({user, innerRef}) {
 
-    
+   console.log(user)
     return (
         <Link ref={innerRef } className="
             bg-[#1f2833]
             sticky 
-            hidden
             top-3
             w-[300px]
             h-[320px]
@@ -21,8 +20,9 @@ function Profile({user, innerRef}) {
             gap-3
             items-center
             rounded-lg" to={`/profile/${user.username}`}>
-
-            <img className="w-20 h-20 rounded-full bg-white" src="/images/Default_pfp.svg.png" alt="Rounded avatar" />
+            <img className={user?.photo ? "w-20 h-20 rounded-full object-cover" : "w-20 h-20 rounded-full bg-white object-cover"}
+                                src={user?.photo ? user?.photo : "/images/Default_pfp.svg.png"} alt="" />
+           
             
             <div className="
                 gap-1
