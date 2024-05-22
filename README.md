@@ -1,11 +1,9 @@
 # Tabletop Finder  
 
  Description  
- • Tabletop Finder is a full-stack web application designed to connect board game enthusiasts, allowing them to discover and create tabletop gaming events in their city.      
- • Users can create a profile account and search for Tabletop events in their city to join.        
- • Frontend built with React, and Tailwind for a modern and customizable design.    
- • REST API Backend built with NodeJS and Express, providing a scalable and efficient server environment.     
- • Used MongoDB database for storing event and profile information.   
+ • Labyrinthium is a full-stack web application utilizing the Google Maps API to help users discover and explore local Canadian escape rooms, complete with user profiles for tracking completed rooms.  
+• Developed a responsive frontend using React and Tailwind, featuring a robust search engine that allows users to find escape rooms based on location and other search criteria, marking them on an interactive map for easy discovery.  
+• Implemented a scalable .NET backend with MySQL for secure data management, and integrated user authentication and tracking, enabling users to log in and track their completed escape rooms on their personalized profiles.     
 
  Tech Stack  
  • React  
@@ -19,12 +17,13 @@
 
 Images
  
-![Screenshot 2024-01-24 172525](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/ff5133d9-1f43-4047-9c93-0da146e31b59)
+![Screenshot 2024-05-22 050639](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/801858d2-3181-4780-9b34-f85e3e996253)
 
-![Screenshot 2024-01-24 172545](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/e57eb424-c82d-4b38-82b6-620b7cc530b2)
 
-![Screenshot 2024-01-24 172634](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/b819eebe-8ba9-4399-81d7-5340baf48a95)
+![Screenshot 2024-05-22 050755](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/da85086a-7095-4a59-8df9-bf533d1a2e63)
 
-![Screenshot 2024-01-24 172707](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/6f1df1d6-274a-4f18-b84c-10ab9190ad1a)
 
-![Screenshot 2024-01-24 172734](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/f1b3bea3-df5b-48bd-b1f2-ed66a1c7a129)
+![Screenshot 2024-05-22 051101](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/58d419ee-38e4-4d45-8b3a-624bf9b440c7)
+
+
+![Screenshot 2024-05-22 051248](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/d825ecb4-8aa4-4d53-97f2-c14002d8fbfe)
