@@ -72,7 +72,7 @@ export const updateUser = async(req, res) => {
         if (!update) {
             res.status(404).json({ message: "User Not Found" });
         } else {
-          res.json(update);
+            res.json({ result: { id: id, username: username, name: name, email: update.email, photo: photo, bio: bio, location: location } });
         }
 
     } catch (error) {

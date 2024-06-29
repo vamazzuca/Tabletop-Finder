@@ -17,6 +17,7 @@ export const GETGAMEDATA = 'GETGAMEDATA';
 
 export const GETUSER = 'GETUSER';
 export const UPDATEUSER = 'UPDATEUSER'
+export const GETUSERUPDATE = "GETUSERUPDATE"
 
 export const CREATEGROUPCHAT = 'CREATEGROUPCHAT';
 export const FETCHCHATS = 'FETCHCHATS'
@@ -32,6 +33,11 @@ export const FETCHMESSAGES = 'FETCHMESSAGES'
 export const START_LOADING = 'START_LOADING'
 export const END_LOADING = 'END_LOADING'
 
+export const START_LOADING_SEARCH = 'START_LOADING_SEARCH'
+export const END_LOADING_SEARCH = 'END_LOADING_SEARCH'
+
+
 export const RESET = 'RESET'
+export const ERROR = 'ERROR'
 
 

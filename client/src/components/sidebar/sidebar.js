@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import usePostModal from "../../hooks/usePostModel";
 
 function Sidebar() {
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile-tabletop')));
     const tabs = [
     {
         label: "Notifications",
@@ -84,7 +84,7 @@ function Sidebar() {
             } 
         }
        
-        setUser(JSON.parse(localStorage.getItem('profile')))
+        setUser(JSON.parse(localStorage.getItem('profile-tabletop')))
         
         
         

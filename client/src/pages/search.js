@@ -22,7 +22,7 @@ export default function Search() {
     const [message, setMessage] = useState(`Search for tabletop events in your area...`)
     
     const { location } = useLocationSelector()
-    const { postsSearch, isLoading, users } = useSelector((state) => state.posts)
+    const { postsSearch, isLoadingSearch, users } = useSelector((state) => state.posts)
     
     const query = useQuery();
     const navigate = useNavigate();
@@ -131,7 +131,7 @@ export default function Search() {
                         )}
                         
                         
-                                {isLoading ? (
+                                {isLoadingSearch ? (
                                     <div className="flex items-center">
                                         <MoonLoader size={30} color="#66FCF1" />
                                     </div>

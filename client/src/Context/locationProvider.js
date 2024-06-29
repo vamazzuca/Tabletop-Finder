@@ -5,11 +5,11 @@ const LocationContext = createContext();
 
 export const LocationProvider = ({ children }) => {
   
-  const [location, setLocation] = useState(localStorage.getItem("location"));
+  const [location, setLocation] = useState(localStorage.getItem("location-tabletop"));
   
     useEffect(() => {
       
-      const locationInfo = localStorage.getItem("location");
+      const locationInfo = localStorage.getItem("location-tabletop");
        setLocation(locationInfo);
     
   }, [location]);

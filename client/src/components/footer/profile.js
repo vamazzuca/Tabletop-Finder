@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 
 function Profile({user, innerRef}) {
 
-   console.log(user)
     return (
         <Link ref={innerRef } className="
-            bg-[#1f2833]
+            border-2
+            border-neutral-800
             sticky 
             top-3
             w-[300px]
@@ -36,9 +36,9 @@ function Profile({user, innerRef}) {
                 <h2 className="text-gray-400 truncate">{user?.username}</h2>
                 <div className="flex items-center justify-center gap-2">
                     <IoLocationSharp size={20} color="gray" />
-                    <p className="text-gray-400">{" No Location"}</p>
+                    <p className="text-gray-400">{user?.location ? user?.location : " No Location"}</p>
                 </div>
-                <p className="pt-3 text-gray-400 line-clamp-3">{"This user currently has no biography..."}</p>
+                <p className="pt-3 text-gray-400 line-clamp-3">{user?.bio ? user?.bio : "This user currently has no biography..."}</p>
         
             </div>
             

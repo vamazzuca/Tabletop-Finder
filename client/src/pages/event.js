@@ -35,8 +35,8 @@ const notify = (errorMessage) => {
 function Event() {
     const [isOpen, setIsOpen] = useState(false)
     const dispatch = useDispatch();
-    const { post, isLoading } = useSelector((state) => state.posts)
-    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const { post, isLoading, error } = useSelector((state) => state.posts)
+    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile-tabletop')));
     const loginModal = useLoginModal();
     const navigate = useNavigate();
     
@@ -49,9 +49,15 @@ function Event() {
     }, [dispatch, id])
 
     useEffect(() => {
-        setLoginUser(JSON.parse(localStorage.getItem('profile')))
+        setLoginUser(JSON.parse(localStorage.getItem('profile-tabletop')))
        
     }, [])
+
+    useEffect(() => {
+        if (error) {
+          navigate('/home'); 
+        }
+    }, [error, navigate]);
 
     const joinhandler = () => {
     
@@ -80,6 +86,7 @@ function Event() {
         dispatch(leaveChat({chatEventId: post.chatEventID, userId: loginUser.result.id}))
     }
 
+    
     return (
         < div className = "h-screen col-span-4 sm:col-span-3 overflow-y-scroll flex grid grid-cols-3" >
             <div className="h-full xl:px-30 col-span-3 xl:col-span-2"> 
@@ -136,11 +143,12 @@ function Event() {
                             </div>
 
                         </div>
-                                    
-                        <img className=" w-full object-cover" src={post?.photo} alt="Thumbnail" loading="lazy" />
+
+                        <div className="flex flex-col xl:flex-row xl:p-4 gap-4"> 
+                        <img className=" xl:w-1/2 object-cover" src={post?.photo} alt="Thumbnail" loading="lazy" />
                         
-                        <div className='p-4 flex flex-col gap-2 md:gap-8'>
-                            <div className="text-white text-sm md:text-2xl gap-4 flex md:gap-12">
+                        <div className='p-4 flex flex-col gap-2 md:gap-8 xl:w-1/2' >
+                            <div className="text-white text-sm md:text-2xl gap-4 flex flex-wrap md:gap-12">
                                 <div className="flex flex-col gap-1">
                                     <p>Recommended Players:</p>
                                     <p>{post?.description.minPlayers}-{post?.description.maxPlayers} Players</p>
@@ -202,13 +210,56 @@ function Event() {
                                                 rounded-full">Join</button>}
                                       
                                     
-                            </div>
+                                </div>
 
-                            <div className="text-white flex flex-col gap-2">
+                            
+                                </div>
+                            </div> 
+                            <div className="text-white flex flex-col p-4 pt-12 md:gap-8">
                                 <p className="text-sm md:text-2xl">Description: </p>
                                 <Markup className="text-sm md:text-base" content={post?.description.description} />
                             </div>
-                        </div>
+                            <div className="text-white flex flex-col p-4 pt-12 gap-4 md:gap-8">
+                                <p className="text-sm md:text-2xl">Members: </p>
+                                <div className="flex gap-4 justify-center lg:justify-start flex-wrap"> 
+                                {post?.members?.map((member, index) => {
+                                    return <div key={index} className="
+                                                border-2 
+                                                border-neutral-800
+                                                sticky 
+                                                top-3
+                                                w-[300px]
+                                                
+                                                flex
+                                                flex-col
+                                                p-6
+                                                overflow-hidden
+                                                gap-3
+                                                items-center
+                                                rounded-lg">
+                                        
+                                                    <img className={member?.photo ? "w-20 h-20 rounded-full object-cover" : "w-20 h-20 rounded-full bg-white object-cover"}
+                                                            src={member?.photo ? member?.photo : "/images/Default_pfp.svg.png"} alt="" />
+                    
+                        
+                                                <div className="
+                                                        gap-1
+                                                        flex
+                                                        flex-col
+                                                        w-full
+                                                        text-center
+                                                        overflow-hidden">
+                            
+                                                        <h1 className="text-lg font-semibold text-white truncate">{member?.name}</h1>
+                                                        <h2 className="text-gray-400 truncate">{member?.username}</h2>
+                                                    </div>
+                                                </div>
+                                    
+                              
+                                })}
+                                </div>
+                                
+                            </div>
                     </div>}
                     
                             

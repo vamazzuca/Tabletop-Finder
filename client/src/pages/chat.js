@@ -13,7 +13,7 @@ function Chat() {
     const { id } = useParams();
 
     useEffect(() => {
-        const isuser = JSON.parse(localStorage.getItem('profile'))
+        const isuser = JSON.parse(localStorage.getItem('profile-tabletop'))
         
         setUser(isuser)
             

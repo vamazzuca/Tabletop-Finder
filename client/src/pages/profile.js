@@ -6,19 +6,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useCallback, useState, useRef } from "react";
 import MoonLoader from "react-spinners/MoonLoader";
 import useUpdateModal from "../hooks/useUpdateModel";
-import { getPostsByUser } from "../actions/posts";
+import { getPostsByUser, reset } from "../actions/posts";
 import Post from "../components/post";
 import { useLocation } from "react-router";
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
 
 
     const dispatch = useDispatch();
 
-    const { userData, isLoadingUser } = useSelector((state) => state.user)
+    const { userData, isLoadingUser, error } = useSelector((state) => state.user)
     const { postsUser, isLoading } = useSelector((state) => state.posts)
     const [pageNumber, setPageNumber] = useState(1)
     const { username } = useParams();
+    const navigate = useNavigate();
   
     const location = useLocation();
 
@@ -43,14 +45,19 @@ export default function Profile() {
         
     }, [updateModal])
 
-
+    useEffect(() => {
+        if (error) {
+          navigate('/home'); 
+        }
+    }, [error, navigate]);
 
     useEffect(() => {
         dispatch(getUser({ username: username }))
-        if (userData?.result?.username === username) {
-            dispatch(getPostsByUser({ userId: userData?.result?.id, page: pageNumber }))
-        }
-    }, [dispatch, username, userData?.result?.id, updateModal, pageNumber, location, userData?.result?.username])
+    }, [dispatch, username])
+
+    useEffect(() => {
+        dispatch(getPostsByUser({ userId: userData?.result?.id, page: pageNumber }))
+    }, [dispatch, userData, pageNumber, location])
 
 
     useEffect(() => {

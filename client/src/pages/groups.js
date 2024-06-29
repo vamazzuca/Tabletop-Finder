@@ -11,7 +11,7 @@ function Groups() {
     const dispatch = useDispatch();
     const [pageNumber, setPageNumber] = useState(1)
     const { postsMember, isLoading } = useSelector((state) => state.posts)
-    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile-tabletop')));
 
     const observer = useRef()
     const lastEventElement = useCallback(node => {
@@ -27,7 +27,7 @@ function Groups() {
 
 
     useEffect(() => {
-            setLoginUser(JSON.parse(localStorage.getItem('profile')))
+            setLoginUser(JSON.parse(localStorage.getItem('profile-tabletop')))
             dispatch(getPostsByMember({ userId: loginUser.result.id, page: pageNumber }))
            
     }, [dispatch, pageNumber, loginUser.result.id])
@@ -39,7 +39,7 @@ function Groups() {
                 
                 <div className="flex h-full flex-col items-center">
                         <div className="w-11/12 sticky z-10 top-0 bg-[#0B0C10]">
-                            <Header label="My Groups"/>
+                            <Header label="My Groups" showBackArrow={true}/>
                             <hr className="h-px w-full border-0 dark:bg-neutral-800"></hr>
                         </div>
                         

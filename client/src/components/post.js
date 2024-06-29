@@ -25,14 +25,14 @@ const notify = (errorMessage) => {
 };
 
 function Post({ post, innerRef }) {
-    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile-tabletop')));
 
     const dispatch = useDispatch();
     
     const loginModal = useLoginModal();
 
     useEffect(() => {
-        setLoginUser(JSON.parse(localStorage.getItem('profile')))
+        setLoginUser(JSON.parse(localStorage.getItem('profile-tabletop')))
         
     }, [])
 

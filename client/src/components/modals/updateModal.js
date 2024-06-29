@@ -2,10 +2,10 @@ import { useCallback, useState, useEffect } from "react";
 import Input from "../input"
 import Modal from "../modal";
 import useUpdateModal from "../../hooks/useUpdateModel";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios"
 import MoonLoader from "react-spinners/MoonLoader";
-import { updateUser } from "../../actions/user";
+import { updateUser, getUserUpdate } from "../../actions/user";
 
 function UpdateModal() {
     const updateModal = useUpdateModal();
@@ -19,6 +19,7 @@ function UpdateModal() {
     const [imageURL, setImageURL] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingImg, setIsLoadingImg] = useState(false);
+    const { updateData} = useSelector((state) => state.user)
 
 
    
@@ -43,29 +44,39 @@ function UpdateModal() {
     }
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('profile'))
-        setUser(user)
-        setImageURL(user?.result?.photo)
-        setUsername(user?.result?.username)
-        setName(user?.result?.name)
-        setBio(user?.result?.bio)
-        setLocation(user?.result?.location)
-    }, []);
+        const user = JSON.parse(localStorage.getItem('profile-tabletop'));
+        if (user) {
+            dispatch(getUserUpdate({ username: user?.result?.username }));
+            setUser(user)
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (updateData?.result) {
+            setName(updateData.result.name || '');
+            setBio(updateData.result.bio || '');
+            setLocation(updateData.result.location || '');
+            setImageURL(updateData.result.photo || '');
+            setUsername(updateData.result.username || '');
+        }
+    }, [updateData]);
 
     const onSubmit = useCallback(async (e) => {
         try {
             setIsLoading(true);
             e.preventDefault();
-            const formData = { id: user.result.id, username: username, name: name, email: user.result.email, photo: imageURL, bio: bio, location: location };
+            console.log(updateData.result)
+            const formData = { id: updateData.result.id, username: username, name: name, email: updateData.result.email, photo: imageURL, bio: bio, location: location };
             dispatch(updateUser(formData, updateModal));
-            localStorage.setItem('profile', JSON.stringify({result: formData, token: user.token}))
+            localStorage.setItem('profile-tabletop', JSON.stringify({result: formData, token: user.token}))
         } catch (error){
             console.log(error);
         } finally {
             setIsLoading(false);
         }
-    }, [updateModal,  user, username, name, dispatch, bio, location, imageURL]);
+    }, [updateModal,  updateData, user, username, name, dispatch, bio, location, imageURL]);
 
+   
     const bodyContent = (
         <div className="flex h-auto flex-col items-center gap-4">
             <div className="w-full flex flex-col items-center gap-2">
@@ -91,7 +102,7 @@ function UpdateModal() {
              <Input
                 placeholder="Name"
                 onChange={(e) => setName(e.target.value)}  
-                defaultValue={user?.result?.name}
+                defaultValue={updateData?.result?.name}
                 maxLength={30}
                 required={true}
                 disabled={isLoading}
@@ -100,7 +111,7 @@ function UpdateModal() {
                 <Input
                     placeholder="Username"
                     onChange={(e) => setUsername(e.target.value)}
-                    defaultValue={user?.result?.username}
+                    defaultValue={updateData?.result?.username}
                     required={true}
                     maxLength={30}
                     disabled={isLoading}
@@ -109,7 +120,7 @@ function UpdateModal() {
                 <Input
                     placeholder="Location"
                     onChange={(e) => setLocation(e.target.value)}
-                    defaultValue={location}
+                    defaultValue={updateData?.result?.location}
                     maxLength={250}
                     disabled={isLoading}
                 />
@@ -117,7 +128,7 @@ function UpdateModal() {
                 <Input
                     placeholder="Biography"
                     onChange={(e) => setBio(e.target.value)}
-                    defaultValue={bio}
+                    defaultValue={updateData?.result?.bio}
                     maxLength={250}
                     disabled={isLoading}
                 />

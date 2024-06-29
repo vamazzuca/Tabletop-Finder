@@ -5,13 +5,13 @@ const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile-tabletop")));
   
 
   const navigate = useNavigate();
 
   useEffect(() => {
-      const userInfo = JSON.parse(localStorage.getItem("profile"));
+      const userInfo = JSON.parse(localStorage.getItem("profile-tabletop"));
     setUser(userInfo);
     
   }, [navigate]);

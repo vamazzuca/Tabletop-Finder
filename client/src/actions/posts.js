@@ -16,14 +16,14 @@ export const getPosts = (location) => async (dispatch) => {
 
 export const getPostBySearch = (searchQuery) => async (dispatch) => {
     try {
-        dispatch({type: 'START_LOADING'})
+        dispatch({type: 'START_LOADING_SEARCH'})
         const { data } = await api.fetchPostsBySearch(searchQuery)
 
         dispatch({ type: 'FETCH_BY_SEARCH', payload: data.data })
         dispatch({ type: 'FETCH_BY_SEARCH_USERS', payload: data.users })
-        dispatch({type: 'END_LOADING'})
+        dispatch({type: 'END_LOADING_SEARCH'})
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
     }
 }
 
@@ -84,10 +84,17 @@ export const getPost = (id) => async (dispatch) => {
         dispatch({type: 'START_LOADING'})
         const { data } = await api.fetchPost(id)
         
-        dispatch({ type: 'FETCH_POST', payload: data })
+        if (!data) {
+            dispatch({ type: 'ERROR' });
+        } else {
+            dispatch({ type: 'FETCH_POST', payload: data })
+        }
+       
         dispatch({type: 'END_LOADING'})
     } catch (error) {
         console.log(error.message)
+        dispatch({ type: 'ERROR' });
+        dispatch({type: 'END_LOADING'})
     }
     
 }
@@ -113,7 +120,7 @@ export const createPost = (post, location) => async (dispatch) => {
         }
         
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
     }
 }
 
@@ -124,7 +131,7 @@ export const joinEvent = (post) => async (dispatch) => {
 
         dispatch({type: "UPDATEEVENT", payload: data})
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
     }
 }
 
@@ -135,6 +142,6 @@ export const leaveEvent = (post) => async (dispatch) => {
        
         dispatch({type: "UPDATEEVENT", payload: data})
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
     }
 }

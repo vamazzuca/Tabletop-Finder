@@ -15,7 +15,8 @@ import UpdateModal from './components/modals/updateModal';
 import Search from './pages/search';
 import Groups from './pages/groups';
 import Navbar from './components/sidebar/navbar';
-import { ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import Notifications from './pages/notifications';
 
 
 function App() {
@@ -32,12 +33,12 @@ function App() {
             <Route path="/" exact Component={Home}></Route>
             <Route path='/event/:id' element={<Event />} />
             <Route path='/search' element={<Search />} />
+            <Route path='/profile/:username' element={<Profile/>} />
             <Route element={<RequireAuth/>}>
               <Route path='/messages' element={<Messages />} />
               <Route path='/groups' element={<Groups />} />   
               <Route path='/messages/:id' element={<Chat />} />
-     
-              <Route path='/profile/:username' element={<Profile/>} />
+              <Route path='/notifications' element={<Notifications />} />
             </Route>
             
             <Route path="*" element={<Navigate to='/' />}></Route>

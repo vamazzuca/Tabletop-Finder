@@ -16,7 +16,7 @@ function Header({ label, showBackArrow, showLocation, showSearch, search, setSea
     const {location} = useLocationSelector()
 
     useEffect(() => {
-        setLocation(localStorage.getItem('location'))
+        setLocation(localStorage.getItem('location-tabletop'))
     }, [setLocation])
 
     const loadOptionsLocation = async (inputValue) => {
@@ -66,10 +66,10 @@ function Header({ label, showBackArrow, showLocation, showSearch, search, setSea
         
         if (value) {
             setLocation(value.label)
-            localStorage.setItem('location', value.label)
+            localStorage.setItem('location-tabletop', value.label)
             
         } else {
-            localStorage.removeItem('location')
+            localStorage.removeItem('location-tabletop')
             setLocation("")
         }
         

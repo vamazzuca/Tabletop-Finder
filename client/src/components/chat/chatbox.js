@@ -7,6 +7,7 @@ import { isSameSenderMargin, isSameUser, isLastMessage, isSameSender } from "./c
 import io from "socket.io-client"
 import { UserState } from "../../Context/UserProvider";
 import { useNavigate } from "react-router";
+import { Markup } from 'interweave'
 
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
@@ -104,7 +105,7 @@ function ChatBox({chatid}) {
 
     return (
         <div className="h-full bg-[#0B0C10] border-2  border-neutral-800  flex flex-col p-4 overflow-auto gap-2 xl:col-span-2 col-span-3 rounded-lg">
-            <div className="text-white  p-1 text-lg font-bold line-clamp-1">{chat? chat[0]?.chatName: null} ({chat? chat[0]?.year: null}) Group Chat</div>
+            <div className="text-white  p-1 text-lg font-bold line-clamp-1">{chat? <Markup content={chat[0]?.chatName}/>: null} ({chat? chat[0]?.year: null}) Group Chat</div>
 
           
                 <div className="h-full  w-full p-3 text-black d-flex flex-column overflow-auto align-items-start justify-end rounded-lg bg-[#0B0C10]">

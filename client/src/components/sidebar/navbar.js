@@ -15,7 +15,7 @@ import { jwtDecode } from 'jwt-decode';
 import usePostModal from "../../hooks/usePostModel";
 
 function Navbar() {
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile-tabletop')));
     const tabs = [
     {
         label: "Messages",
@@ -71,7 +71,7 @@ function Navbar() {
             } 
         }
        
-        setUser(JSON.parse(localStorage.getItem('profile')))
+        setUser(JSON.parse(localStorage.getItem('profile-tabletop')))
         
         
         

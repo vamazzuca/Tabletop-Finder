@@ -10,7 +10,7 @@ function Messages() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const isuser = JSON.parse(localStorage.getItem('profile'))
+        const isuser = JSON.parse(localStorage.getItem('profile-tabletop'))
         
         setUser(isuser)
             
@@ -33,7 +33,10 @@ function Messages() {
                         
                         
                         <div className="h-full bg-[#0B0C10] border-2 border-neutral-800 hidden xl:flex xl:col-span-2 rounded-lg">
-            
+                            <div className="w-full pb-64 flex items-center justify-center text-4xl text-white">
+                                Select a chat to start messaging 
+                            </div>
+                              
                         </div>
                       
                     
