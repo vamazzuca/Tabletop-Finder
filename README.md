@@ -1,11 +1,12 @@
 # Tabletop Finder  
 
  Description  
- • Tabletop Finder is a full-stack web application designed to connect board game enthusiasts, allowing them to discover and create tabletop gaming events in their city.      
- • Users can create a profile account and search for Tabletop events in their city to join.        
- • Frontend built with React, and Tailwind for a modern and customizable design.    
- • REST API Backend built with NodeJS and Express, providing a scalable and efficient server environment.     
- • Used MongoDB database for storing event and profile information.   
+ 
+• Tabletop Finder is a full-stack web application designed to connect board game enthusiasts, allowing them to discover and create tabletop gaming events in their city.
+• Users can create a profile account and search for Tabletop events in their city to join.
+• Frontend built with React, and Tailwind for a modern and customizable design.
+• REST API Backend built with NodeJS and Express, providing a scalable and efficient server environment.
+• Used MongoDB database for storing event and profile information.     
 
  Tech Stack  
  • React  
@@ -18,7 +19,6 @@
 
 
 Images
- 
 ![Screenshot 2024-01-24 172525](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/ff5133d9-1f43-4047-9c93-0da146e31b59)
 
 ![Screenshot 2024-01-24 172545](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/e57eb424-c82d-4b38-82b6-620b7cc530b2)
