@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useCallback, useState, useRef } from "react";
 import MoonLoader from "react-spinners/MoonLoader";
 import useUpdateModal from "../hooks/useUpdateModel";
-import { getPostsByUser, reset } from "../actions/posts";
+import { getPostsByUser } from "../actions/posts";
 import Post from "../components/post";
 import { useLocation } from "react-router";
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +21,7 @@ export default function Profile() {
     const [pageNumber, setPageNumber] = useState(1)
     const { username } = useParams();
     const navigate = useNavigate();
+    const [user, setUser] = useState('');
   
     const location = useLocation();
 
@@ -53,6 +54,8 @@ export default function Profile() {
 
     useEffect(() => {
         dispatch(getUser({ username: username }))
+        const user = JSON.parse(localStorage.getItem('profile-tabletop'));
+        setUser(user)
     }, [dispatch, username])
 
     useEffect(() => {
@@ -76,7 +79,7 @@ export default function Profile() {
                     
                     <div className="pt-4 w-full h-full flex gap-2 flex-col items-center">
                         <div className="flex w-11/12 justify-end">
-                            <button onClick={onClickUpdate} className="
+                            {user?.result?.username === username ? <button onClick={onClickUpdate} className="
                                     z-1
                                     bg-[#66FCF1]                               
                                     hover:bg-opacity-80
@@ -91,7 +94,7 @@ export default function Profile() {
                                     md:px-6
                                     rounded-full">
                                 Edit Profile
-                            </button>
+                            </button>: <></>}
                                 
                         </div>
                         {isLoadingUser ? <MoonLoader size={20 } color="#66FCF1"/> :<div className="flex flex-col items-center gap-2 w-11/12 pb-4">
@@ -125,9 +128,9 @@ export default function Profile() {
                         
                         {postsUser && postsUser.map((post, index) => {
                             if (postsUser.length === index + 1) {
-                                return <Post innerRef={lastEventElement} key={index} post={post} />
+                                return post.creator.username === username ? <Post innerRef={lastEventElement} key={index} post={post} />: null
                             } else {
-                                return <Post key={index} post={post}  />
+                                return post.creator.username === username ? <Post key={index} post={post}  /> : null
                             }
                         }
                         )}
