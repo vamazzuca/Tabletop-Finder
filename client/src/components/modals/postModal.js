@@ -28,7 +28,7 @@ function PostModal() {
     const [partySize, setPartySize] = useState("")
     const [isLoading, setIsLoading] = useState(false);
     const [boardLoading, setBoardLoading] = useState(false);
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile-tabletop')));
 
     const boardgames = useSelector((state) => state.boardgames)
     const result = boardgames?.boardgameData?.result;
