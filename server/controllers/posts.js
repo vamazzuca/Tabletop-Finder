@@ -174,36 +174,42 @@ export const joinEvent = async (req, res) => {
     const { eventId, userId } = req.body;
   
     try {
-        const added = await PostEvent.findByIdAndUpdate(
-            eventId,
-            {
-              $push: { members: userId },
-            },
-            {
-              new: true,
-            }
-        )
+        const event = await PostEvent.findById(eventId);
+
+        if (!event) {
+            return res.status(404).json({ message: "Event Not Found" });
+        }
+
+        const isMember = event.members.includes(userId);
+
+        if (isMember) {
+            return res.status(400).json({ message: "User is already a member of this event" });
+        }
+
+      
+        event.members.push(userId);
+        await event.save();
+
+      
+        const updatedEvent = await PostEvent.findById(eventId)
             .populate("members", "-password")
             .populate("creator", "-password");
-        
-          if (!added) {
-              res.status(404).json({ message: "Event Not Found" });
-          } else {
-            res.json(added);
-          } 
+
+        res.json(updatedEvent);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-  
-    
 };
   
 export const leaveEvent = async (req, res) => {
-    const { eventId, userId } = req.body;
+    const { chatEventId, userId } = req.body;
     
     try {
+
+        const event = await PostEvent.find({ chatEventID: chatEventId  })
+
         const left = await PostEvent.findByIdAndUpdate(
-            eventId,
+            event[0]._id,
             {
               $pull: { members: userId },
             },

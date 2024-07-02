@@ -31,12 +31,16 @@ export const getChat = (chat) => async (dispatch) => {
         dispatch({type: 'START_LOADING'})
         let { data } = await api.fetchChat(chat)
         if (data.length === 0) {
-            data = null
+            dispatch({ type: 'ERROR' });
+        } else {
+            dispatch({ type: 'FETCHCHAT', payload: data })
         }
-        dispatch({ type: 'FETCHCHAT', payload: data })
+       
         dispatch({type: 'END_LOADING'})
     } catch (error) {
         console.log(error.message)
+        dispatch({ type: 'ERROR' });
+        dispatch({type: 'END_LOADING'})
         
     }
     
@@ -57,7 +61,7 @@ export const leaveChat = (chat) => async (dispatch) => {
         
         const { data } = await api.leaveChat(chat)
         
-        dispatch({ type: 'UPDATECHAT', payload: data})
+        dispatch({ type: 'LEAVECHAT', payload: data})
     } catch (error) {
         console.log(error.message)
     }

@@ -55,7 +55,7 @@ function Event() {
 
     useEffect(() => {
         if (error) {
-          navigate('/home'); 
+          navigate('/'); 
         }
     }, [error, navigate]);
 
@@ -82,9 +82,10 @@ function Event() {
 
     const leaveHandler = () => {
     
-        dispatch(leaveEvent({ userId: loginUser.result.id, eventId: post._id }))
+        dispatch(leaveEvent({ userId: loginUser.result.id, chatEventId: post.chatEventID }))
         dispatch(leaveChat({chatEventId: post.chatEventID, userId: loginUser.result.id}))
     }
+
 
     
     return (

@@ -28,7 +28,7 @@ function ChatList({user, chatid, isChat}) {
                     chats.chats.map((chat, index) => <ChatListItem key={index} chat={chat} chatid={chatid} />) :
                     <div className="text-white font-bold text-2xl gap-4 flex-col items-center justify-center pt-20 flex w-full ">
                         <p>Chat Inbox</p>
-                        <p className="text-base font-normal">Your event group chats will appear here.</p>
+                        <p className="text-base font-normal">Join an event to start a chat.</p>
                     </div>}
                 
             </div>

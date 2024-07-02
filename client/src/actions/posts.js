@@ -138,6 +138,7 @@ export const joinEvent = (post) => async (dispatch) => {
 
 export const leaveEvent = (post) => async (dispatch) => {
     try {
+        console.log(post)
         const { data } = await api.leaveEvent(post);
        
         dispatch({type: "UPDATEEVENT", payload: data})

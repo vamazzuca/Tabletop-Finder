@@ -8,6 +8,8 @@ import io from "socket.io-client"
 import { UserState } from "../../Context/UserProvider";
 import { useNavigate } from "react-router";
 import { Markup } from 'interweave'
+import { leaveEvent } from "../../actions/posts";
+import { leaveChat } from "../../actions/chats";
 
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
@@ -16,6 +18,8 @@ function ChatBox({chatid}) {
     const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
     const [message, setMessage] = useState("");
     const [socketConnected, setSocketConnected] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
+    const [loginUser, setLoginUser] = useState(JSON.parse(localStorage.getItem('profile-tabletop')));
    
 
     const { user } = UserState();
@@ -23,7 +27,7 @@ function ChatBox({chatid}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
-    const { chat} = useSelector((state) => state.chat);
+    const { chat, error} = useSelector((state) => state.chat);
     const messages = useSelector((state) => state.message);
     const messagesEndRef = useRef(null);
 
@@ -34,7 +38,12 @@ function ChatBox({chatid}) {
        }
     }
     
-    
+    useEffect(() => {
+        setLoginUser(JSON.parse(localStorage.getItem('profile-tabletop')))
+       
+    }, [])
+
+
     useEffect(() => {
         socket = io(ENDPOINT);
         if (user) {
@@ -74,12 +83,10 @@ function ChatBox({chatid}) {
 
 
     useEffect(() => {
-        
-        if (chat === null) {
-            navigate("/")
+        if (error) {
+          navigate('/'); 
         }
-        
-    }, [chat, navigate])
+    }, [error, navigate]);
 
     useEffect(() => {
         
@@ -100,14 +107,37 @@ function ChatBox({chatid}) {
         }
             
     }
-    
-    
 
+
+    const leaveHandler = () => {
+    
+        dispatch(leaveEvent({ userId: loginUser.result.id, chatEventId: chat[0].chatEventID }))
+        dispatch(leaveChat({ chatEventId: chat[0].chatEventID, userId: loginUser.result.id }))
+        navigate("/messages")
+    }
+    
+    
+   
     return (
         <div className="h-full bg-[#0B0C10] border-2  border-neutral-800  flex flex-col p-4 overflow-auto gap-2 xl:col-span-2 col-span-3 rounded-lg">
-            <div className="text-white  p-1 text-lg font-bold line-clamp-1">{chat? <Markup content={chat[0]?.chatName}/>: null} ({chat? chat[0]?.year: null}) Group Chat</div>
-
-          
+                <div className="flex justify-between">
+                <div className="text-white  p-1 text-lg font-bold line-clamp-1">{chat ? <Markup content={chat[0]?.chatName} /> : null} ({chat ? chat[0]?.year : null}) Group Chat</div>
+                {chat[0]?.groupAdmin._id !== loginUser?.result?.id ?
+                    <div className="relative">
+                        <button onClick={() => setIsOpen((prev) => !prev)} id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100  focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-[#0B0C10] dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+                            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                                <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                            </svg>
+                                                
+                        </button>
+                        {isOpen && (
+                            <div onClick={leaveHandler} className="bg-[#FF0000] hover:bg-opacity-80 text-black font-semibold cursor-pointer absolute rounded-lg text-lg p-2 top-10 right-[1px]">
+                                <h1>Leave</h1>
+                            </div>
+                        )}
+                    </div>
+                : <></>}
+                </div>
                 <div className="h-full  w-full p-3 text-black d-flex flex-column overflow-auto align-items-start justify-end rounded-lg bg-[#0B0C10]">
                 
                 

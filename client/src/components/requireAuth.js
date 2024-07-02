@@ -10,7 +10,7 @@ export default function RequireAuth() {
         setAuth(JSON.parse(localStorage.getItem('profile-tabletop')))
     }, [])
     
-    console.log(auth)
+   
     return (
         auth?.result?.email ? <Outlet /> : <Navigate to="/" state={{ from: location}} replace/>
     )

@@ -23,6 +23,7 @@ export const CREATEGROUPCHAT = 'CREATEGROUPCHAT';
 export const FETCHCHATS = 'FETCHCHATS'
 export const FETCHCHAT = 'FETCHCHAT'
 export const UPDATECHAT = 'UPDATECHAT'
+export const LEAVECHAT = 'LEAVECHAT'
 
 
 
