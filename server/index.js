@@ -34,19 +34,6 @@ app.use('/chat', chatRoutes);
 app.use("/message", messageRoutes);
 
 
-const _dirname = path.dirname("")
-const buildPath = path.join(_dirname, "../client/build")
-app.use(express.static(buildPath))
-
-app.get("*/", function (req, res) {
-    res.sendFile(
-        path.join(__firname, "../client/build/index.html"),
-        function (err) {
-            if (err)
-                res.status(500).send(err)
-        }
-    )
-})
 
 
 const PORT = process.env.PORT || 5000;
@@ -57,7 +44,8 @@ const server = app.listen(PORT, () => console.log(`Server running on port: ${POR
 const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-        origin: "http://localhost:3000"
+        origin: "http://localhost:3000",
+        credentials: false,
     }
 })
 
