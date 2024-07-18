@@ -20,12 +20,16 @@
 Live Website: https://tabletopfinder.vittoriomazzuca.ca  
 
 Images
-![Screenshot 2024-01-24 172525](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/ff5133d9-1f43-4047-9c93-0da146e31b59)
+![Screenshot 2024-07-18 004237](https://github.com/user-attachments/assets/e07a09ab-3eb8-4856-ad39-1b96ae035db2)
 
-![Screenshot 2024-01-24 172545](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/e57eb424-c82d-4b38-82b6-620b7cc530b2)
+![Screenshot 2024-07-18 004422](https://github.com/user-attachments/assets/9f5476bb-7674-4e72-a2c2-55311cd56c68)
 
-![Screenshot 2024-01-24 172634](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/b819eebe-8ba9-4399-81d7-5340baf48a95)
+![Screenshot 2024-07-18 004318](https://github.com/user-attachments/assets/4bf965e5-e378-4d3e-83d3-43907a04f941)
 
-![Screenshot 2024-01-24 172707](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/6f1df1d6-274a-4f18-b84c-10ab9190ad1a)
+![Screenshot 2024-07-18 005352](https://github.com/user-attachments/assets/2c0cbda6-b7a6-4163-81c7-dbc7c6fe42f4)
 
-![Screenshot 2024-01-24 172734](https://github.com/vamazzuca/Tabletop-Finder/assets/35272187/f1b3bea3-df5b-48bd-b1f2-ed66a1c7a129)
+![Screenshot 2024-07-18 0055282](https://github.com/user-attachments/assets/ec7b333b-592a-476d-b1bf-1223c9f4b2a9)
+
+![Screenshot 2024-07-18 005113](https://github.com/user-attachments/assets/e52872ec-c01c-401f-8ec4-8dad80ec3045)
+
+![Screenshot 2024-07-18 005549](https://github.com/user-attachments/assets/94f3d65a-2626-4e9f-8320-01ee8382c805)
