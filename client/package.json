@@ -40,7 +40,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -63,10 +63,15 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/preset-env": "^7.25.2",
+    "@babel/preset-react": "^7.24.7",
     "autoprefixer": "^10.4.15",
+    "babel-jest": "^29.7.0",
     "daisyui": "^4.6.2",
+    "jest": "^29.7.0",
     "postcss": "^8.4.29",
     "postcss-nesting": "^12.0.2",
+    "react-test-renderer": "^18.3.1",
     "tailwind": "^4.0.0",
     "tailwind-scrollbar": "^3.0.5",
     "tailwindcss": "^3.3.3"
