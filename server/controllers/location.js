@@ -3,9 +3,6 @@ export const searchLocation = async (req, res) => {
     
     const { query } = req.body;
 
-    //const options = {
-    //    method: 'GET'
-    //}
 
     let options = {
         method: 'GET',
