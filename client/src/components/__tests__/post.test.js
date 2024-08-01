@@ -8,7 +8,7 @@ import '@testing-library/jest-dom/extend-expect';
 import Post from '../post';
 import useLoginModal from '../../hooks/useLoginModel';
 
-// Mock dependencies
+
 jest.mock('react-router-dom', () => ({
     Link: ({ children, to, ...props }) => <a href={to} {...props}>{children}</a>,
 }));
