@@ -1,15 +1,15 @@
-// Home.test.js
+
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Provider } from 'react-redux';
 import { createStore} from 'redux';
 import rootReducer from '../reducers'; 
-import Home from '../components/Home';
+import Home from '../home';
 import { getPosts, getPostsLocation } from '../actions/posts';
 
 
-// Mock necessary modules and components
+
 jest.mock('../actions/posts', () => ({
   getPosts: jest.fn(),
   getPostsLocation: jest.fn(),
@@ -17,7 +17,7 @@ jest.mock('../actions/posts', () => ({
 
 jest.mock('../hooks/useLocation', () => () => ({ location: 'Test Location' }));
 
-// Mock Redux store
+
 const store = createStore(rootReducer);
 
 describe('Home Component', () => {

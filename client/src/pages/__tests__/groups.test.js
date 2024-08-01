@@ -1,4 +1,4 @@
-// Groups.test.js
+
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
@@ -7,15 +7,15 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { combineReducers } from 'redux';
 import postReducer from '../../reducers/posts'; 
-import Groups from '../components/Groups';
+import Groups from '../groups';
 import { getPostsByMember } from '../actions/posts';
 
-// Mock necessary modules and components
+
 jest.mock('../actions/posts', () => ({
   getPostsByMember: jest.fn()
 }));
 
-// Mock Redux store
+
 const store = createStore(combineReducers({ posts: postReducer }));
 
 describe('Groups Component', () => {

@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Profile from './Profile'; // Adjust the path if necessary
+import Profile from '../profile';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import rootReducer from '../reducers'; // Adjust the path if necessary
+import rootReducer from '../reducers'; 
 import { BrowserRouter as Router } from 'react-router-dom';
 
 

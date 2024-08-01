@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Messages from './Messages'; 
+import Messages from '../messages';
 
 jest.mock('../components/header', () => () => <div>Header Component</div>);
 jest.mock('../components/chat/chatList', () => () => <div>ChatList Component</div>);
 
-// Mock localStorage
+
 beforeAll(() => {
   Storage.prototype.getItem = jest.fn(() => JSON.stringify({ name: 'Test User' }));
 });

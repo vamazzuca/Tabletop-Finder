@@ -1,4 +1,4 @@
-// Event.test.js
+
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
@@ -7,11 +7,11 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { combineReducers } from 'redux';
 import postReducer from '../../reducers/posts'; 
-import Event from '../components/Event';
+import Event from '../event';
 import { joinEvent, joinChat, leaveEvent, leaveChat } from '../actions/posts';
 import { toast } from 'react-toastify';
 
-// Mocking necessary modules and components
+
 jest.mock('../actions/posts', () => ({
   getPost: jest.fn(),
   joinEvent: jest.fn(),

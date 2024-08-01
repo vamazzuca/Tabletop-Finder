@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Search from './Search'; 
+import Search from '../search';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from '../reducers'; 
