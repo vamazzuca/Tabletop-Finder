@@ -2,11 +2,9 @@ import { accessChat, fetchChats, fetchChat, createGroupChat, addToGroup, removeF
 import Chat from '../models/chat';
 import User from '../models/user';
 
-// Mock the Mongoose model functions
 jest.mock('../models/chat');
 jest.mock('../models/user');
 
-// Helper function to create mock request and response objects
 const mockRequest = (body = {}) => ({ body });
 const mockResponse = () => {
   const res = {};
