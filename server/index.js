@@ -44,7 +44,7 @@ const server = app.listen(PORT, () => console.log(`Server running on port: ${POR
 const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-        origin: "https://tabletopfinder.vittoriomazzuca.ca",
+        origin: "https://localhost:3000",
         credentials: false,
     }
 })

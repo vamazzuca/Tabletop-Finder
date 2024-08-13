@@ -1,5 +1,5 @@
 
-
+import HotGamesList from "./hotGamesList";
 
 function Footer() {
 
@@ -21,6 +21,7 @@ function Footer() {
             xl:flex
             xl:col-span-1">
             
+            <HotGamesList/>
         </div>
     )
 }

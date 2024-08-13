@@ -1,4 +1,4 @@
-import { getBggSearch, getBggThing } from 'bgg-xml-api-client'
+import { getBggSearch, getBggThing, getBggHot } from 'bgg-xml-api-client'
 
 
 
@@ -30,4 +30,16 @@ export const getBoardGame = async (req, res) => {
     
     
     
+}
+
+
+export const getHotGames = async (req, res) => {
+
+    try {
+        const response = await getBggHot({ type: 'boardgame'}, { timeout: 5000 });
+        res.status(200).json({ result: response });
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+
 }

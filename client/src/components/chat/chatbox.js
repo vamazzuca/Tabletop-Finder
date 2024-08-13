@@ -11,7 +11,7 @@ import { Markup } from 'interweave'
 import { leaveEvent } from "../../actions/posts";
 import { leaveChat } from "../../actions/chats";
 
-const ENDPOINT = "https://tableserver.vittoriomazzuca.ca";
+const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
 
 function ChatBox({chatid}) {

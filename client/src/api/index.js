@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API = axios.create({ baseURL: "https://tableserver.vittoriomazzuca.ca/"})
+const API = axios.create({ baseURL: "http://localhost:8080"})
 
 
 
@@ -19,6 +19,7 @@ export const signUp = (formData) => API.post('/user/signup', formData);
 
 export const searchBoardGame = (formData) => API.post("/boardgames/search-boardgames", formData)
 export const boardGameData = (formData) => API.post("/boardgames/boardgame-data", formData)
+export const hotBoardGames = () => API.get("/boardgames/boardgame-hot")
 
 export const locationSearch = (formData) => API.post("/location/search-location", formData)
 
