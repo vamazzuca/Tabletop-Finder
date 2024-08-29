@@ -208,8 +208,8 @@ function PostModal() {
             <div className="flex-1 text-white px-4">
                 <div className="flex font-bold text-2xl gap-2">
                     <Markup className="line-clamp-1" content={Array.isArray(result?.item?.name) ?
-                        result?.item?.name[0].value :
-                        result?.item?.name.value}/>
+                        result?.item?.name[0]?.value :
+                        result?.item?.name?.value}/>
                     <h2>({result?.item?.yearpublished?.value})</h2>
                 </div>
                 <div className=" h-[8rem] py-1 text-base line-clamp-5">
@@ -219,10 +219,10 @@ function PostModal() {
                     </>
                 </div>
                 <div className="flex gap-6 pt-2">
-                    <p>{result?.item?.minplayers.value}-{result?.item?.maxplayers.value} Players</p>
-                    {result?.item?.minplaytime.value === result?.item?.maxplaytime.value ?
-                    <p>{result?.item?.maxplaytime.value} Min</p> :
-                    <p>{result?.item?.minplaytime.value}-{result?.item?.maxplaytime.value} Min</p>}
+                    <p>{result?.item?.minplayers?.value}-{result?.item?.maxplayers?.value} Players</p>
+                    {result?.item?.minplaytime?.value === result?.item?.maxplaytime?.value ?
+                    <p>{result?.item?.maxplaytime?.value} Min</p> :
+                    <p>{result?.item?.minplaytime?.value}-{result?.item?.maxplaytime?.value} Min</p>}
                 </div>
                 
             </div>
