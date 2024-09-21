@@ -43,7 +43,7 @@ function PostModal() {
             setPostLocation("");
         }
         setDate(new Date())
-        setUser(JSON.parse(localStorage.getItem('profile')));
+        setUser(JSON.parse(localStorage.getItem('profile-tabletop')));
     }, [postModal])
 
     useEffect(() => {
